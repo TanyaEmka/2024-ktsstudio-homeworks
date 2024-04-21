@@ -1,0 +1,41 @@
+@use '../../../assets/styles/variables.scss' as var;
+
+$primary: var.$dark;
+$secondary: var.$gray;
+$accent: var.$brand;
+
+.icon-stroke-color {
+    &-primary {
+        stroke: $primary;
+    }
+
+    &-secondary {
+        stroke: $secondary;
+    }
+
+    &-accent {
+        stroke: $accent;
+    }
+
+    &-inherit {
+        stroke: currentColor;
+    }
+}
+
+.icon-fill-color {
+    &-primary {
+        fill: $primary;
+    }
+
+    &-secondary {
+        fill: $secondary;
+    }
+
+    &-accent {
+        fill: $accent;
+    }
+
+    &-inherit {
+        fill: currentColor;
+    }
+}

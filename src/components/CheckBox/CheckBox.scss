@@ -1,0 +1,68 @@
+@use '../../assets/styles/variables.scss' as var;
+
+$checkbox-bg: var.$light;
+$checkbox-border: var.$light;
+
+$checkbox-bg-hover: var.$light;
+$checkbox-border-hover: var.$brand;
+$checkbox-border: var.$border-radius;
+
+$checkbox-bg-disabled: rgba(255, 255, 255, 0.5);
+$checkbox-border-disabled: rgba(255, 255, 255, 0.5);
+$checkbox-check-color-disabled: rgba(0, 0, 0, 0.2);
+
+$checkbox-size: 40px;
+
+.checkbox-div {
+    margin: 0;
+    padding: 0;
+    width: 0;
+    height: 0;
+}
+
+.checkbox {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: $checkbox-size;
+    height: $checkbox-size;
+    margin: 0;
+    padding: 0;
+}
+
+.checkbox-block {
+    display: block;
+    padding: 0;
+    margin: 0;
+
+    position: relative;
+    width: $checkbox-size;
+    height: $checkbox-size;
+
+    background-color: $checkbox-bg;
+    border: 1px solid $checkbox-border;
+    border-radius: $checkbox-border;
+
+    svg {
+        margin-top: -1px;
+        margin-left: -1px;
+        width: $checkbox-size;
+        height: $checkbox-size;
+    }
+
+    &:hover {
+        background-color: $checkbox-bg-hover;
+        border: 1px solid $checkbox-border-hover;
+    }
+
+    &-disabled {
+        background-color: $checkbox-bg-disabled;
+        border: 1px solid $checkbox-border-disabled;
+        pointer-events: none;
+
+        path {
+            stroke: $checkbox-check-color-disabled;
+        }
+    }
+}

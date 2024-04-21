@@ -1,0 +1,54 @@
+@use '../../assets/styles/variables.scss' as var;
+
+$s: calc(#{var.$space-xxs} * 2);
+$m: calc(#{var.$space-xxs} * 4);
+$l: calc(#{var.$space-xxs} * 5);
+
+@keyframes loader-rotate {
+    0% {
+        transform: rotate(121deg);
+    }
+
+    67% {
+        transform: rotate(360deg);
+    }
+
+    100% {
+        transform: rotate(481deg);
+    }
+}
+
+.loader {
+    border-radius: 50%;
+    border-color: var.$brand;
+    border-style: solid;
+    border-top-style: inset;
+    border-right-style: inset;
+    border-top-color: transparent;
+    transform: rotate(121deg);
+
+    //animation: loader-rotate 3s linear infinite;
+}
+
+.loader-size {
+    &-s {
+        width: $s;
+        height: $s;
+        margin: calc($s / 4);
+        border-width: calc($s / 8);
+    }
+
+    &-m {
+        width: $m;
+        height: $m;
+        margin: calc($m / 4);
+        border-width: calc($m / 8);
+    }
+
+    &-l {
+        width: $l;
+        height: $l;
+        margin: calc($l / 4);
+        border-width: calc($l / 8);
+    }
+}
