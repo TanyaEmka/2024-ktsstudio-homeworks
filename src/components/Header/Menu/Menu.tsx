@@ -36,6 +36,7 @@ const Menu: React.FC = () => {
             {paths.map((path) => {
                 return (
                     <Text
+                        key={path.name}
                         className="menu-option"
                         view='p-16'
                         tag='div'

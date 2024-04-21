@@ -1,0 +1,17 @@
+$content-margin: 0 100px 0 100px;
+$content-gap: 48px;
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: $content-gap;
+    margin: $content-margin;
+
+    .line {
+        text-decoration: underline;
+    }
+
+    &-header {
+        text-align: center;
+    }
+}

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, RefObject } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './MultiDropdown.scss';
 
 import Input from '../Input';
