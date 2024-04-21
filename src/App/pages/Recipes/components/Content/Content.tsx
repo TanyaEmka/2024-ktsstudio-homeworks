@@ -7,16 +7,22 @@ import Card from "components/Card";
 import Button from "components/Button";
 import TimeIcon from "components/icons/TimeIcon";
 import ContentFilters from "../ContentFilters";
+import PageController from "../PageController";
 
 import { apiKey, recipes } from "../../../../../configs/api";
+import { useNavigate } from "react-router-dom";
 
 const Content: React.FC = () => {
 
     const [recipeList, setRecipes] = useState([]);
+    const [page, setPage] = useState(1);
+    const [totalResults, setTotal] = useState(612);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(recipes + apiKey)
+        axios.get([recipes, '&offset=', (page-1)*9, '&apiKey=', apiKey].join(''))
         .then((resp) => {
+            setTotal(resp.data.totalResults);
             setRecipes(resp.data.results);
         })
     }, [])
@@ -51,6 +57,7 @@ const Content: React.FC = () => {
                 {recipeList.map((recipe: any) => {
                     return (
                         <Card 
+                            onClick={() => { navigate('/recipe/' + recipe.id) }}
                             key={recipe.id}
                             image={recipe.image}
                             captionSlot={
@@ -67,6 +74,12 @@ const Content: React.FC = () => {
                     )
                 })}
             </div>
+            <PageController 
+                pageCount={9}
+                selectedPage={page}
+                totalResults={totalResults}
+                onClick={(page: number) => { setPage(page) }}
+            />
         </div>
     )
 }

@@ -1,0 +1,124 @@
+@use '../../../styles/variables.scss' as var;
+
+$recipe-margin: 0 100px 0 100px;
+
+.recipe {
+    margin: $recipe-margin;
+
+    &-header {
+        margin-top: 49px;
+        display: flex;
+        align-content: center;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 37px;
+    }
+
+    &-box {
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
+    }
+
+    &-description {
+        width: 100%;
+        border-radius: var.$border-radius;
+        padding: 36px;
+        background-color: rgba(181, 70, 15, 0.33);
+    }
+
+    &-needs {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+
+        &-line {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            grid-template-rows: 7px 1fr;
+            gap: 5px;
+            height: 100%;
+            margin-left: 53px;
+            margin-right: 53px;
+
+            position: relative;
+
+            .circle {
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background-color: var.$brand;
+            }
+
+            .bottom-line {
+                width: 1px;
+                height: 231px;
+                background-color: var.$brand;
+            }
+        }
+
+        &-block {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            width: 100%;
+
+            &-elems {
+                display: grid;
+                row-gap: 8px;
+                column-gap: 29px;
+                grid-template-columns: 1fr 1fr;
+                justify-content: start;
+
+                div {
+                    display: flex;
+                    gap: 8px;
+                }
+            }
+        }
+    }
+
+    &-directions {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        width: 50%;
+
+        &-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            
+            div {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+    }
+
+    &-preview {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        gap: 166px;
+
+        img {
+            border-radius: var.$border-radius;
+            width: 448px;
+            height: 298px;
+            background-color: var.$gray;
+            object-fit: cover;
+        }
+
+        &-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            column-gap: 100px;
+            row-gap: 50px;
+        }
+    }
+}
