@@ -1,0 +1,2 @@
+export const apiKey: string = '8bbde354135d458bb8c7c3e2c33fedba';
+export const recipes: string = 'https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&addRecipeNutrition=true&number=9&apiKey=';

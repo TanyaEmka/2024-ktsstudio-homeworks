@@ -5,5 +5,5 @@ $recipes-bottom: 28px;
     display: flex;
     flex-direction: column;
     gap: $recipes-gap;
-    margin-bottom: $recipes-bottom;
+    padding-bottom: $recipes-bottom;
 }

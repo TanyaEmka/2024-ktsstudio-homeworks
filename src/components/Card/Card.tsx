@@ -52,7 +52,7 @@ const Card: React.FC<CardProps> = (props) => {
                 </div>
                 <div className='card-info-slot'>
                     {props.contentSlot ?
-                        <Text tag='div' view='p-18' weight='bold'>
+                        <Text className='card-info-slot-content' tag='div' view='p-18' weight='bold'>
                             {props.contentSlot}
                         </Text> : <></>
                     }

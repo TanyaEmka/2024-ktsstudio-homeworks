@@ -14,4 +14,19 @@ $content-gap: 48px;
     &-header {
         text-align: center;
     }
+
+    &-cards {
+        display: grid;
+        column-gap: 80px;
+        row-gap: 64px;
+        grid-template-columns: repeat(auto-fit, 348px);
+        justify-content: center;
+
+        &-card-time {
+            display: flex;
+            align-items: center;
+            align-content: center;
+            gap: 6px;
+        }
+    }
 }
