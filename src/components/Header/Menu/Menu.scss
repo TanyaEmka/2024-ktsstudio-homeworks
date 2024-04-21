@@ -1,0 +1,16 @@
+@use '../../../styles/variables.scss' as var;
+
+$menu-gap: var.$space-m;
+$menu-option-hover: var.$brand;
+
+.menu {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    gap: $menu-gap;
+
+    &-option:hover {
+        color: $menu-option-hover;
+        cursor: pointer;
+    }
+}

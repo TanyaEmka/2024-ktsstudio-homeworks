@@ -16,6 +16,7 @@ export type TextProps = {
     color?: 'primary' | 'secondary' | 'accent';
     /** Максимальное кол-во строк */
     maxLines?: number;
+    onCLick?: (e: any) => void;
 };
 
 const Text: React.FC<TextProps> = ({ ...props }) => {
@@ -32,6 +33,7 @@ const Text: React.FC<TextProps> = ({ ...props }) => {
                         'text-color-' + (props.color || 'inherit'),
                         'text-weight-' + (props.weight || 'normal')]
                         .join(' ').trim()}
+            onClick={props.onCLick}
         >
             {props.children}
         </Tag>

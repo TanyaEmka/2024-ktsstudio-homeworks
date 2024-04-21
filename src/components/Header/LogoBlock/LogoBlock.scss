@@ -1,0 +1,15 @@
+$logo-block-gap: 20px;
+$logo-block-size: 36px;
+
+.logo-block {
+    display: flex;
+    gap: $logo-block-gap;
+    align-items: center;
+    align-content: center;
+    padding: 0;
+
+    &-icon {
+        width: $logo-block-size;
+        height: $logo-block-size;
+    }
+}
