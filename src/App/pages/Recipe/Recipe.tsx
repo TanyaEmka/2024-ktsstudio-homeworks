@@ -8,23 +8,11 @@ import Text from "components/Text";
 import ArrowLeftIcon from "components/icons/ArrowLeftIcon";
 import EqIcon from "components/icons/EqIcon";
 import IngIcon from "components/icons/IngIcon";
-import { apiKey, recipe, recipeParams } from "../../../configs/api";
 
-type RecipeType = {
-    id: number,
-    title: string,
-    image: string,
-    preparationMinutes: number,
-    cookingMinutes: number,
-    readyInMinutes: number,
-    servings: number,    
-    summary: string,
-    aggregateLikes: number,
-    extendedIngredients: Array<{ id: number, amount: number, name: string, unit: string }>,
-    analyzedInstructions: [{ 
-        steps: Array<{ number: number, step: string, equipment: Array<{ name: string }> }> 
-    }]
-}
+import PreviewBlock from "./components/PreviewBlock";
+import RecipeNeed from "./components/RecipeNeed";
+
+import { apiKey, recipe, recipeParams } from "../../../configs/api";
 
 const Recipe: React.FC = () => {
 
@@ -50,6 +38,11 @@ const Recipe: React.FC = () => {
         return Array.from<string>(uniqEq);
     }
 
+    const getIngredients = (recipeObj: RecipeType) => {
+        return recipeObj.extendedIngredients
+            .map(({ amount, unit, name}) => [amount, unit, name].join(' '));
+    }
+
     return (
         <div className="recipe">
             <div className="recipe-header">
@@ -57,10 +50,7 @@ const Recipe: React.FC = () => {
                     color='accent' 
                     onClick={() => { navigate('/recipes') }} 
                 />
-                <Text
-                    weight='bold'
-                    view='title'
-                >
+                <Text weight='bold' view='title'>
                     {recipeObj?.title || 'Title'}
                 </Text>
             </div>
@@ -68,32 +58,25 @@ const Recipe: React.FC = () => {
                 <div className="recipe-preview">
                     <img src={recipeObj?.image} alt='recipe photo' />
                     <div className="recipe-preview-info">
-                        <div className="recipe-preview-info-block">
-                            <Text view='p-16'>Preparation</Text>
-                            <Text weight='bold' color='accent' view='p-16'>{recipeObj?.preparationMinutes || '0'} minutes</Text>
-                        </div>
-                        <div className="recipe-preview-info-block">
-                            <Text view='p-16'>Cooking</Text>
-                            <Text weight='bold' color='accent' view='p-16'>{recipeObj?.cookingMinutes || '0'} minutes</Text>
-                        </div>
-                        <div className="recipe-preview-info-block">
-                            <Text view='p-16'>Total</Text>
-                            <Text weight='bold' color='accent' view='p-16'>{recipeObj?.readyInMinutes || '0'} minutes</Text>
-                        </div>
-                        <div className="recipe-preview-info-block">
-                            <Text view='p-16'>Servings</Text>
-                            <Text weight='bold' color='accent' view='p-16'>{recipeObj?.servings || '0'} servings</Text>
-                        </div>
-                        <div className="recipe-preview-info-block">
-                            <Text view='p-16'>Ratings</Text>
-                            <Text weight='bold' color='accent' view='p-16'>{recipeObj?.aggregateLikes || '0'} likes</Text>
-                        </div>
+                        <PreviewBlock name='Preparation' unit='minutes' key='Preparation'>
+                            {recipeObj?.preparationMinutes || 0}
+                        </PreviewBlock>
+                        <PreviewBlock name='Cooking' unit='minutes' key='Cooking'>
+                            {recipeObj?.cookingMinutes || 0}
+                        </PreviewBlock>
+                        <PreviewBlock name='Total' unit='minutes' key='Total'>
+                            {recipeObj?.readyInMinutes || 0}
+                        </PreviewBlock>
+                        <PreviewBlock name='Servings' unit='servings' key='Servings'>
+                            {recipeObj?.servings || 0}
+                        </PreviewBlock>
+                        <PreviewBlock name='Rating' unit='likes' key='Rating'>
+                            {recipeObj?.aggregateLikes || 0}
+                        </PreviewBlock>
                     </div>
                 </div>
                 <div className="recipe-description">
-                    <Text 
-                        view='p-16'
-                    >
+                    <Text view='p-16'>
                         <span
                             dangerouslySetInnerHTML={{
                                 __html: recipeObj?.summary || '...',
@@ -102,56 +85,20 @@ const Recipe: React.FC = () => {
                     </Text>
                 </div>
                 <div className="recipe-needs">
-                    <div className="recipe-needs-block">
-                        <Text
-                            view='p-20'
-                            weight='bold'
-                        >
-                            Ingredients
-                        </Text>
-                        <div className="recipe-needs-block-elems">
-                            {recipeObj?.extendedIngredients.map((elem) => {
-                                return (
-                                    <div key={elem.id}>
-                                        <IngIcon />
-                                        <Text
-                                            view='p-16'
-                                        >
-                                            {elem.amount} {elem.unit} {elem.name}
-                                        </Text>
-                                    </div>
-                                )
-                            }) || ''}
-                        </div>
-                    </div>
+                    <RecipeNeed 
+                        name='Ingredients'
+                        elements={recipeObj ? getIngredients(recipeObj) : []}
+                        icon={<IngIcon />}
+                    />
                     <div className="recipe-needs-line">
-                        <div className="circle">
-                        </div>
-                        <div className="bottom-line">
-                        </div>
-                    </div>    
-                    <div className="recipe-needs-block">
-                        <Text
-                            view='p-20'
-                            weight='bold'
-                        >
-                            Equipment
-                        </Text>
-                        <div className="recipe-needs-block-elems">
-                            {recipeObj ? getEquipment(recipeObj).map((elem) => {
-                                return (
-                                    <div key={elem}>
-                                        <EqIcon />
-                                        <Text
-                                            view='p-16'
-                                        >
-                                            {elem}
-                                        </Text>
-                                    </div>
-                                )
-                            }) : ' '}
-                        </div>
+                        <div className="circle"></div>
+                        <div className="bottom-line"></div>
                     </div>
+                    <RecipeNeed 
+                        name='Equipment'
+                        elements={recipeObj ? getEquipment(recipeObj) : []}
+                        icon={<EqIcon />}
+                    />
                 </div>
                 <div className='recipe-directions'>
                     <Text
@@ -168,9 +115,7 @@ const Recipe: React.FC = () => {
                                     <Text view='p-16' weight='bold'>
                                         Step {elem.number}
                                     </Text>
-                                    <Text
-                                        view='p-14'
-                                    >
+                                    <Text view='p-14'>
                                         {elem.step}
                                     </Text>
                                 </div>

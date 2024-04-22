@@ -12,19 +12,6 @@ import { apiKey, recipes } from "../../../../../configs/api";
 import ContentFilters from "../ContentFilters";
 import PageController from "../PageController";
 
-type RecipeUnit = {
-    id: number,
-    image: string,
-    title: string,
-    readyInMinutes: number,
-    nutrition: {
-        nutrients: Array<{ name: string, amount: number, unit: string }>,
-        ingredients: Array<{ name: string }>,   
-    }
-};
-
-type RecipeList = Array<RecipeUnit>;
-
 const Content: React.FC = () => {
 
     const [recipeList, setRecipes] = useState<RecipeList>([]);
