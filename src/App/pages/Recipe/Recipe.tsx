@@ -8,12 +8,11 @@ import Text from "components/Text";
 import ArrowLeftIcon from "components/icons/ArrowLeftIcon";
 import EqIcon from "components/icons/EqIcon";
 import IngIcon from "components/icons/IngIcon";
+import { apiKey, recipe, recipeParams } from "config/api";
+import { RecipeType } from "config/apiTypes";
 
 import PreviewBlock from "./components/PreviewBlock";
 import RecipeNeed from "./components/RecipeNeed";
-
-import { apiKey, recipe, recipeParams } from "config/api";
-import { RecipeType } from "config/apiTypes";
 
 const Recipe: React.FC = () => {
 
