@@ -1,8 +1,8 @@
-import React from "react";
+import * as React from "react";
 import './Main.scss';
 
-import Header from "components/Header";
 import { Outlet } from "react-router-dom";
+import Header from "components/Header";
 
 export const Main: React.FC = () => {
 

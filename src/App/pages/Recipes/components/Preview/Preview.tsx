@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import './Preview.scss';
 import img from '../../../../../assets/PreviewImage.svg';
 

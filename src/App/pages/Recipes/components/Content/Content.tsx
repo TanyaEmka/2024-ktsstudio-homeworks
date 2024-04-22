@@ -1,20 +1,33 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import * as React from "react";
+import { useEffect, useState } from "react";
 import './Content.scss';
 
-import Text from "components/Text";
-import Card from "components/Card";
+import { useNavigate } from "react-router-dom";
 import Button from "components/Button";
+import Card from "components/Card";
+import Text from "components/Text";
 import TimeIcon from "components/icons/TimeIcon";
+import { apiKey, recipes } from "../../../../../configs/api";
 import ContentFilters from "../ContentFilters";
 import PageController from "../PageController";
 
-import { apiKey, recipes } from "../../../../../configs/api";
-import { useNavigate } from "react-router-dom";
+type RecipeUnit = {
+    id: number,
+    image: string,
+    title: string,
+    readyInMinutes: number,
+    nutrition: {
+        nutrients: Array<{ name: string, amount: number, unit: string }>,
+        ingredients: Array<{ name: string }>,   
+    }
+};
+
+type RecipeList = Array<RecipeUnit>;
 
 const Content: React.FC = () => {
 
-    const [recipeList, setRecipes] = useState([]);
+    const [recipeList, setRecipes] = useState<RecipeList>([]);
     const [page, setPage] = useState(1);
     const [totalResults, setTotal] = useState(612);
     const navigate = useNavigate();
@@ -25,18 +38,18 @@ const Content: React.FC = () => {
             setTotal(resp.data.totalResults);
             setRecipes(resp.data.results);
         })
-    }, [])
+    }, [page])
 
-    const getKcal = (recipe: any) => {
-        const recipeKcal = recipe.nutrition.nutrients.filter((obj: any) => obj.name === 'Calories')[0];
+    const getKcal = (recipe: RecipeUnit) => {
+        const recipeKcal = recipe.nutrition.nutrients.filter((obj) => obj.name === 'Calories')[0];
 
         return [Math.ceil(recipeKcal.amount), recipeKcal.unit].join(' ');
     }
 
-    const getDescribe = (recipe: any) => {
-        const ings: any = recipe.nutrition.ingredients;
+    const getDescribe = (recipe: RecipeUnit) => {
+        const ings = recipe.nutrition.ingredients;
 
-        return ings.map((ing: any) => ing.name).join(' + ');
+        return ings.map((ing) => ing.name).join(' + ');
     }
 
     return (
@@ -54,25 +67,25 @@ const Content: React.FC = () => {
             </Text>
             <ContentFilters />
             <div className="content-cards">
-                {recipeList.map((recipe: any) => {
+                {recipeList?.map((recipe) => {
                     return (
                         <Card 
-                            onClick={() => { navigate('/recipe/' + recipe.id) }}
-                            key={recipe.id}
-                            image={recipe.image}
+                            onClick={() => { if (recipe) navigate('/recipe/' + recipe?.id) }}
+                            key={recipe?.id}
+                            image={recipe?.image}
                             captionSlot={
-                                <div className="content-cards-card-time">
+                                <span className="content-cards-card-time">
                                     <TimeIcon />
-                                    <span>{recipe.readyInMinutes} minutes</span>
-                                </div>
+                                    <span>{recipe?.readyInMinutes} minutes</span>
+                                </span>
                             }
                             title={recipe.title}
-                            subtitle={getDescribe(recipe)}
-                            contentSlot={getKcal(recipe)}
+                            subtitle={recipe ? getDescribe(recipe): '...'}
+                            contentSlot={recipe ? getKcal(recipe) : ''}
                             actionSlot={<Button>Save</Button>}
                         />
                     )
-                })}
+                }) || ''}
             </div>
             <PageController 
                 pageCount={9}

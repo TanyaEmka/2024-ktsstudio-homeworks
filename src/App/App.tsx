@@ -1,14 +1,15 @@
+import * as React from 'react';
 import 'styles/styles.scss';
 
-import Main from 'components/Main';
-import Recipes from './pages/Recipes';
-import Recipe from './pages/Recipe';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import Main from 'components/Main';
+import Recipe from './pages/Recipe';
+import Recipes from './pages/Recipes';
 
-function App() {
+const App: React.FC = () => {
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename=''>
       <Routes>
         <Route path='/' element={<Main />}>
           <Route path='/recipes' element={<Recipes />} />

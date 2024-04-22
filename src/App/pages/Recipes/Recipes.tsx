@@ -1,8 +1,8 @@
 import React from "react";
 import './Recipes.scss';
 
-import Preview from "./components/Preview";
 import Content from "./components/Content";
+import Preview from "./components/Preview";
 
 const Recipes: React.FC = () => {
 

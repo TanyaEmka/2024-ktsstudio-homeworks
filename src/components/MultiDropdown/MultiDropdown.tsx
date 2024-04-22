@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import * as React from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './MultiDropdown.scss';
 
 import Input from '../Input';
@@ -34,8 +35,8 @@ const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
   const [optionList, setOptionList] = useState(props.options);
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const handleOutsideClick = (e: any) => {
-    if (ref.current && !ref.current.contains(e.target)) {
+  const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
+    if (ref.current && !ref.current.contains(e.target as Node)) {
       setOpened(false);
     }
   }
@@ -105,7 +106,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
       />
       {(opened && !props.disabled) &&
         <div className='multidropdown-options'>
-          {optionList.map((option, index) => {
+          {optionList.map((option) => {
             return (
               <div
                 key={option.key}

@@ -8,6 +8,15 @@ html, body {
 
 * {
   box-sizing: border-box;
+
+  a {
+    text-decoration: underline;
+    color: black;
+  }
+  
+  a:active, a:link, a:visited, a:hover {  
+    color: black;   
+  }
 }
 
 h1,

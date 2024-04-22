@@ -1,9 +1,9 @@
-import React from "react";
+import * as React from "react";
 import './Header.scss';
 
 import LogoBlock from "./LogoBlock/LogoBlock";
-import RightBlock from "./RightBlock/RightBlock";
 import Menu from './Menu/Menu';
+import RightBlock from "./RightBlock/RightBlock";
 
 export const Header: React.FC = () => {
 

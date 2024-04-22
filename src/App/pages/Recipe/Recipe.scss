@@ -76,6 +76,8 @@ $recipe-margin: 0 100px 0 100px;
                 div {
                     display: flex;
                     gap: 8px;
+                    align-items: center;
+                    align-content: center;
                 }
             }
         }
@@ -86,6 +88,7 @@ $recipe-margin: 0 100px 0 100px;
         flex-direction: column;
         gap: 24px;
         width: 50%;
+        padding-bottom: 28px;
 
         &-steps {
             display: flex;
@@ -115,6 +118,7 @@ $recipe-margin: 0 100px 0 100px;
         }
 
         &-info {
+            width: 100%;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             column-gap: 100px;

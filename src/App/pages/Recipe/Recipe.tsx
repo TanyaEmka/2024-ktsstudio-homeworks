@@ -1,33 +1,62 @@
-import React, { useEffect, useState } from "react";
-import './Recipe.scss';
-
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import './Recipe.scss';
+import { useParams , useNavigate } from "react-router-dom";
 
 import Text from "components/Text";
 import ArrowLeftIcon from "components/icons/ArrowLeftIcon";
-import IngIcon from "components/icons/IngIcon";
 import EqIcon from "components/icons/EqIcon";
-import { useNavigate } from "react-router-dom";
+import IngIcon from "components/icons/IngIcon";
 import { apiKey, recipe, recipeParams } from "../../../configs/api";
+
+type RecipeType = {
+    id: number,
+    title: string,
+    image: string,
+    preparationMinutes: number,
+    cookingMinutes: number,
+    readyInMinutes: number,
+    servings: number,    
+    summary: string,
+    aggregateLikes: number,
+    extendedIngredients: Array<{ id: number, amount: number, name: string, unit: string }>,
+    analyzedInstructions: [{ 
+        steps: Array<{ number: number, step: string, equipment: Array<{ name: string }> }> 
+    }]
+}
 
 const Recipe: React.FC = () => {
 
     const { id } = useParams();
-    const [recipeObj, setRecipe] = useState<any>(undefined);
+    const [recipeObj, setRecipe] = useState<RecipeType | undefined>(undefined);
     const navigate = useNavigate();
 
     useEffect(() => {
-        /*axios.get(recipe + id + recipeParams + apiKey)
+        axios.get(recipe + id + recipeParams + apiKey)
         .then((resp) => {
             setRecipe(resp.data);
-        })*/
-    }, []);
+        })
+    }, [id]);
+
+    const getEquipment = (recipeObj: RecipeType) => {
+        const uniqEq = new Set<string>();
+        recipeObj.analyzedInstructions[0].steps.forEach((step) => {
+            step.equipment.forEach((eq) => {
+                uniqEq.add(eq.name);
+            })
+        });
+
+        return Array.from<string>(uniqEq);
+    }
 
     return (
         <div className="recipe">
             <div className="recipe-header">
-                <ArrowLeftIcon color='accent' onClick={() => { navigate('/recipes') }} />
+                <ArrowLeftIcon
+                    color='accent' 
+                    onClick={() => { navigate('/recipes') }} 
+                />
                 <Text
                     weight='bold'
                     view='title'
@@ -62,8 +91,14 @@ const Recipe: React.FC = () => {
                     </div>
                 </div>
                 <div className="recipe-description">
-                    <Text view='p-16'>
-                        {recipeObj?.summary || '...'}
+                    <Text 
+                        view='p-16'
+                    >
+                        <span
+                            dangerouslySetInnerHTML={{
+                                __html: recipeObj?.summary || '...',
+                            }}
+                        ></span>
                     </Text>
                 </div>
                 <div className="recipe-needs">
@@ -75,18 +110,18 @@ const Recipe: React.FC = () => {
                             Ingredients
                         </Text>
                         <div className="recipe-needs-block-elems">
-                            {['xxx', 'xxx', 'xxx', 'xxx', 'xxx', 'xxx','xxx', 'xxx', 'xxx','xxx', 'xxx', 'xxx'].map((elem, index) => {
+                            {recipeObj?.extendedIngredients.map((elem) => {
                                 return (
-                                    <div key={index}>
+                                    <div key={elem.id}>
                                         <IngIcon />
                                         <Text
                                             view='p-16'
                                         >
-                                            {elem}
+                                            {elem.amount} {elem.unit} {elem.name}
                                         </Text>
                                     </div>
                                 )
-                            })}
+                            }) || ''}
                         </div>
                     </div>
                     <div className="recipe-needs-line">
@@ -103,9 +138,9 @@ const Recipe: React.FC = () => {
                             Equipment
                         </Text>
                         <div className="recipe-needs-block-elems">
-                            {['xxx', 'xxx', 'xxx', 'xxx', 'xxx', 'xxx'].map((elem, index) => {
+                            {recipeObj ? getEquipment(recipeObj).map((elem) => {
                                 return (
-                                    <div key={index}>
+                                    <div key={elem}>
                                         <EqIcon />
                                         <Text
                                             view='p-16'
@@ -114,7 +149,7 @@ const Recipe: React.FC = () => {
                                         </Text>
                                     </div>
                                 )
-                            })}
+                            }) : ' '}
                         </div>
                     </div>
                 </div>
@@ -127,20 +162,20 @@ const Recipe: React.FC = () => {
                         Directions
                     </Text>
                     <div className="recipe-directions-steps">
-                        {['xxx', 'xxx', 'xxx', 'xxx', 'xxx', 'xxx'].map((elem, index) => {
+                        {recipeObj?.analyzedInstructions[0].steps.map((elem) => {
                             return (
-                                <div>
+                                <div key={elem.number}>
                                     <Text view='p-16' weight='bold'>
-                                        Step {index + 1}
+                                        Step {elem.number}
                                     </Text>
                                     <Text
                                         view='p-14'
                                     >
-                                        {elem}
+                                        {elem.step}
                                     </Text>
                                 </div>
                             )
-                        })}
+                        }) || ''}
                     </div>
                 </div>    
             </div>

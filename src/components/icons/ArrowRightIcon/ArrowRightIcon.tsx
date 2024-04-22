@@ -1,11 +1,14 @@
 import * as React from 'react'
-import { IconProps } from '../Icon';
-import Icon from '../Icon';
+import Icon, { IconProps } from '../Icon';
+
 
 const ArrowRightIcon: React.FC<IconProps> = (props) => {
 
     return (
         <Icon 
+            style={{
+                cursor: 'pointer'
+            }}
             {...props}
             viewBox='0 0 32 32'
             width='32'

@@ -1,11 +1,16 @@
 import * as React from 'react'
-import { IconProps } from '../Icon';
-import Icon from '../Icon';
+import Icon, { IconProps } from '../Icon';
+
 
 const ArrowDownIcon: React.FC<IconProps> = (props) => {
 
     return (
-        <Icon {...props}>
+        <Icon
+            style={{
+                cursor: 'pointer'
+            }} 
+            {...props}
+        >
             <path 
                 className={'icon-fill-color-' + (props.color || 'inherit')}
                 fillRule='evenodd'
