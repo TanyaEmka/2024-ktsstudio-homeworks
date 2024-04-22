@@ -14,6 +14,7 @@ const App: React.FC = () => {
         <Route path='/' element={<Main />}>
           <Route path='/recipes' element={<Recipes />} />
           <Route path='/recipe/:id' element={<Recipe />} />
+          <Route path='/' element={<Recipes />} />
           <Route path='*' element={<Navigate to='/recipes' replace />} />
         </Route>
       </Routes>

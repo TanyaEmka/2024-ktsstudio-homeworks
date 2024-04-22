@@ -43,17 +43,16 @@ const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
 
   useEffect(() => {
     document.addEventListener('mousedown', handleOutsideClick);
-
     return () => document.removeEventListener('mousedown', handleOutsideClick);
   }, []);
 
   useEffect(() => {
     setTitle((props.value && props.value.length) ? props.getTitle(props.value) : '');
-  }, [props.value]);
+  }, [props.value, props]);
 
   useEffect(() => {
     setOptionList(props.options);
-  }, [props.options]);
+  }, [props.options, props]);
 
   const getOptionList = (clickValue: Option) => {
     if (!props.value.includes(clickValue)) {

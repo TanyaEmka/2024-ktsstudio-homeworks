@@ -5,43 +5,18 @@ import './Menu.scss';
 import { useNavigate , useLocation } from "react-router-dom";
 
 import Text from "components/Text";
+import paths from "../../../configs/paths";
 
 const Menu: React.FC = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-
     const [selectedUrl, setUrl] = useState(0);
 
     useEffect(() => {
-        const urls = paths.map((path) => path.url);
-        const index = urls.indexOf(location.pathname);
-        
+        const index = paths.map((path) => path.url).indexOf(location.pathname);
         setUrl((index === -1 ? 0 : index));
-    });
-
-    const paths = [
-        {
-            name: 'Recipes',
-            url: '/recipes',
-        },
-        {
-            name: 'Ingradients',
-            url: '/ingradients',
-        },
-        {
-            name: 'Products',
-            url: '/products',
-        },
-        {
-            name: 'Menu Items',
-            url: '/items',
-        },
-        {
-            name: 'Meal planning',
-            url: '/planning',
-        },
-    ];
+    }, [location.pathname]);
 
     return (
         <div className="menu">

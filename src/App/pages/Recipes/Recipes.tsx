@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import './Recipes.scss';
 
 import Content from "./components/Content";
