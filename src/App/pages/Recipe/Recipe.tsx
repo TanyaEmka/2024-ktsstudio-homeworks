@@ -12,7 +12,8 @@ import IngIcon from "components/icons/IngIcon";
 import PreviewBlock from "./components/PreviewBlock";
 import RecipeNeed from "./components/RecipeNeed";
 
-import { apiKey, recipe, recipeParams } from "../../../configs/api";
+import { apiKey, recipe, recipeParams } from "config/api";
+import { RecipeType } from "config/apiTypes";
 
 const Recipe: React.FC = () => {
 

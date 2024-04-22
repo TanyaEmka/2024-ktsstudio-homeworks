@@ -1,4 +1,4 @@
-type RecipeType = {
+export type RecipeType = {
     id: number,
     title: string,
     image: string,
@@ -14,7 +14,7 @@ type RecipeType = {
     }]
 }
 
-type RecipeUnit = {
+export type RecipeUnit = {
     id: number,
     image: string,
     title: string,
@@ -25,4 +25,4 @@ type RecipeUnit = {
     }
 };
 
-type RecipeList = Array<RecipeUnit>;
+export type RecipeList = Array<RecipeUnit>;

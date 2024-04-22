@@ -8,9 +8,11 @@ import Button from "components/Button";
 import Card from "components/Card";
 import Text from "components/Text";
 import TimeIcon from "components/icons/TimeIcon";
-import { apiKey, recipes } from "../../../../../configs/api";
 import ContentFilters from "../ContentFilters";
 import PageController from "../PageController";
+
+import { apiKey, recipes } from "config/api";
+import { RecipeList, RecipeUnit } from "config/apiTypes";
 
 const Content: React.FC = () => {
 
