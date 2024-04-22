@@ -5,7 +5,7 @@ import './Menu.scss';
 import { useNavigate , useLocation } from "react-router-dom";
 
 import Text from "components/Text";
-import paths from "../../../configs/paths";
+import paths from "../../../../configs/paths";
 
 const Menu: React.FC = () => {
 

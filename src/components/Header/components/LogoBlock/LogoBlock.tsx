@@ -1,8 +1,7 @@
 import * as React from "react";
 import './LogoBlock.scss';
 import Text from "components/Text";
-import logo from "../../../assets/LogoIcon.svg";
-
+import logo from "../../../../assets/LogoIcon.svg";
 
 const LogoBlock: React.FC = () => {
     
