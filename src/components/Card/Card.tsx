@@ -1,7 +1,8 @@
 import * as React from "react";
-import './Card.scss';
+import styles from './Card.module.scss';
 
 import Text from '../Text';
+import classNames from "classnames";
 
 export type CardProps = {
     /** Дополнительный classname */
@@ -26,35 +27,41 @@ const Card: React.FC<CardProps> = (props) => {
 
     return (
         <div 
-            className={['card', props.className].join(' ').trim()}
+            className={classNames({
+                [props.className || '']: true,
+                [styles.card]: true, 
+            })}
             onClick={props.onClick}
         >
-            <img className='card-img' alt='товар' src={props.image} />
-            <div className='card-info'>
-                <div className='card-info-text'>
-                    {props.captionSlot ?
+            <img className={styles['card__img']} alt='товар' src={props.image} />
+            <div className={styles['card__info']}>
+                <div className={styles['card__info__text']}>
+                    {props.captionSlot &&
                         <Text tag='p' view='p-14' weight='medium' color='secondary'>
                             {props.captionSlot}
-                        </Text> : <></>
+                        </Text>
                     }
                     <Text 
-                        className='card-info-text-title' 
+                        className={styles['card__info__text__title']}
                         tag='p' view='p-20' weight='medium'
                     >
                         {props.title}
                     </Text>
                     <Text 
-                        className='card-info-text-subtitle' 
+                        className={styles['card__info__text__subtitle']}
                         tag='p' view='p-16' color='secondary'
                     >
                         {props.subtitle}
                     </Text>
                 </div>
-                <div className='card-info-slot'>
-                    {props.contentSlot ?
-                        <Text className='card-info-slot-content' tag='div' view='p-18' weight='bold'>
+                <div className={styles['card__info__slot']}>
+                    {props.contentSlot &&
+                        <Text 
+                            className={styles['card__info__slot__content']} 
+                            tag='div' view='p-18' weight='bold'
+                        >
                             {props.contentSlot}
-                        </Text> : <></>
+                        </Text>
                     }
                     {props.actionSlot}
                 </div>

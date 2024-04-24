@@ -1,5 +1,6 @@
 import * as React from 'react';
-import './Input.scss';
+import styles from './Input.module.scss';
+import classNames from 'classnames';
 
 export type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -27,17 +28,18 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div 
-        className={['input-block', 
-                    props.disabled ? 'input-block-disabled' : '',
-                    props.className]
-                    .join(' ').trim()}
+        className={classNames({
+          [props.className || '']: true,
+          [styles['inputblock']]: true,
+          [styles['inputblock_disabled']]: props.disabled,
+        })}
       >
         <input 
           {...props}
           value={value}
           onChange={onChangeFunction}
           type='text'
-          className='input-element'
+          className={styles['inputblock__element']}
         />
         {afterSlot}
       </div>

@@ -15,12 +15,12 @@ $header-left-gap: 80px;
     display: flex;
     justify-content: space-between;
 
-    &-left {
+    &__left {
         display: flex;
         gap: $header-left-gap;
     }
 
-    &-right {
+    &__right {
         display: flex;
         align-items: center;
     }

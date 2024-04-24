@@ -9,14 +9,14 @@ $menu-option-hover: var.$brand;
     align-content: center;
     gap: $menu-gap;
 
-    &-option {
+    &__option {
 
         &:hover {
             color: $menu-option-hover;
             cursor: pointer;
         }
 
-        &-selected {
+        &_selected {
             color: $menu-option-hover;
         }
     }

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Icon, { IconProps } from '../Icon';
-
+import styles from 'styles/customStyles.module.scss';
 
 const ArrowRightIcon: React.FC<IconProps> = (props) => {
 
@@ -15,7 +15,7 @@ const ArrowRightIcon: React.FC<IconProps> = (props) => {
             height='32'
         >
             <path 
-                className={'icon-stroke-color-' + (props.color || 'inherit')}
+                className={styles['icon_stroke_color_' + (props.color || 'inherit')]}
                 d="M11.88 26.5599L20.5733 17.8666C21.6 16.8399 21.6 15.1599 20.5733 14.1333L11.88 5.43994" 
                 strokeWidth="1.5" 
                 strokeMiterlimit="10" 

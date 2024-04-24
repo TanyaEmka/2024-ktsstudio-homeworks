@@ -15,7 +15,7 @@ $input-border-radius: var.$border-radius;
 $input-text: var.$dark;
 $input-text-disabled: rgba(0, 0, 0, 0.2);
 
-.input-block {
+.inputblock {
     height: $input-height;
     position: relative;
     display: flex;
@@ -32,13 +32,13 @@ $input-text-disabled: rgba(0, 0, 0, 0.2);
         border: 1px solid $input-border-focus;
     }
 
-    &-disabled:focus-within {
+    &_disabled:focus-within {
         border: 1px solid $input-border;
     }
 
     padding-right: var.$space-xs;
 
-    .input-element {
+    &__element {
         font-family: 'Roboto';
         font-size: $input-font-size;
         background-color: $input-bg;

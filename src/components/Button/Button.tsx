@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import * as React from "react";
-import './Button.scss';
+import styles from './Button.module.scss';
 
 import Loader from '../Loader';
 
@@ -22,12 +22,13 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       {...props}
-      className={[classNames({
-        'button': true,
-        'button-loading': loading,
-        'button-unloading': !loading,
-        'button-loading-disabled': loading && disabled
-      }), className].join(' ').trim()}
+      className={classNames({
+        className,
+        [styles.button]: true,
+        [styles['button_loading']]: loading,
+        [styles['button_unloading']]: !loading,
+        [styles['button_loading_disabled']]: loading && disabled
+      })}
       disabled={disabled || loading}
     >
       {loading ? <Loader size='s' /> : <></>}

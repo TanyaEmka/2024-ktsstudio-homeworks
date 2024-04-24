@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
-import './MultiDropdown.scss';
+import styles from './MultiDropdown.module.scss';
 
 import Input from '../Input';
 import Text from '../Text';
 import ArrowDownIcon from '../icons/ArrowDownIcon';
+import classNames from 'classnames';
 
 export type Option = {
   /** Ключ варианта, используется для отправки на бек/использования в коде */
@@ -82,10 +83,12 @@ const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
   return(
     <div 
       ref={ref}
-      className={['multidropdown', props.className].join(' ').trim()}
+      className={classNames({
+        [props.className || '']: true,
+        [styles['multidropdown']]: true
+      })}
     >
-      <Input 
-        className={opened ? 'opened-block' : ''}
+      <Input
         onClick={() => {
           if (!props.disabled) {
             setOpened(true);
@@ -104,15 +107,16 @@ const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
         }} />}
       />
       {(opened && !props.disabled) &&
-        <div className='multidropdown-options'>
+        <div className={styles['multidropdown__options']}>
           {optionList.map((option) => {
             return (
               <div
                 key={option.key}
                 onClick={() => props.onChange(getOptionList(option))}
-                className={['multidropdown-options-option', 
-                            props.value.includes(option) ? 'multidropdown-options-option-selected' : '']
-                            .join(' ').trim()}
+                className={classNames({
+                  [styles['multidropdown__options__option']]: true,
+                  [styles['multidropdown__options__option_selected']]: props.value.includes(option),
+                })}
               >
                 <Text tag='span' view='p-16'>{option.value}</Text>
               </div>

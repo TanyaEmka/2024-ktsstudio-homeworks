@@ -21,7 +21,7 @@ button {
 
     padding: var.$space-s var.$space-l;
 
-    &-unloading {
+    &_unloading {
         &:hover:enabled {
             background-color: var.$brand-hover;
         }
@@ -35,7 +35,7 @@ button {
         }
     }
 
-    &-loading {
+    &_loading {
         display: flex;
         gap: 8px;
         align-items: center;
@@ -51,10 +51,8 @@ button {
             background-color: var.$brand;
         }
 
-        &-disabled {
-            &:disabled {
-                background-color: $buttom-color-disabled;        
-            }
+        &_disabled:disabled {
+            background-color: $buttom-color-disabled;
         }
     }
 }

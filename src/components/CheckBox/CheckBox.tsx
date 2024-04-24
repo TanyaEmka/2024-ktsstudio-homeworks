@@ -1,7 +1,8 @@
 import * as React from "react";
-import './CheckBox.scss';
+import styles from './CheckBox.module.scss';
 
 import CheckIcon from '../icons/CheckIcon';
+import classNames from "classnames";
 
 export type CheckBoxProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -17,28 +18,28 @@ const CheckBox: React.FC<CheckBoxProps> = (props) => {
     props.onChange(e.target.checked);
   }
 
+  const idName = 'customcheckbox';
+
   return (
-    <div className='checkbox-div'>
+    <div className={styles['cdiv']}>
       <input 
         {...props}
         checked={props.checked}
         onChange={onChangeCheckbox}
-        className='checkbox' 
+        className={styles['cdiv__checkbox']}
         type='checkbox' 
-        id='customcheckbox'
+        id={idName}
       />
       <label 
-        htmlFor='customcheckbox' 
-        className={['checkbox-block', 
-                    props.disabled ? 'checkbox-block-disabled' : '',
-                    props.className]
-                    .join(' ').trim()}
+        htmlFor={idName} 
+        className={classNames({
+          [props.className || '']: true,
+          [styles['cdiv__label']]: true,
+          [styles['cdiv__label_disabled']]: props.disabled,
+        })}
       >
-        {props.checked ? 
-          <CheckIcon 
-            color={props.disabled ? 'secondary' : 'accent'} 
-          /> 
-          : <></>
+        {props.checked && 
+          <CheckIcon color={props.disabled ? 'secondary' : 'accent'} />
         }
       </label>
     </div>

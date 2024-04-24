@@ -27,7 +27,7 @@ $card-border: var.$border-radius;
         box-shadow: $card-shadow;
     }
 
-    &-img {
+    &__img {
         background-color: $card-image-bg;
         object-fit: cover;
         width: 100%;
@@ -35,34 +35,34 @@ $card-border: var.$border-radius;
         border-radius: $card-border $card-border 0 0;
     }
 
-    &-info {
+    &__info {
         display: grid;
         padding: $card-info-padding;
         gap: $card-info-gap;
         align-content: space-between;
         
-        &-text {
+        &__text {
             height: 100%;
             display: grid;
             gap: $card-info-text-gap;
 
-            &-title, &-subtitle {
+            &__title, &__subtitle {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
             }
 
-            &-title {
+            &__title {
                 -webkit-line-clamp: 2;
             }
 
-            &-subtitle {
+            &__subtitle {
                 -webkit-line-clamp: 3;
             }
         }
 
-        &-slot {
+        &__slot {
             height: fit-content;
             display: flex;
             justify-content: space-between;
@@ -70,7 +70,7 @@ $card-border: var.$border-radius;
             align-items: center;
             gap: $card-info-slot-gap;
 
-            &-content {
+            &__content {
                 color: var.$brand;
             }
         }

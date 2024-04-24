@@ -14,19 +14,19 @@ $option-border: var.$border-radius;
     gap: $multidropdown-gap;
     padding: 0;
 
-    &-options {
+    &__options {
         background-color: $options-bg;
         box-shadow: $options-shadow;
         border-radius: $option-border;
 
-        &-option {
+        &__option {
             padding: $option-padding;
 
             &:hover {
                 color: $option-color-hover;
             }
 
-            &-selected, &-selected:hover {
+            &_selected, &_selected:hover {
                 color: $option-color-selected;
             }
         }

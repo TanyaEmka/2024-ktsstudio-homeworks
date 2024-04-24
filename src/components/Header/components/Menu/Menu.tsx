@@ -1,11 +1,12 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import './Menu.scss';
+import styles from './Menu.module.scss';
 
 import { useNavigate , useLocation } from "react-router-dom";
 
 import Text from "components/Text";
 import paths from "../../../../config/paths";
+import classNames from "classnames";
 
 const Menu: React.FC = () => {
 
@@ -19,14 +20,15 @@ const Menu: React.FC = () => {
     }, [location.pathname]);
 
     return (
-        <div className="menu">
+        <div className={styles["menu"]}>
             {paths.map((path, index) => {
                 return (
                     <Text
                         key={path.name}
-                        className={["menu-option", 
-                                    "menu-option-" + (selectedUrl === index ? 'selected' : 'unselected')]
-                                    .join(' ').trim()}
+                        className={classNames({
+                            [styles['menu__option']]: true,
+                            [styles['menu__option_selected']]: selectedUrl === index,
+                        })}
                         view='p-16'
                         tag='div'
                         onCLick={() => { setUrl(index); navigate(path.url); }}

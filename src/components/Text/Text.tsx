@@ -1,5 +1,6 @@
 import * as React from 'react';
-import './Text.scss';
+import styles from './Text.module.scss';
+import classNames from 'classnames';
 
 export type TextProps = {
     /** Дополнительный класс */
@@ -28,11 +29,12 @@ const Text: React.FC<TextProps> = ({ ...props }) => {
             style={{
                 maxLines: props.maxLines || 'none',
             }}
-            className={[props.className || '', 
-                        props.view ? 'text-view-' + props.view : '',
-                        'text-color-' + (props.color || 'inherit'),
-                        'text-weight-' + (props.weight || 'normal')]
-                        .join(' ').trim()}
+            className={classNames({
+                [props.className || '']: true,
+                [styles['text_view_' + (props.view || 'p-14')]]: props.view,
+                [styles['text_color_' + (props.color || 'inherit')]]: true,
+                [styles['text_weight_'+ (props.weight || 'normal')]]: true,
+            })}
             onClick={props.onCLick}
         >
             {props.children}
