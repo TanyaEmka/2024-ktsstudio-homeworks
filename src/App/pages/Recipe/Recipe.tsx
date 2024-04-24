@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import './Recipe.scss';
+import styles from './Recipe.module.scss';
 import { useParams , useNavigate } from "react-router-dom";
 
 import Text from "components/Text";
@@ -44,20 +44,20 @@ const Recipe: React.FC = () => {
     }
 
     return (
-        <div className="recipe">
-            <div className="recipe-header">
+        <div className={styles["recipe"]}>
+            <div className={styles["recipe__header"]}>
                 <ArrowLeftIcon
-                    color='accent' 
+                    color='accent'
                     onClick={() => { navigate('/recipes') }} 
                 />
                 <Text weight='bold' view='title'>
                     {recipeObj?.title || 'Title'}
                 </Text>
             </div>
-            <div className="recipe-box">
-                <div className="recipe-preview">
+            <div className={styles["recipe__box"]}>
+                <div className={styles["recipe__box__preview"]}>
                     <img src={recipeObj?.image} alt='recipe photo' />
-                    <div className="recipe-preview-info">
+                    <div className={styles["recipe__box__preview__info"]}>
                         <PreviewBlock name='Preparation' unit='minutes' key='Preparation'>
                             {recipeObj?.preparationMinutes || 0}
                         </PreviewBlock>
@@ -75,7 +75,7 @@ const Recipe: React.FC = () => {
                         </PreviewBlock>
                     </div>
                 </div>
-                <div className="recipe-description">
+                <div className={styles["recipe__box__description"]}>
                     <Text view='p-16'>
                         <span
                             dangerouslySetInnerHTML={{
@@ -84,15 +84,15 @@ const Recipe: React.FC = () => {
                         ></span>
                     </Text>
                 </div>
-                <div className="recipe-needs">
-                    <RecipeNeed 
+                <div className={styles["recipe__box__needs"]}>
+                    <RecipeNeed
                         name='Ingredients'
                         elements={recipeObj ? getIngredients(recipeObj) : []}
                         icon={<IngIcon />}
                     />
-                    <div className="recipe-needs-line">
-                        <div className="circle"></div>
-                        <div className="bottom-line"></div>
+                    <div className={styles["recipe__box__needs__line"]}>
+                        <div className={styles["circle"]}></div>
+                        <div className={styles["bottom-line"]}></div>
                     </div>
                     <RecipeNeed 
                         name='Equipment'
@@ -100,7 +100,7 @@ const Recipe: React.FC = () => {
                         icon={<EqIcon />}
                     />
                 </div>
-                <div className='recipe-directions'>
+                <div className={styles['recipe__box__directions']}>
                     <Text
                         tag='div'
                         view='p-20'
@@ -108,16 +108,14 @@ const Recipe: React.FC = () => {
                     >
                         Directions
                     </Text>
-                    <div className="recipe-directions-steps">
+                    <div className={styles["recipe__box__directions__steps"]}>
                         {recipeObj?.analyzedInstructions[0].steps.map((elem) => {
                             return (
                                 <div key={elem.number}>
                                     <Text view='p-16' weight='bold'>
                                         Step {elem.number}
                                     </Text>
-                                    <Text view='p-14'>
-                                        {elem.step}
-                                    </Text>
+                                    <Text view='p-14'>{elem.step}</Text>
                                 </div>
                             )
                         }) || ''}

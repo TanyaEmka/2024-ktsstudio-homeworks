@@ -8,21 +8,21 @@ $content-filters-category-width: 300px;
     gap: $content-filters-gap;
     width: 100%;
 
-    &-search {
+    &__search {
         display: flex;
         gap: $content-filters-search-gap;
         justify-content: space-between;
 
-        &-input {
+        &__input {
             width: 100%;    
         }
     }
 
-    &-category {
+    &__category {
         display: flex;
         justify-content: end;
 
-        &-block {
+        &__block {
             width: $content-filters-category-width;
         }
     }

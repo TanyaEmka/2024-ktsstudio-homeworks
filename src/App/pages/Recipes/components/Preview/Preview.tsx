@@ -1,11 +1,11 @@
 import * as React from "react";
-import './Preview.scss';
-import img from '../../../../../assets/PreviewImage.svg';
+import styles from './Preview.module.scss';
+import img from 'assets/PreviewImage.svg';
 
 const Preview: React.FC = () => {
 
     return (
-        <div className="preview">
+        <div className={styles.preview}>
             <img src={img} alt='preview' />
         </div>
     )

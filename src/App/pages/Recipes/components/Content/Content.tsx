@@ -1,7 +1,8 @@
 import axios from "axios";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import './Content.scss';
+import styles from './Content.module.scss';
+import customStyles from 'styles/customStyles.module.scss';
 import { useNavigate } from "react-router-dom";
 
 import Button from "components/Button";
@@ -29,7 +30,8 @@ const Content: React.FC = () => {
     }, [page])
 
     const getKcal = (recipe: RecipeUnit) => {
-        const recipeKcal = recipe.nutrition.nutrients.filter((obj) => obj.name === 'Calories')[0];
+        const recipeKcal = recipe.nutrition.nutrients
+            .filter((obj) => obj.name === 'Calories')[0];
 
         return [Math.ceil(recipeKcal.amount), recipeKcal.unit].join(' ');
     }
@@ -41,20 +43,20 @@ const Content: React.FC = () => {
     }
 
     return (
-        <div className="content">
-            <Text className="content-header" view='p-20' tag='div'>
+        <div className={styles["content"]}>
+            <Text className={styles["content__header"]} view='p-20' tag='div'>
                 Find the perfect food and
                 {' '} 
-                <span className="line">drink ideas</span>
+                <span className={customStyles["line"]}>drink ideas</span>
                 {' '}
                 for every occasion, from
                 {' '}
-                <span className="line">weeknight dinners</span> to
+                <span className={customStyles["line"]}>weeknight dinners</span> to
                 {' '}
-                <span className="line">holiday feasts</span>.
+                <span className={customStyles["line"]}>holiday feasts</span>.
             </Text>
             <ContentFilters />
-            <div className="content-cards">
+            <div className={styles["content__cards"]}>
                 {recipeList?.map((recipe) => {
                     return (
                         <Card 
@@ -62,7 +64,7 @@ const Content: React.FC = () => {
                             key={recipe?.id}
                             image={recipe?.image}
                             captionSlot={
-                                <span className="content-cards-card-time">
+                                <span className={styles["content__cards__card__time"]}>
                                     <TimeIcon />
                                     <span>{recipe?.readyInMinutes} minutes</span>
                                 </span>

@@ -1,10 +1,11 @@
 import * as React from "react";
 import { useState } from "react";
-import './PageController.scss';
+import styles from './PageController.module.scss';
 
 import Text from "components/Text";
 import ArrowLeftIcon from "components/icons/ArrowLeftIcon";
 import ArrowRightIcon from "components/icons/ArrowRightIcon";
+import classNames from "classnames";
 
 type PageControllerProps = {
     selectedPage: number,
@@ -25,7 +26,7 @@ const PageController: React.FC<PageControllerProps> = ({
     const lengtList = totalResults / pageCount;
 
     return (
-        <div className="page-controller">
+        <div className={styles["page-controller"]}>
             <ArrowLeftIcon 
                 color={selectedPage > 1 ? 'primary' : 'secondary'}
                 onClick={() => {
@@ -38,35 +39,40 @@ const PageController: React.FC<PageControllerProps> = ({
                     }
                 }}
             />
-            <div className="page-controller-numbers">
+            <div className={styles["page-controller__numbers"]}>
                 {items.map((number) => {
                     return (
                         <Text
                             key={number}
-                            className={['page-controller-numbers-number',
-                                        'page-controller-numbers-number-' + (selectedPage === number ? 'selected' : 'unselected')]
-                                        .join(' ').trim()}
+                            className={classNames({
+                                [styles["page-controller__numbers__number"]]: true,
+                                [styles["page-controller__numbers__number_selected"]]: selectedPage === number,
+                            })}
                             tag='div'
                             view='p-18'
                             onCLick={() => { onClick(number) }}
-                        >{number}
+                        >
+                            {number}
                         </Text>
                     )
                 })}
                 <Text
-                    className='page-controller-numbers-points'
+                    className={styles['page-controller__numbers__points']}
                     tag='div'
                     view='p-18'
-                >...
+                >
+                    ...
                 </Text>
                 <Text
-                    className={['page-controller-numbers-number',
-                                'page-controller-numbers-number-' + (selectedPage === pageCount ? 'selected' : 'unselected')]
-                                .join(' ').trim()}
+                    className={classNames({
+                        [styles["page-controller__numbers__number"]]: true,
+                        [styles["page-controller__numbers__number_selected"]]: selectedPage === pageCount,
+                    })}
                     tag='div'
                     view='p-18'
                     onCLick={() => { onClick(pageCount) }}
-                >{endItem}
+                >
+                    {endItem}
                 </Text>
             </div>
             <ArrowRightIcon

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import './ContentFilters.scss';
+import styles from './ContentFilters.module.scss';
 
 import Button from "components/Button";
 import Input from "components/Input";
@@ -14,19 +14,19 @@ const ContentFilters: React.FC = () => {
     const value: Option[] = [];
 
     return (
-        <div className="content-filters">
-            <div className="content-filters-search">
+        <div className={styles["content-filters"]}>
+            <div className={styles["content-filters__search"]}>
                 <Input 
-                    className="content-filters-search-input"
+                    className={styles["content-filters__search__input"]}
                     value={search}
                     onChange={(value) => { setSearch(value) }}
                     placeholder="Enter dishes"
                 />
                 <Button><SearchIcon width='25' height='24' /></Button>
             </div>
-            <div className="content-filters-category">
+            <div className={styles["content-filters__category"]}>
                 <MultiDropdown 
-                    className="content-filters-category-block"
+                    className={styles["content-filters__category__block"]}
                     options={options}
                     value={value}
                     onChange={(value) => value}

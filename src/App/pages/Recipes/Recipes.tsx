@@ -1,5 +1,5 @@
 import * as React from "react";
-import './Recipes.scss';
+import styles from './Recipes.module.scss';
 
 import Content from "./components/Content";
 import Preview from "./components/Preview";
@@ -7,7 +7,7 @@ import Preview from "./components/Preview";
 const Recipes: React.FC = () => {
 
     return (
-        <div className="recipes">
+        <div className={styles.recipes}>
             <Preview />
             <Content />
         </div>

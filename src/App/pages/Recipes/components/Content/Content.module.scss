@@ -7,22 +7,18 @@ $content-gap: 48px;
     gap: $content-gap;
     margin: $content-margin;
 
-    .line {
-        text-decoration: underline;
-    }
-
-    &-header {
+    &__header {
         text-align: center;
     }
 
-    &-cards {
+    &__cards {
         display: grid;
         column-gap: 80px;
         row-gap: 64px;
         grid-template-columns: repeat(auto-fit, 348px);
         justify-content: center;
 
-        &-card-time {
+        &__card__time {
             display: flex;
             align-items: center;
             align-content: center;

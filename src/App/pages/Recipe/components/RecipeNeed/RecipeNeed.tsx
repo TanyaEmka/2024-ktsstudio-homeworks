@@ -1,4 +1,5 @@
 import * as React from "react";
+import styles from './RecipeNeed.module.scss';
 
 import Text from "components/Text";
 
@@ -11,18 +12,16 @@ type RecipeNeedProps = {
 const RecipeNeed: React.FC<RecipeNeedProps> = (props) => {
 
     return (
-        <div className="recipe-needs-block">
+        <div className={styles["recipe__box__needs__block"]}>
             <Text view='p-20' weight='bold'>
                 {props.name}
             </Text>
-            <div className="recipe-needs-block-elems">
+            <div className={styles["recipe__box__needs__block__elems"]}>
                 {props.elements.map((element, index) => {
                     return (
                         <div key={[element, index].join(' ')}>
                             {props.icon}
-                            <Text view='p-16'>
-                                {element}
-                            </Text>
+                            <Text view='p-16'>{element}</Text>
                         </div>
                     )
                 })}

@@ -11,7 +11,7 @@ type PreviewBlockProps = {
 const PreviewBlock: React.FC<PreviewBlockProps> = (props) => {
 
     return (
-        <div className="recipe-preview-info-block">
+        <div>
             <Text view='p-16'>{props.name}</Text>
             <Text weight='bold' color='accent' view='p-16'>{props.children} {props.unit}</Text>
         </div>
