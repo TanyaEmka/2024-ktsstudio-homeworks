@@ -1,4 +1,4 @@
-@use '../../styles/variables.scss' as var;
+@use 'styles/variables.scss' as var;
 
 $s: calc(#{var.$space-xxs} * 2);
 $m: calc(#{var.$space-xxs} * 4);
@@ -27,7 +27,7 @@ $l: calc(#{var.$space-xxs} * 5);
     border-top-color: transparent;
     transform: rotate(121deg);
 
-    //animation: loader-rotate 3s linear infinite;
+    animation: loader-rotate 3s linear infinite;
 }
 
 .loader-size {
