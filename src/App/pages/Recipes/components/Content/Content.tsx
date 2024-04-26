@@ -1,8 +1,6 @@
 import axios from "axios";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import styles from './Content.module.scss';
-import customStyles from 'styles/customStyles.module.scss';
 import { useNavigate } from "react-router-dom";
 
 import Button from "components/Button";
@@ -11,8 +9,10 @@ import Text from "components/Text";
 import TimeIcon from "components/icons/TimeIcon";
 import { apiKey, recipes } from "config/api";
 import { RecipeList, RecipeUnit } from "config/apiTypes";
+import customStyles from 'styles/customStyles.module.scss';
 import ContentFilters from "../ContentFilters";
 import PageController from "../PageController";
+import styles from './Content.module.scss';
 
 const Content: React.FC = () => {
 

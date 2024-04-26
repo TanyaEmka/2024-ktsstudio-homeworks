@@ -1,11 +1,11 @@
 import * as React from "react";
 import { useState } from "react";
-import styles from './ContentFilters.module.scss';
 
 import Button from "components/Button";
 import Input from "components/Input";
 import MultiDropdown, { Option } from "components/MultiDropdown";
 import SearchIcon from "components/icons/SearchIcon";
+import styles from './ContentFilters.module.scss';
 
 const ContentFilters: React.FC = () => {
 

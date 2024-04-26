@@ -1,11 +1,11 @@
+import classNames from "classnames";
 import * as React from "react";
 import { useState } from "react";
-import styles from './PageController.module.scss';
 
 import Text from "components/Text";
 import ArrowLeftIcon from "components/icons/ArrowLeftIcon";
 import ArrowRightIcon from "components/icons/ArrowRightIcon";
-import classNames from "classnames";
+import styles from './PageController.module.scss';
 
 type PageControllerProps = {
     selectedPage: number,

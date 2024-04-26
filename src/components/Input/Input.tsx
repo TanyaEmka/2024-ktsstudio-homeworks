@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import * as React from 'react';
 import styles from './Input.module.scss';
-import classNames from 'classnames';
 
 export type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,

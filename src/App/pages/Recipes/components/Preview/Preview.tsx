@@ -1,6 +1,6 @@
 import * as React from "react";
-import styles from './Preview.module.scss';
 import img from 'assets/PreviewImage.svg';
+import styles from './Preview.module.scss';
 
 const Preview: React.FC = () => {
 

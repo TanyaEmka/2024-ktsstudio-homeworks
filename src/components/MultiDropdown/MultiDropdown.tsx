@@ -1,11 +1,11 @@
+import classNames from 'classnames';
 import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
-import styles from './MultiDropdown.module.scss';
 
 import Input from '../Input';
 import Text from '../Text';
 import ArrowDownIcon from '../icons/ArrowDownIcon';
-import classNames from 'classnames';
+import styles from './MultiDropdown.module.scss';
 
 export type Option = {
   /** Ключ варианта, используется для отправки на бек/использования в коде */

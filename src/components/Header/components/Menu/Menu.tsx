@@ -1,12 +1,12 @@
+import classNames from "classnames";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import styles from './Menu.module.scss';
 
 import { useNavigate , useLocation } from "react-router-dom";
 
 import Text from "components/Text";
 import paths from "../../../../config/paths";
-import classNames from "classnames";
+import styles from './Menu.module.scss';
 
 const Menu: React.FC = () => {
 

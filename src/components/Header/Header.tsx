@@ -1,9 +1,9 @@
 import * as React from "react";
-import styles from './Header.module.scss';
 
 import LogoBlock from "./components/LogoBlock";
 import Menu from './components/Menu';
 import RightBlock from "./components/RightBlock";
+import styles from './Header.module.scss';
 
 export const Header: React.FC = () => {
 

@@ -1,8 +1,8 @@
+import classNames from "classnames";
 import * as React from "react";
+import Text from '../Text';
 import styles from './Card.module.scss';
 
-import Text from '../Text';
-import classNames from "classnames";
 
 export type CardProps = {
     /** Дополнительный classname */

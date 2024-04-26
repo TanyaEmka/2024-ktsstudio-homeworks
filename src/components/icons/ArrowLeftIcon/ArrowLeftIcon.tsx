@@ -1,6 +1,6 @@
 import * as React from 'react'
-import Icon, { IconProps } from '../Icon';
 import styles from 'styles/customStyles.module.scss';
+import Icon, { IconProps } from '../Icon';
 
 const ArrowLeftIcon: React.FC<IconProps> = (props) => {
 

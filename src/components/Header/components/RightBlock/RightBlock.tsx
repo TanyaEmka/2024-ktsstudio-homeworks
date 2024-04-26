@@ -1,8 +1,8 @@
 import * as React from "react";
-import styles from './RightBlock.module.scss';
 import { useNavigate } from "react-router-dom";
 import HeartIcon from "components/icons/HeartIcon";
 import UserIcon from "components/icons/UserIcon";
+import styles from './RightBlock.module.scss';
 
 const RightBlock: React.FC = () => {
 

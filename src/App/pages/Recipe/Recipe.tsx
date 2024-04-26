@@ -1,7 +1,6 @@
 import axios from "axios";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import styles from './Recipe.module.scss';
 import { useParams , useNavigate } from "react-router-dom";
 
 import Text from "components/Text";
@@ -11,13 +10,15 @@ import IngIcon from "components/icons/IngIcon";
 import { apiKey, recipe, recipeParams } from "config/api";
 import { RecipeType } from "config/apiTypes";
 
+import { RecipeInit } from "config/initValues";
 import PreviewBlock from "./components/PreviewBlock";
 import RecipeNeed from "./components/RecipeNeed";
+import styles from './Recipe.module.scss';
 
 const Recipe: React.FC = () => {
 
     const { id } = useParams();
-    const [recipeObj, setRecipe] = useState<RecipeType | undefined>(undefined);
+    const [recipeObj, setRecipe] = useState<RecipeType>(RecipeInit);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -51,27 +52,27 @@ const Recipe: React.FC = () => {
                     onClick={() => { navigate('/recipes') }} 
                 />
                 <Text weight='bold' view='title'>
-                    {recipeObj?.title || 'Title'}
+                    {recipeObj.title}
                 </Text>
             </div>
             <div className={styles["recipe__box"]}>
                 <div className={styles["recipe__box__preview"]}>
-                    <img src={recipeObj?.image} alt='recipe photo' />
+                    <img src={recipeObj.image} alt='recipe photo' />
                     <div className={styles["recipe__box__preview__info"]}>
                         <PreviewBlock name='Preparation' unit='minutes' key='Preparation'>
-                            {recipeObj?.preparationMinutes || 0}
+                            {recipeObj.preparationMinutes}
                         </PreviewBlock>
                         <PreviewBlock name='Cooking' unit='minutes' key='Cooking'>
-                            {recipeObj?.cookingMinutes || 0}
+                            {recipeObj.cookingMinutes}
                         </PreviewBlock>
                         <PreviewBlock name='Total' unit='minutes' key='Total'>
-                            {recipeObj?.readyInMinutes || 0}
+                            {recipeObj.readyInMinutes}
                         </PreviewBlock>
                         <PreviewBlock name='Servings' unit='servings' key='Servings'>
-                            {recipeObj?.servings || 0}
+                            {recipeObj.servings}
                         </PreviewBlock>
                         <PreviewBlock name='Rating' unit='likes' key='Rating'>
-                            {recipeObj?.aggregateLikes || 0}
+                            {recipeObj.aggregateLikes}
                         </PreviewBlock>
                     </div>
                 </div>
@@ -79,7 +80,7 @@ const Recipe: React.FC = () => {
                     <Text view='p-16'>
                         <span
                             dangerouslySetInnerHTML={{
-                                __html: recipeObj?.summary || '...',
+                                __html: recipeObj.summary,
                             }}
                         ></span>
                     </Text>
@@ -87,7 +88,7 @@ const Recipe: React.FC = () => {
                 <div className={styles["recipe__box__needs"]}>
                     <RecipeNeed
                         name='Ingredients'
-                        elements={recipeObj ? getIngredients(recipeObj) : []}
+                        elements={getIngredients(recipeObj)}
                         icon={<IngIcon />}
                     />
                     <div className={styles["recipe__box__needs__line"]}>
@@ -96,7 +97,7 @@ const Recipe: React.FC = () => {
                     </div>
                     <RecipeNeed 
                         name='Equipment'
-                        elements={recipeObj ? getEquipment(recipeObj) : []}
+                        elements={getEquipment(recipeObj)}
                         icon={<EqIcon />}
                     />
                 </div>
@@ -109,7 +110,7 @@ const Recipe: React.FC = () => {
                         Directions
                     </Text>
                     <div className={styles["recipe__box__directions__steps"]}>
-                        {recipeObj?.analyzedInstructions[0].steps.map((elem) => {
+                        {recipeObj.analyzedInstructions[0].steps.map((elem) => {
                             return (
                                 <div key={elem.number}>
                                     <Text view='p-16' weight='bold'>
