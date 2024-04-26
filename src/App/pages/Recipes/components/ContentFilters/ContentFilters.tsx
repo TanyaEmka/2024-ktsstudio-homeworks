@@ -29,7 +29,7 @@ const ContentFilters: React.FC = () => {
                     className={styles["content-filters__category__block"]}
                     options={options}
                     value={value}
-                    onChange={(value) => value}
+                    onChange={() => {}}
                     getTitle={() => 'Categories'}
                 />
             </div>
