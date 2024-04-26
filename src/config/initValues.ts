@@ -1,4 +1,4 @@
-import { RecipeType } from "config/apiTypes";
+import { RecipeType, Status } from "config/apiTypes";
 
 export const RecipeInit: RecipeType = {
     id: 0,
@@ -13,3 +13,18 @@ export const RecipeInit: RecipeType = {
     extendedIngredients: [],
     analyzedInstructions: [{ steps: [] }]
 }
+
+export const LoadingStatus: Status = {
+    statusName: 'LOADING',
+    statusMessage: '',
+}
+
+export const SuccessfulStatus: Status = {
+    statusName: 'SUCCESS',
+    statusMessage: '',
+}
+
+export const errorStatus = (errorMes: string): Status => ({
+    statusName: 'ERROR',
+    statusMessage: errorMes,
+})

@@ -1,0 +1,16 @@
+@use 'styles/variables.scss' as var;
+
+$error-box-gap: var.$space-s;
+
+.error-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: $error-box-gap;
+
+    &__message {
+        max-width: 30%;
+        text-align: justify;
+    }
+}

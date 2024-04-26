@@ -26,3 +26,8 @@ export type RecipeUnit = {
 };
 
 export type RecipeList = Array<RecipeUnit>;
+
+export type Status = {
+    statusName: 'LOADING' | 'ERROR' | 'SUCCESS',
+    statusMessage: string,
+};

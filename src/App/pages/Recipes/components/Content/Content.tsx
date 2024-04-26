@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 import Button from "components/Button";
 import Card from "components/Card";
+import ErrorBox from "components/ErrorBox";
 import Text from "components/Text";
 import TimeIcon from "components/icons/TimeIcon";
-import { apiKey, recipes } from "config/api";
-import { RecipeList, RecipeUnit } from "config/apiTypes";
+import { apiKey, getRecipesURL } from "config/api";
+import { RecipeList, RecipeUnit, Status } from "config/apiTypes";
+import { LoadingStatus, SuccessfulStatus, errorStatus } from "config/initValues";
 import customStyles from 'styles/customStyles.module.scss';
 import ContentFilters from "../ContentFilters";
 import PageController from "../PageController";
@@ -18,14 +20,20 @@ const Content: React.FC = () => {
 
     const [recipeList, setRecipes] = useState<RecipeList>([]);
     const [page, setPage] = useState(1);
-    const [totalResults, setTotal] = useState(612);
+    const [totalResults, setTotal] = useState(0);
+    const [status, setStatus] = useState<Status>(LoadingStatus);
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get([recipes, '&offset=', (page-1)*9, '&apiKey=', apiKey].join(''))
+        setStatus(LoadingStatus);
+        axios.get(getRecipesURL(page, 9, apiKey))
         .then((resp) => {
+            setStatus(SuccessfulStatus);
             setTotal(resp.data.totalResults);
             setRecipes(resp.data.results);
+        })
+        .catch((err) => {
+            setStatus(errorStatus(err.message));
         })
     }, [page])
 
@@ -56,33 +64,41 @@ const Content: React.FC = () => {
                 <span className={customStyles["line"]}>holiday feasts</span>.
             </Text>
             <ContentFilters />
-            <div className={styles["content__cards"]}>
-                {recipeList?.map((recipe) => {
-                    return (
-                        <Card 
-                            onClick={() => { if (recipe) navigate('/recipe/' + recipe?.id) }}
-                            key={recipe?.id}
-                            image={recipe?.image}
-                            captionSlot={
-                                <span className={styles["content__cards__card__time"]}>
-                                    <TimeIcon />
-                                    <span>{recipe?.readyInMinutes} minutes</span>
-                                </span>
-                            }
-                            title={recipe.title}
-                            subtitle={recipe ? getDescribe(recipe): '...'}
-                            contentSlot={recipe ? getKcal(recipe) : ''}
-                            actionSlot={<Button>Save</Button>}
-                        />
-                    )
-                }) || ''}
-            </div>
-            <PageController 
-                pageCount={9}
-                selectedPage={page}
-                totalResults={totalResults}
-                onClick={(page: number) => { setPage(page) }}
-            />
+            {status.statusName === 'ERROR' ? 
+            <ErrorBox>
+                {status.statusMessage}
+            </ErrorBox>
+            :
+            <>
+                <div className={styles["content__cards"]}>
+                    {recipeList?.map((recipe) => {
+                        return (
+                            <Card 
+                                onClick={() => { if (recipe) navigate('/recipe/' + recipe?.id) }}
+                                key={recipe?.id}
+                                image={recipe?.image}
+                                captionSlot={
+                                    <span className={styles["content__cards__card__time"]}>
+                                        <TimeIcon />
+                                        <span>{recipe?.readyInMinutes} minutes</span>
+                                    </span>
+                                }
+                                title={recipe.title}
+                                subtitle={recipe ? getDescribe(recipe): '...'}
+                                contentSlot={recipe ? getKcal(recipe) : ''}
+                                actionSlot={<Button>Save</Button>}
+                            />
+                        )
+                    }) || ''}
+                </div>
+                <PageController 
+                    pageCount={9}
+                    selectedPage={page}
+                    totalResults={totalResults}
+                    onClick={(page: number) => { setPage(page) }}
+                />
+            </>
+            }
         </div>
     )
 }

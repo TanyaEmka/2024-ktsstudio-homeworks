@@ -3,14 +3,16 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useParams , useNavigate } from "react-router-dom";
 
+import Button from "components/Button";
+import ErrorBox from "components/ErrorBox";
 import Text from "components/Text";
 import ArrowLeftIcon from "components/icons/ArrowLeftIcon";
 import EqIcon from "components/icons/EqIcon";
 import IngIcon from "components/icons/IngIcon";
 import { apiKey, recipe, recipeParams } from "config/api";
-import { RecipeType } from "config/apiTypes";
+import { RecipeType, Status } from "config/apiTypes";
 
-import { RecipeInit } from "config/initValues";
+import { LoadingStatus, RecipeInit, SuccessfulStatus, errorStatus } from "config/initValues";
 import PreviewBlock from "./components/PreviewBlock";
 import RecipeNeed from "./components/RecipeNeed";
 import styles from './Recipe.module.scss';
@@ -19,12 +21,18 @@ const Recipe: React.FC = () => {
 
     const { id } = useParams();
     const [recipeObj, setRecipe] = useState<RecipeType>(RecipeInit);
+    const [status, setStatus] = useState<Status>(LoadingStatus);
     const navigate = useNavigate();
 
     useEffect(() => {
+        setStatus(LoadingStatus);
         axios.get(recipe + id + recipeParams + apiKey)
         .then((resp) => {
+            setStatus(SuccessfulStatus);
             setRecipe(resp.data);
+        })
+        .catch((err) => {
+            setStatus(errorStatus(err.message));
         })
     }, [id]);
 
@@ -55,6 +63,13 @@ const Recipe: React.FC = () => {
                     {recipeObj.title}
                 </Text>
             </div>
+            {status.statusName === 'ERROR' ?
+            <ErrorBox
+                errorSlot={<Button onClick={() => navigate('/recipes')}>Go to main page</Button>}
+            >
+                {status.statusMessage}
+            </ErrorBox>
+            :
             <div className={styles["recipe__box"]}>
                 <div className={styles["recipe__box__preview"]}>
                     <img src={recipeObj.image} alt='recipe photo' />
@@ -119,10 +134,11 @@ const Recipe: React.FC = () => {
                                     <Text view='p-14'>{elem.step}</Text>
                                 </div>
                             )
-                        }) || ''}
+                        })}
                     </div>
                 </div>    
             </div>
+            }
         </div>
     )
 }
