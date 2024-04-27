@@ -1,6 +1,5 @@
-import axios from "axios";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Button from "components/Button";
@@ -8,34 +7,22 @@ import Card from "components/Card";
 import ErrorBox from "components/ErrorBox";
 import Text from "components/Text";
 import TimeIcon from "components/icons/TimeIcon";
-import { apiKey, getRecipesURL } from "config/api";
-import { RecipeList, RecipeUnit, Status } from "config/apiTypes";
-import { LoadingStatus, SuccessfulStatus, errorStatus } from "config/initValues";
+import { apiKey } from "config/api";
+import { RecipeUnit } from "config/apiTypes";
 import customStyles from 'styles/customStyles.module.scss';
 import ContentFilters from "../ContentFilters";
 import PageController from "../PageController";
 import styles from './Content.module.scss';
 
+import queries from "query/RecipeQuery";
+
 const Content: React.FC = () => {
 
-    const [recipeList, setRecipes] = useState<RecipeList>([]);
     const [page, setPage] = useState(1);
-    const [totalResults, setTotal] = useState(0);
-    const [status, setStatus] = useState<Status>(LoadingStatus);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        setStatus(LoadingStatus);
-        axios.get(getRecipesURL(page, 9, apiKey))
-        .then((resp) => {
-            setStatus(SuccessfulStatus);
-            setTotal(resp.data.totalResults);
-            setRecipes(resp.data.results);
-        })
-        .catch((err) => {
-            setStatus(errorStatus(err.message));
-        })
-    }, [page])
+    const { data = { results: [], totalResults: 0 }, status } 
+        = queries.useGetRecipeList((page - 1) * 9, apiKey);
 
     const getKcal = (recipe: RecipeUnit) => {
         const recipeKcal = recipe.nutrition.nutrients
@@ -71,7 +58,7 @@ const Content: React.FC = () => {
             :
             <>
                 <div className={styles["content__cards"]}>
-                    {recipeList?.map((recipe) => {
+                    {data.results.map((recipe: RecipeUnit) => {
                         return (
                             <Card 
                                 onClick={() => { if (recipe) navigate('/recipe/' + recipe?.id) }}
@@ -94,7 +81,7 @@ const Content: React.FC = () => {
                 <PageController 
                     pageCount={9}
                     selectedPage={page}
-                    totalResults={totalResults}
+                    totalResults={data.totalResults}
                     onClick={(page: number) => { setPage(page) }}
                 />
             </>

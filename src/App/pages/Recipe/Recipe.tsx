@@ -1,6 +1,4 @@
-import axios from "axios";
 import * as React from "react";
-import { useEffect, useState } from "react";
 import { useParams , useNavigate } from "react-router-dom";
 
 import Button from "components/Button";
@@ -9,32 +7,21 @@ import Text from "components/Text";
 import ArrowLeftIcon from "components/icons/ArrowLeftIcon";
 import EqIcon from "components/icons/EqIcon";
 import IngIcon from "components/icons/IngIcon";
-import { apiKey, recipe, recipeParams } from "config/api";
-import { RecipeType, Status } from "config/apiTypes";
+import { RecipeType } from "config/apiTypes";
 
-import { LoadingStatus, RecipeInit, SuccessfulStatus, errorStatus } from "config/initValues";
+import { RecipeInit } from "config/initValues";
 import PreviewBlock from "./components/PreviewBlock";
 import RecipeNeed from "./components/RecipeNeed";
 import styles from './Recipe.module.scss';
 
+import queries from "query/RecipeQuery";
+import { apiKey } from "config/api";
+
 const Recipe: React.FC = () => {
 
     const { id } = useParams();
-    const [recipeObj, setRecipe] = useState<RecipeType>(RecipeInit);
-    const [status, setStatus] = useState<Status>(LoadingStatus);
+    const { data: recipeObj = RecipeInit, status } = queries.useGetRecipe(id || '', apiKey);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        setStatus(LoadingStatus);
-        axios.get(recipe + id + recipeParams + apiKey)
-        .then((resp) => {
-            setStatus(SuccessfulStatus);
-            setRecipe(resp.data);
-        })
-        .catch((err) => {
-            setStatus(errorStatus(err.message));
-        })
-    }, [id]);
 
     const getEquipment = (recipeObj: RecipeType) => {
         const uniqEq = new Set<string>();
@@ -125,7 +112,7 @@ const Recipe: React.FC = () => {
                         Directions
                     </Text>
                     <div className={styles["recipe__box__directions__steps"]}>
-                        {recipeObj.analyzedInstructions[0].steps.map((elem) => {
+                        {recipeObj.analyzedInstructions[0].steps.map((elem: any) => {
                             return (
                                 <div key={elem.number}>
                                     <Text view='p-16' weight='bold'>
