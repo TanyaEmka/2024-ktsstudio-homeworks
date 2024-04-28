@@ -9,19 +9,28 @@ import EqIcon from "components/icons/EqIcon";
 import IngIcon from "components/icons/IngIcon";
 import { RecipeType } from "config/apiTypes";
 
-import { RecipeInit } from "config/initValues";
 import PreviewBlock from "./components/PreviewBlock";
 import RecipeNeed from "./components/RecipeNeed";
 import styles from './Recipe.module.scss';
 
 import queries from "query/RecipeQuery";
 import { apiKey } from "config/api";
+import { useLocalStore } from "hooks/useLocalStore";
+import RecipeStore from "store/RecipeStore";
+import { observer } from "mobx-react-lite";
 
 const Recipe: React.FC = () => {
 
     const { id } = useParams();
-    const { data: recipeObj = RecipeInit, status } = queries.useGetRecipe(id || '', apiKey);
+    const { recipe: recipeObj, status, 
+            setRecipe, setStatus } = useLocalStore(() => new RecipeStore());
     const navigate = useNavigate();
+
+    queries.useGetRecipe(
+        (recipe) => setRecipe(recipe),
+        (status) => setStatus(status),
+        id || 'id', apiKey
+    );
 
     const getEquipment = (recipeObj: RecipeType) => {
         const uniqEq = new Set<string>();
@@ -130,4 +139,4 @@ const Recipe: React.FC = () => {
     )
 }
 
-export default Recipe;
+export default observer(Recipe);
