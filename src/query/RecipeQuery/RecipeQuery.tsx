@@ -7,7 +7,7 @@ class RecipeQuery extends BaseQuery {
             points: {
                 GetRecipeList: {
                     method: 'get',
-                    path: (offset, apiKey, query='', ...types) => {
+                    path: (offset, apiKey, query='', types='') => {
                         const params = {
                             addRecipeNutrition: true,
                             number: 9,
@@ -17,8 +17,7 @@ class RecipeQuery extends BaseQuery {
                         }
                         let pathUrl = 'complexSearch?';
                         let pathParams = Object.entries(params).map((param) => param.join('='));
-                        let pathTypes = types.map((typeName) => ['type', typeName].join('='));
-                        return pathUrl + [...pathParams, ...pathTypes].join('&');
+                        return pathUrl + [...pathParams, types].join('&');
                     }
                 },
                 GetRecipe: {

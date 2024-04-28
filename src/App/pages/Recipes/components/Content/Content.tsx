@@ -17,10 +17,11 @@ import { useLocalStore } from "hooks/useLocalStore";
 import RecipeListStore from "store/RecipeListStore";
 import { observer } from "mobx-react-lite";
 import queries from "query/RecipeQuery";
+import { useSearchParams } from "react-router-dom";
 
 const Content: React.FC = () => {
 
-    const [page, setPage] = useState(1);
+    const [searchParams, setSearchParams] = useSearchParams();
     const [search, setSearch] = useState('');
     const [category, setCategory] = useState<Option[]>([]);
     const navigate = useNavigate();
@@ -29,13 +30,18 @@ const Content: React.FC = () => {
         recipeList: data, status, 
         setRecipeList, setStatus } = useLocalStore(() => new RecipeListStore());
 
+    const getCategoryString = () => {
+        let result = category.map((cat) => ['type', cat.value].join('='));
+        return result.join('&');
+    }
+
     queries.useGetRecipeList(
             (newData) => { setRecipeList(newData) },
             (status) => { setStatus(status) },
-            (page - 1) * 9, 
+            (Number(searchParams.get('page') || '1') - 1) * 9, 
             apiKey,
             search,
-            ...category.map((cat) => cat.value));
+            getCategoryString());
 
     const getKcal = (recipe: RecipeUnit) => {
         const recipeKcal = recipe.nutrition.nutrients
@@ -49,6 +55,10 @@ const Content: React.FC = () => {
 
         return ings.map((ing) => ing.name).join(' + ');
     }
+
+    React.useEffect(() => {
+        console.log(...category.map((cat) => cat.value));
+    }, [category])
 
     return (
         <div className={styles["content"]}>
@@ -98,9 +108,9 @@ const Content: React.FC = () => {
                 </div>
                 <PageController 
                     pageCount={9}
-                    selectedPage={page}
+                    selectedPage={Number(searchParams.get('page') || '1')}
                     totalResults={data.totalResults}
-                    onClick={(page: number) => { setPage(page) }}
+                    onClick={(page: number) => { setSearchParams({ page: page.toString() }) }}
                 />
             </>
             }

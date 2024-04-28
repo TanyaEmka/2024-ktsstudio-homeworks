@@ -42,7 +42,6 @@ export default class BaseQuery {
                     setStatus(LoadingStatus);
                     axios[point.method](this._baseQuery + point.path(...args))
                     .then((resp) => {
-                        console.log(resp);
                         setStatus(SuccessfulStatus);
                         setData(resp.data);
                     })
