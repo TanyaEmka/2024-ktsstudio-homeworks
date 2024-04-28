@@ -33,7 +33,9 @@ const Content: React.FC = () => {
             (newData) => { setRecipeList(newData) },
             (status) => { setStatus(status) },
             (page - 1) * 9, 
-            apiKey);
+            apiKey,
+            search,
+            ...category.map((cat) => cat.value));
 
     const getKcal = (recipe: RecipeUnit) => {
         const recipeKcal = recipe.nutrition.nutrients
