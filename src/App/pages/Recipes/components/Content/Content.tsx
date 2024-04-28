@@ -8,21 +8,27 @@ import ErrorBox from "components/ErrorBox";
 import Text from "components/Text";
 import TimeIcon from "components/icons/TimeIcon";
 import { apiKey } from "config/api";
-import { RecipeUnit } from "config/apiTypes";
+import { RecipeUnit, Status } from "config/apiTypes";
 import customStyles from 'styles/customStyles.module.scss';
 import ContentFilters from "../ContentFilters";
 import PageController from "../PageController";
 import styles from './Content.module.scss';
+import { useLocalStore } from "hooks/useLocalStore";
+import FilterStore from "store/FilterStore";
 
 import queries from "query/RecipeQuery";
+import { SuccessfulStatus } from "config/initValues";
 
 const Content: React.FC = () => {
 
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
+    const [filterStore] = useState(new FilterStore());
 
-    const { data = { results: [], totalResults: 0 }, status } 
-        = queries.useGetRecipeList((page - 1) * 9, apiKey);
+    //const { data = { results: [], totalResults: 0 }, status } 
+    //    = queries.useGetRecipeList((page - 1) * 9, apiKey);
+    const data: any = { results: [], totalResults: 0 };
+    const status: Status = SuccessfulStatus;
 
     const getKcal = (recipe: RecipeUnit) => {
         const recipeKcal = recipe.nutrition.nutrients
@@ -50,7 +56,10 @@ const Content: React.FC = () => {
                 {' '}
                 <span className={customStyles["line"]}>holiday feasts</span>.
             </Text>
-            <ContentFilters />
+            <ContentFilters 
+                search={filterStore.searchField} 
+                setSearch={(value) => { filterStore.changeSearch(value) }} 
+            />
             {status.statusName === 'ERROR' ? 
             <ErrorBox>
                 {status.statusMessage}
@@ -58,7 +67,7 @@ const Content: React.FC = () => {
             :
             <>
                 <div className={styles["content__cards"]}>
-                    {data.results.map((recipe: RecipeUnit) => {
+                    {data.results.map((recipe: any) => {
                         return (
                             <Card 
                                 onClick={() => { if (recipe) navigate('/recipe/' + recipe?.id) }}

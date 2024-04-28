@@ -29,13 +29,12 @@ export default class BaseQuery {
     constructor(params: QueryProps) {
         this._baseQuery = params.baseQuery;
         Object.entries(params.points).forEach(([key, point]) => {
-            console.log(key, point);
             this._queries['use' + key] = (...args: Array<string | number | boolean>) => {
                 const [data, setData] = React.useState<unknown | null>();
                 const [status, setStatus] = React.useState<Status>(LoadingStatus);
 
                 React.useEffect(() => {
-                    axios[point.method](point.path())
+                    axios[point.method](this._baseQuery + point.path(...args))
                     .then((resp) => {
                         setStatus(SuccessfulStatus);
                         setData(resp.data);

@@ -11,13 +11,31 @@ $option-border: var.$border-radius;
 .multidropdown {
     display: flex;
     flex-direction: column;
-    gap: $multidropdown-gap;
     padding: 0;
+    position: relative;
 
     &__options {
         background-color: $options-bg;
         box-shadow: $options-shadow;
         border-radius: $option-border;
+        position: absolute;
+        top: 100%;
+        width: 100%;
+        left: 0;
+        margin-top: $multidropdown-gap;
+        overflow-y: auto;
+        max-height: calc(48px * 3);
+        z-index: 100;
+
+        &::-webkit-scrollbar {
+            width: $option-border;
+            border-radius: $option-border;
+
+            &-thumb {
+                background: $option-color-hover;
+                border-radius: $option-border;
+            }
+        }
 
         &__option {
             padding: $option-padding;
