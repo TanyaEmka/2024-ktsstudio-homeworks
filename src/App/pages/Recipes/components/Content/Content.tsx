@@ -1,34 +1,39 @@
 import * as React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { Option } from "components/MultiDropdown";
 import Button from "components/Button";
 import Card from "components/Card";
 import ErrorBox from "components/ErrorBox";
 import Text from "components/Text";
 import TimeIcon from "components/icons/TimeIcon";
 import { apiKey } from "config/api";
-import { RecipeUnit, Status } from "config/apiTypes";
+import { RecipeUnit } from "config/apiTypes";
 import customStyles from 'styles/customStyles.module.scss';
 import ContentFilters from "../ContentFilters";
 import PageController from "../PageController";
 import styles from './Content.module.scss';
 import { useLocalStore } from "hooks/useLocalStore";
-import FilterStore from "store/FilterStore";
-
+import RecipeListStore from "store/RecipeListStore";
+import { observer } from "mobx-react-lite";
 import queries from "query/RecipeQuery";
-import { SuccessfulStatus } from "config/initValues";
 
 const Content: React.FC = () => {
 
     const [page, setPage] = useState(1);
+    const [search, setSearch] = useState('');
+    const [category, setCategory] = useState<Option[]>([]);
     const navigate = useNavigate();
-    const [filterStore] = useState(new FilterStore());
 
-    //const { data = { results: [], totalResults: 0 }, status } 
-    //    = queries.useGetRecipeList((page - 1) * 9, apiKey);
-    const data: any = { results: [], totalResults: 0 };
-    const status: Status = SuccessfulStatus;
+    const { 
+        recipeList: data, status, 
+        setRecipeList, setStatus } = useLocalStore(() => new RecipeListStore());
+
+    queries.useGetRecipeList(
+            (newData) => { setRecipeList(newData) },
+            (status) => { setStatus(status) },
+            (page - 1) * 9, 
+            apiKey);
 
     const getKcal = (recipe: RecipeUnit) => {
         const recipeKcal = recipe.nutrition.nutrients
@@ -57,8 +62,10 @@ const Content: React.FC = () => {
                 <span className={customStyles["line"]}>holiday feasts</span>.
             </Text>
             <ContentFilters 
-                search={filterStore.searchField} 
-                setSearch={(value) => { filterStore.changeSearch(value) }} 
+                search={search}
+                setSearch={(value) => { setSearch(value) }}
+                category={category}
+                setCategory={(value) => { setCategory(value) }}
             />
             {status.statusName === 'ERROR' ? 
             <ErrorBox>
@@ -99,4 +106,4 @@ const Content: React.FC = () => {
     )
 }
 
-export default Content;
+export default observer(Content);

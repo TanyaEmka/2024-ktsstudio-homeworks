@@ -1,17 +1,9 @@
 import * as React from "react";
-import { useState } from "react";
 import Button from "components/Button";
 import Input from "components/Input";
 import MultiDropdown, { Option } from "components/MultiDropdown";
 import SearchIcon from "components/icons/SearchIcon";
 import styles from './ContentFilters.module.scss';
-
-interface ContentFiltersProps {
-    search: string,
-    category?: string,
-    setSearch: (value: string) => void,
-    setCategory?: (value: string) => void,
-}
 
 const mealTypes = ['main course', 
                     'side dish',
@@ -28,12 +20,16 @@ const mealTypes = ['main course',
                     'snack',
                     'drink'];
 
-const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
-    const options: Option[] = mealTypes.map((type, index) => ({ key: index.toString(), value: type }));
-    const [value, setValue] = useState<Option[]>([]);
+interface ContentFiltersProps {
+    search: string,
+    setSearch: (value: string) => void,
+    category: Array<Option>,
+    setCategory: (value: Array<Option>) => void,
+}
 
-    React.useEffect(() => {
-    }, []);
+const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
+    const options: Option[] = mealTypes
+        .map((type, index) => ({ key: index.toString(), value: type }));
 
     return (
         <div className={styles["content-filters"]}>
@@ -50,8 +46,8 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                 <MultiDropdown 
                     className={styles["content-filters__category__block"]}
                     options={options}
-                    value={value}
-                    onChange={(value) => { setValue(value) }}
+                    value={props.category}
+                    onChange={(value) => { props.setCategory(value) }}
                     getTitle={(value) => { 
                         if (value.length > 0) {
                             return value.map((elem) => elem.value).join(', ');

@@ -13,7 +13,11 @@ type QueryPointListType = {
 }
 
 type HookListType = {
-    [key: string]: (...args: Array<string | number | boolean>) => any,
+    [key: string]: (
+        setData: (data: any) => void,
+        setStatus: (status: Status) => void,
+        ...args: Array<string | number | boolean>
+    ) => void
 }
 
 interface QueryProps {
@@ -29,11 +33,13 @@ export default class BaseQuery {
     constructor(params: QueryProps) {
         this._baseQuery = params.baseQuery;
         Object.entries(params.points).forEach(([key, point]) => {
-            this._queries['use' + key] = (...args: Array<string | number | boolean>) => {
-                const [data, setData] = React.useState<unknown | null>();
-                const [status, setStatus] = React.useState<Status>(LoadingStatus);
-
+            this._queries['use' + key] = (
+                setData: (data: any) => void,
+                setStatus: (status: Status) => void,
+                ...args: Array<string | number | boolean>
+            ) => {
                 React.useEffect(() => {
+                    setStatus(LoadingStatus);
                     axios[point.method](this._baseQuery + point.path(...args))
                     .then((resp) => {
                         setStatus(SuccessfulStatus);
@@ -43,8 +49,6 @@ export default class BaseQuery {
                         setStatus(errorStatus(err.message));
                     })
                 }, [...args]);
-
-                return { data, status };
             }
         });
     }

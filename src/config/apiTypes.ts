@@ -27,6 +27,11 @@ export type RecipeUnit = {
 
 export type RecipeList = Array<RecipeUnit>;
 
+export type RecipeListRequest = {
+    results: RecipeList,
+    totalResults: number,
+}
+
 export type Status = {
     statusName: 'LOADING' | 'ERROR' | 'SUCCESS',
     statusMessage: string,
