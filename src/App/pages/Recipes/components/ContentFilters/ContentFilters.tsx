@@ -33,8 +33,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
     const [value, setValue] = useState<Option[]>([]);
 
     React.useEffect(() => {
-        console.log(props.search);
-    }, [props.search])
+    }, []);
 
     return (
         <div className={styles["content-filters"]}>

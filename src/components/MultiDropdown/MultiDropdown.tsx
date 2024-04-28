@@ -56,7 +56,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
   }, [props.options, props]);
 
   const getOptionList = (clickValue: Option) => {
-    if (!props.value.includes(clickValue)) {
+    if (!props.value.map((el) => el.key).includes(clickValue.key)) {
       return [...props.value, clickValue];
     }
     const index = props.value.map(element => element.key).indexOf(clickValue.key);
@@ -115,7 +115,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
                 onClick={() => props.onChange(getOptionList(option))}
                 className={classNames({
                   [styles['multidropdown__options__option']]: true,
-                  [styles['multidropdown__options__option_selected']]: props.value.includes(option),
+                  [styles['multidropdown__options__option_selected']]: props.value.map((el) => el.key).includes(option.key),
                 })}
               >
                 <Text tag='span' view='p-16'>{option.value}</Text>

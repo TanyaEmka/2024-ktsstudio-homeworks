@@ -39,6 +39,7 @@ $option-border: var.$border-radius;
 
         &__option {
             padding: $option-padding;
+            cursor: pointer;
 
             &:hover {
                 color: $option-color-hover;
