@@ -13,7 +13,8 @@ import PreviewBlock from "./components/PreviewBlock";
 import RecipeNeed from "./components/RecipeNeed";
 import styles from './Recipe.module.scss';
 
-import queries from "query/RecipeQuery";
+import recipeApi from "query/RecipeQuery";
+import { Status } from "config/apiTypes";
 import { apiKey } from "config/api";
 import { useLocalStore } from "hooks/useLocalStore";
 import RecipeStore from "store/RecipeStore";
@@ -26,10 +27,11 @@ const Recipe: React.FC = () => {
             setRecipe, setStatus } = useLocalStore(() => new RecipeStore());
     const navigate = useNavigate();
 
-    queries.useGetRecipe(
-        (recipe) => setRecipe(recipe),
-        (status) => setStatus(status),
-        id || 'id', apiKey
+    recipeApi.hooks.useGetRecipe(
+        (recipe: RecipeType) => setRecipe(recipe),
+        (status: Status) => setStatus(status),
+        { id: id || 'id', apiKey: apiKey },
+        [id]
     );
 
     const getEquipment = (recipeObj: RecipeType) => {

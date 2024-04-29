@@ -8,7 +8,7 @@ import ErrorBox from "components/ErrorBox";
 import Text from "components/Text";
 import TimeIcon from "components/icons/TimeIcon";
 import { apiKey } from "config/api";
-import { RecipeUnit } from "config/apiTypes";
+import { RecipeListRequest, RecipeUnit } from "config/apiTypes";
 import customStyles from 'styles/customStyles.module.scss';
 import ContentFilters from "../ContentFilters";
 import PageController from "../PageController";
@@ -16,8 +16,9 @@ import styles from './Content.module.scss';
 import { useLocalStore } from "hooks/useLocalStore";
 import RecipeListStore from "store/RecipeListStore";
 import { observer } from "mobx-react-lite";
-import queries from "query/RecipeQuery";
 import { useSearchParams } from "react-router-dom";
+import recipeApi from "query/RecipeQuery";
+import { Status } from "config/apiTypes";
 
 const Content: React.FC = () => {
 
@@ -26,22 +27,25 @@ const Content: React.FC = () => {
     const [category, setCategory] = useState<Option[]>([]);
     const navigate = useNavigate();
 
-    const { 
-        recipeList: data, status, 
-        setRecipeList, setStatus } = useLocalStore(() => new RecipeListStore());
-
     const getCategoryString = () => {
         let result = category.map((cat) => ['type', cat.value].join('='));
         return result.join('&');
     }
 
-    queries.useGetRecipeList(
-            (newData) => { setRecipeList(newData) },
-            (status) => { setStatus(status) },
-            (Number(searchParams.get('page') || '1') - 1) * 9, 
-            apiKey,
-            search,
-            getCategoryString());
+    const getOffset = () => {
+        return ((Number(searchParams.get('page') || '1') - 1) * 9).toString();    
+    }
+
+    const { 
+        recipeList: data, status, 
+        setRecipeList, setStatus } = useLocalStore(() => new RecipeListStore());
+
+    recipeApi.hooks.useGetRecipeList(
+        (newData: RecipeListRequest) => { setRecipeList(newData) },
+        (status: Status) => { setStatus(status) },
+        { offset: getOffset(), apiKey: apiKey, query: search, types: getCategoryString() },
+        [search, apiKey, getCategoryString(), getOffset()],
+    );
 
     const getKcal = (recipe: RecipeUnit) => {
         const recipeKcal = recipe.nutrition.nutrients
