@@ -28,6 +28,11 @@ const Content: React.FC = () => {
         return ((Number(searchParams.get('page') || '1') - 1) * 9).toString();    
     }
 
+    const getTypeString = () => {
+        return searchParams
+            .getAll('type').map((value) => ['type', value].join('=')).join('&') || '';       
+    }
+
     const recipesStore = useLocalStore(() => new RecipeListStore());
 
     useGetRecipeList(
@@ -36,8 +41,7 @@ const Content: React.FC = () => {
         { 
             offset: getOffset(), 
             query: searchParams.get('query') || '', 
-            types: searchParams
-                .getAll('type').map((value) => ['type', value].join('=')).join('&') || '' 
+            types: getTypeString(),
         },
         [searchParams],
     );
