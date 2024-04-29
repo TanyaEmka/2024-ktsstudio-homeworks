@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import * as React from "react";
 import { useParams , useNavigate } from "react-router-dom";
 
@@ -7,18 +8,15 @@ import Text from "components/Text";
 import ArrowLeftIcon from "components/icons/ArrowLeftIcon";
 import EqIcon from "components/icons/EqIcon";
 import IngIcon from "components/icons/IngIcon";
+
 import { RecipeType } from "config/apiTypes";
 
+import { useLocalStore } from "hooks/useLocalStore";
+import { useGetRecipe } from "query/RecipeQuery";
+import RecipeStore from "store/RecipeStore";
 import PreviewBlock from "./components/PreviewBlock";
 import RecipeNeed from "./components/RecipeNeed";
 import styles from './Recipe.module.scss';
-
-import recipeApi from "query/RecipeQuery";
-import { Status } from "config/apiTypes";
-import { apiKey } from "config/api";
-import { useLocalStore } from "hooks/useLocalStore";
-import RecipeStore from "store/RecipeStore";
-import { observer } from "mobx-react-lite";
 
 const Recipe: React.FC = () => {
 
@@ -27,10 +25,10 @@ const Recipe: React.FC = () => {
             setRecipe, setStatus } = useLocalStore(() => new RecipeStore());
     const navigate = useNavigate();
 
-    recipeApi.hooks.useGetRecipe(
-        (recipe: RecipeType) => setRecipe(recipe),
-        (status: Status) => setStatus(status),
-        { id: id || 'id', apiKey: apiKey },
+    useGetRecipe(
+        (recipe) => setRecipe(recipe),
+        (status) => setStatus(status),
+        { id: id || '' },
         [id]
     );
 
@@ -123,7 +121,7 @@ const Recipe: React.FC = () => {
                         Directions
                     </Text>
                     <div className={styles["recipe__box__directions__steps"]}>
-                        {recipeObj.analyzedInstructions[0].steps.map((elem: any) => {
+                        {recipeObj.analyzedInstructions[0].steps.map((elem) => {
                             return (
                                 <div key={elem.number}>
                                     <Text view='p-16' weight='bold'>

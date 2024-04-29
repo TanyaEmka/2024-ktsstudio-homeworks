@@ -1,6 +1,6 @@
+import { action, computed, makeObservable, observable } from "mobx";
 import { Option } from "components/MultiDropdown";
 import { ILocalStore } from "hooks/useLocalStore";
-import { action, computed, makeObservable, observable } from "mobx";
 
 type PrivateFields = '_searchField' | '_category';
 
@@ -12,18 +12,18 @@ export default class FilterStore implements ILocalStore {
         makeObservable<FilterStore, PrivateFields>(this, {
             _searchField: observable,
             _category: observable,
-            changeSearch: action.bound,
-            changeCategory: action.bound,
+            setSearch: action.bound,
+            setCategory: action.bound,
             searchField: computed,
             category: computed,
         })
     }
 
-    changeSearch(newValue: string) {
+    setSearch(newValue: string) {
         this._searchField = newValue;
     }
 
-    changeCategory(newValue: Array<Option>) {
+    setCategory(newValue: Array<Option>) {
         this._category = newValue;
     }
 

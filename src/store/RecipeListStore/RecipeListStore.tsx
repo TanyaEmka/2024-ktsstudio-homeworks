@@ -1,7 +1,7 @@
-import { ILocalStore } from "hooks/useLocalStore";
 import { action, computed, makeObservable, observable } from "mobx";
-import { RecipeListRequest, Status } from "config/apiTypes";
+import { RecipeListRequest, Status, RecipeUnit } from "config/apiTypes";
 import { SuccessfulStatus } from "config/initValues";
+import { ILocalStore } from "hooks/useLocalStore";
 
 type PrivateFields = '_status' | '_recipeList';
 
@@ -19,6 +19,7 @@ export default class RecipeListStore implements ILocalStore {
             setStatus: action.bound,
             setRecipeList: action.bound,
             recipeList: computed,
+            results: computed,
             totalResults: computed,
             status: computed,
         })
@@ -36,12 +37,27 @@ export default class RecipeListStore implements ILocalStore {
         return this._recipeList;
     }
 
+    get results() {
+        return this._recipeList.results;
+    }
+
     get totalResults() {
         return this._recipeList.totalResults;
     }
 
     get status() {
         return this._status;
+    }
+
+    getKcal(recipe: RecipeUnit) {
+        const recipeKcal = recipe.nutrition.nutrients
+            .filter((obj) => obj.name === 'Calories')[0];
+
+        return [Math.ceil(recipeKcal.amount), recipeKcal.unit].join(' ');
+    }
+
+    getDescribe(ingredients: Array<{ name: string }>) {
+        return ingredients.map((ing) => ing.name).join(' + ');
     }
 
     destroy(): void {

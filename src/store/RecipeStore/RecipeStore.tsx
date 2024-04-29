@@ -1,7 +1,7 @@
-import { ILocalStore } from "hooks/useLocalStore";
 import { action, computed, makeObservable, observable } from "mobx";
 import { RecipeType, Status } from "config/apiTypes";
 import { RecipeInit, SuccessfulStatus } from "config/initValues";
+import { ILocalStore } from "hooks/useLocalStore";
 
 type PrivateFields = '_status' | '_recipe';
 
