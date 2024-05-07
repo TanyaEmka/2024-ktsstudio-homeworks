@@ -20,6 +20,7 @@ import styles from './Content.module.scss';
 const Content: React.FC = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
+    const recipesStore = useLocalStore(() => new RecipeListStore());
     const navigate = useNavigate();
 
     const getOffset = () => {
@@ -30,8 +31,6 @@ const Content: React.FC = () => {
         return searchParams
             .getAll('type').map((value) => ['type', value].join('=')).join('&') || '';       
     }
-
-    const recipesStore = useLocalStore(() => new RecipeListStore());
 
     useGetRecipeList(
         (newData) => { recipesStore.setRecipeList(newData) },

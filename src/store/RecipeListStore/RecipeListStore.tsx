@@ -1,24 +1,22 @@
 import { action, computed, makeObservable, observable } from "mobx";
-import { RecipeListRequest, Status, RecipeUnit } from "config/apiTypes";
+import { RecipeListRequest, Status, RecipeUnit, RecipeList } from "config/apiTypes";
 import { NotStartedStatus } from "config/initValues";
 import { ILocalStore } from "hooks/useLocalStore";
 
-type PrivateFields = '_status' | '_recipeList';
+type PrivateFields = '_status' | '_recipeResults' | '_totalResults';
 
 export default class RecipeListStore implements ILocalStore {
     private _status: Status = NotStartedStatus;
-    private _recipeList: RecipeListRequest = {
-        results: [],
-        totalResults: 0,
-    };
+    private _recipeResults: RecipeList = [];
+    private _totalResults: number = 0;
     
     constructor() {
         makeObservable<RecipeListStore, PrivateFields>(this, {
             _status: observable.ref,
-            _recipeList: observable,
+            _recipeResults: observable.ref,
+            _totalResults: observable,
             setStatus: action.bound,
             setRecipeList: action.bound,
-            recipeList: computed,
             results: computed,
             totalResults: computed,
             status: computed,
@@ -30,19 +28,16 @@ export default class RecipeListStore implements ILocalStore {
     }
 
     setRecipeList(newList: RecipeListRequest) {
-        this._recipeList = { ...newList };
-    }
-
-    get recipeList() {
-        return this._recipeList;
+        this._recipeResults = [ ...newList.results ];
+        this._totalResults = newList.totalResults;
     }
 
     get results() {
-        return this._recipeList.results;
+        return this._recipeResults;
     }
 
     get totalResults() {
-        return this._recipeList.totalResults;
+        return this._totalResults;
     }
 
     get status() {
@@ -61,7 +56,8 @@ export default class RecipeListStore implements ILocalStore {
     }
 
     destroy(): void {
-        this._recipeList = { results: [], totalResults: 0 };
+        this._recipeResults = [];
+        this._totalResults = 0;
         this._status = NotStartedStatus;
     }
 }
