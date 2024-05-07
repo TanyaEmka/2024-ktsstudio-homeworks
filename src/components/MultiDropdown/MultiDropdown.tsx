@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback, memo } from 'react';
 
 import Input from '../Input';
 import Text from '../Text';
@@ -55,30 +55,21 @@ const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
     setOptionList(props.options);
   }, [props.options, props]);
 
-  const getOptionList = (clickValue: Option) => {
+  const getOptionList = useCallback((clickValue: Option) => {
     if (!props.value.map((el) => el.key).includes(clickValue.key)) {
-      return [...props.value, clickValue];
+      props.onChange([...props.value, clickValue]);
+    } else {
+      props.onChange(props.value.filter(el => el.key !== clickValue.key));
     }
-    const index = props.value.map(element => element.key).indexOf(clickValue.key);
-    const newValueList = [...props.value];
-    newValueList.splice(index, 1);
-    return newValueList;
-  }
+  }, [props.value, props.onChange]);
 
-  const getFilterList = (title: string) => {
+  const getFilterList = useCallback((title: string) => {
     if (title !== '') {
-      const newOptionList: Array<Option> = [];
-      optionList.forEach((option) => {
-        if (option.value.startsWith(title)) {
-          newOptionList.push(option);
-        }
-      });
-
-      setOptionList(newOptionList);
+      setOptionList(optionList.filter((option) => option.value.startsWith(title)));
     } else {
       setOptionList(props.options);
     }
-  }
+  }, [optionList, props.options]);
 
   return(
     <div 
@@ -109,10 +100,12 @@ const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
       {(opened && !props.disabled) &&
         <div className={styles['multidropdown__options']}>
           {optionList.map((option) => {
+            const handleChange = () => { getOptionList(option) }
+
             return (
               <div
                 key={option.key}
-                onClick={() => props.onChange(getOptionList(option))}
+                onClick={handleChange}
                 className={classNames({
                   [styles['multidropdown__options__option']]: true,
                   [styles['multidropdown__options__option_selected']]: props.value.map((el) => el.key).includes(option.key),
@@ -128,4 +121,4 @@ const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
   )
 };
 
-export default MultiDropdown;
+export default memo(MultiDropdown);

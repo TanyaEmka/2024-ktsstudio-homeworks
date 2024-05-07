@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { memo } from 'react';
 
 import Text from 'components/Text';
 
@@ -17,4 +18,4 @@ const ContentHeader: React.FC = () => {
     )
 }
 
-export default ContentHeader;
+export default memo(ContentHeader);
