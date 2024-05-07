@@ -5,17 +5,15 @@ import { useNavigate , useSearchParams } from "react-router-dom";
 import Button from "components/Button";
 import Card from "components/Card";
 import ErrorBox from "components/ErrorBox";
-import Text from "components/Text";
 import TimeIcon from "components/icons/TimeIcon";
 
 import { useLocalStore } from "hooks/useLocalStore";
 import { useGetRecipeList } from "query/RecipeQuery";
 import RecipeListStore from "store/RecipeListStore";
 
-import customStyles from 'styles/customStyles.module.scss';
-
 import ContentFilters from "../ContentFilters";
 import PageController from "../PageController";
+import ContentHeader from "./ContentHeader";
 
 import styles from './Content.module.scss';
 
@@ -48,17 +46,7 @@ const Content: React.FC = () => {
 
     return (
         <div className={styles["content"]}>
-            <Text className={styles["content__header"]} view='p-20' tag='div'>
-                Find the perfect food and
-                {' '} 
-                <span className={customStyles["line"]}>drink ideas</span>
-                {' '}
-                for every occasion, from
-                {' '}
-                <span className={customStyles["line"]}>weeknight dinners</span> to
-                {' '}
-                <span className={customStyles["line"]}>holiday feasts</span>.
-            </Text>
+            <ContentHeader />
             <ContentFilters />
             {recipesStore.status.statusName === 'ERROR' ? 
             <ErrorBox>

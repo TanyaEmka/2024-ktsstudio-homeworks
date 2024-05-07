@@ -14,7 +14,7 @@ export default class RecipeListStore implements ILocalStore {
     
     constructor() {
         makeObservable<RecipeListStore, PrivateFields>(this, {
-            _status: observable,
+            _status: observable.ref,
             _recipeList: observable,
             setStatus: action.bound,
             setRecipeList: action.bound,
