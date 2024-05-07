@@ -1,12 +1,12 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { RecipeListRequest, Status, RecipeUnit } from "config/apiTypes";
-import { SuccessfulStatus } from "config/initValues";
+import { NotStartedStatus } from "config/initValues";
 import { ILocalStore } from "hooks/useLocalStore";
 
 type PrivateFields = '_status' | '_recipeList';
 
 export default class RecipeListStore implements ILocalStore {
-    private _status: Status = SuccessfulStatus;
+    private _status: Status = NotStartedStatus;
     private _recipeList: RecipeListRequest = {
         results: [],
         totalResults: 0,
@@ -62,6 +62,6 @@ export default class RecipeListStore implements ILocalStore {
 
     destroy(): void {
         this._recipeList = { results: [], totalResults: 0 };
-        this._status = SuccessfulStatus;
+        this._status = NotStartedStatus;
     }
 }

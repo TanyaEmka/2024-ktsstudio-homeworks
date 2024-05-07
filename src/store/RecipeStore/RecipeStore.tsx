@@ -1,18 +1,18 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { RecipeType, Status } from "config/apiTypes";
-import { RecipeInit, SuccessfulStatus } from "config/initValues";
+import { RecipeInit, NotStartedStatus } from "config/initValues";
 import { ILocalStore } from "hooks/useLocalStore";
 
 type PrivateFields = '_status' | '_recipe';
 
 export default class RecipeStore implements ILocalStore {
-    private _status: Status = SuccessfulStatus;
+    private _status: Status = NotStartedStatus;
     private _recipe: RecipeType = RecipeInit;
     
     constructor() {
         makeObservable<RecipeStore, PrivateFields>(this, {
-            _status: observable,
-            _recipe: observable,
+            _status: observable.ref,
+            _recipe: observable.ref,
             setStatus: action.bound,
             setRecipe: action.bound,
             recipe: computed,
@@ -38,6 +38,6 @@ export default class RecipeStore implements ILocalStore {
 
     destroy(): void {
         this._recipe = RecipeInit;
-        this._status = SuccessfulStatus;
+        this._status = NotStartedStatus;
     }
 }

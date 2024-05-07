@@ -33,6 +33,6 @@ export type RecipeListRequest = {
 }
 
 export type Status = {
-    statusName: 'LOADING' | 'ERROR' | 'SUCCESS',
+    statusName: 'LOADING' | 'ERROR' | 'SUCCESS' | 'NOT_STARTED',
     statusMessage: string,
 };

@@ -1,7 +1,11 @@
 import axios from "axios";
 import * as React from "react";
 import { Status } from "config/apiTypes";
-import { LoadingStatus, errorStatus, SuccessfulStatus } from "config/initValues";
+import { 
+    LoadingStatus, 
+    errorStatus, 
+    SuccessfulStatus, 
+} from "config/initValues";
 
 export type QueryParameterType = {
     [key: string]: string | number | boolean | undefined | null

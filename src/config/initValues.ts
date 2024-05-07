@@ -14,6 +14,11 @@ export const RecipeInit: RecipeType = {
     analyzedInstructions: [{ steps: [] }]
 }
 
+export const NotStartedStatus: Status = {
+    statusName: 'NOT_STARTED',
+    statusMessage: 'загрузка данных не началась',
+}
+
 export const LoadingStatus: Status = {
     statusName: 'LOADING',
     statusMessage: '',
