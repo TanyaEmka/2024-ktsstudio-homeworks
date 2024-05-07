@@ -1,5 +1,6 @@
+import axios from "axios";
 import { action, computed, makeObservable, observable } from "mobx";
-import { RecipeType, Status } from "types/apiTypes";
+import { urlPrefix, apiKey } from "config/api";
 import { 
     RecipeInit, 
     NotStartedStatus, 
@@ -8,8 +9,7 @@ import {
     errorStatus 
 } from "config/initValues";
 import { ILocalStore } from "hooks/useLocalStore";
-import { urlPrefix, apiKey } from "config/api";
-import axios from "axios";
+import { RecipeType, Status } from "types/apiTypes";
 
 type PrivateFields = '_status' | '_recipe';
 

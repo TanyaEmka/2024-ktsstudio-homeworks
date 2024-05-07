@@ -11,13 +11,13 @@ import TimeIcon from "components/icons/TimeIcon";
 import { useLocalStore } from "hooks/useLocalStore";
 import RecipeListStore from "store/RecipeListStore";
 
+import { getParamsString, getOffset, getSearchParam } from "utils/searchParamsHandlers";
 import ContentFilters from "../ContentFilters";
 import PageController from "../PageController";
 import ContentHeader from "./ContentHeader";
 
 import styles from './Content.module.scss';
 
-import { getParamsString, getOffset, getSearchParam } from "utils/searchParamsHandlers";
 
 const Content: React.FC = () => {
 

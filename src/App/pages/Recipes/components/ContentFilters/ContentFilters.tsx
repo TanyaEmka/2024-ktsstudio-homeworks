@@ -1,16 +1,16 @@
+import { observer } from "mobx-react-lite";
 import * as React from "react";
 import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Button from "components/Button";
 import Input from "components/Input";
 import MultiDropdown, { Option } from "components/MultiDropdown";
 import SearchIcon from "components/icons/SearchIcon";
-import styles from './ContentFilters.module.scss';
 import { mealTypesOptions } from "config/api";
-import { useSearchParams } from "react-router-dom";
-import { observer } from "mobx-react-lite";
 import { useLocalStore } from "hooks/useLocalStore";
 import FilterStore from "store/FilterStore";
 import { getSearchParam, getOptionsBySearchParam } from "utils/searchParamsHandlers";
+import styles from './ContentFilters.module.scss';
 
 const ContentFilters: React.FC = () => {
 

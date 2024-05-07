@@ -17,8 +17,8 @@ export const getOptionsBySearchParam = (
     paramName: string,
     options: Array<Option>
 ) => {
-    let values = searchParams.getAll(paramName);
-    let firstCats: Option[] = [];
+    const values = searchParams.getAll(paramName);
+    const firstCats: Option[] = [];
     values.forEach((value) => {
         const elemInd = options.map((opt) => opt.value).indexOf(value);
         if (elemInd !== -1) {

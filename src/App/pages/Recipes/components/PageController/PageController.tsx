@@ -4,9 +4,9 @@ import { useEffect } from "react";
 import Text from "components/Text";
 import ArrowLeftIcon from "components/icons/ArrowLeftIcon";
 import ArrowRightIcon from "components/icons/ArrowRightIcon";
-import styles from './PageController.module.scss';
 import { useLocalStore } from "hooks/useLocalStore";
 import PageControllerStore from "store/PageControllerStore";
+import styles from './PageController.module.scss';
 
 type PageControllerProps = {
     selectedPage: number,
