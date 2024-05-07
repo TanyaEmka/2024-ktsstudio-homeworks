@@ -17,28 +17,21 @@ import ContentHeader from "./ContentHeader";
 
 import styles from './Content.module.scss';
 
+import { getTypeString, getOffset } from "utils/searchParamsHandlers";
+
 const Content: React.FC = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const recipesStore = useLocalStore(() => new RecipeListStore());
     const navigate = useNavigate();
 
-    const getOffset = () => {
-        return ((Number(searchParams.get('page') || '1') - 1) * 9).toString();    
-    }
-
-    const getTypeString = () => {
-        return searchParams
-            .getAll('type').map((value) => ['type', value].join('=')).join('&') || '';       
-    }
-
     useGetRecipeList(
         (newData) => { recipesStore.setRecipeList(newData) },
         (status) => { recipesStore.setStatus(status) },
         { 
-            offset: getOffset(), 
+            offset: getOffset(searchParams), 
             query: searchParams.get('query') || '', 
-            types: getTypeString(),
+            types: getTypeString(searchParams),
         },
         [searchParams],
     );

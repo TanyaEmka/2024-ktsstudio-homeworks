@@ -1,11 +1,12 @@
 import classNames from "classnames";
 import * as React from "react";
-import { useState } from "react";
 
 import Text from "components/Text";
 import ArrowLeftIcon from "components/icons/ArrowLeftIcon";
 import ArrowRightIcon from "components/icons/ArrowRightIcon";
 import styles from './PageController.module.scss';
+import { useLocalStore } from "hooks/useLocalStore";
+import PageControllerStore from "store/PageControllerStore";
 
 type PageControllerProps = {
     selectedPage: number,
@@ -21,9 +22,8 @@ const PageController: React.FC<PageControllerProps> = ({
     onClick
 }) => {
 
-    const [items, setItems] = useState([1, 2, 3]);
-    const [endItem, setEnd] = useState(pageCount);
-    const lengtList = totalResults / pageCount;
+    const { items, endItem, setItems, setEnd } = useLocalStore(() => new PageControllerStore(pageCount));
+    const lengthList = totalResults / pageCount;
 
     return (
         <div className={styles["page-controller"]}>
@@ -76,7 +76,7 @@ const PageController: React.FC<PageControllerProps> = ({
                 </Text>
             </div>
             <ArrowRightIcon
-                color={selectedPage < lengtList ? 'primary' : 'secondary'} 
+                color={selectedPage < lengthList ? 'primary' : 'secondary'} 
                 onClick={() => {
                     if (items[2] < selectedPage + 1) {
                         setItems([items[0] + 3, items[1] + 3, items[2] + 3]);
@@ -85,7 +85,7 @@ const PageController: React.FC<PageControllerProps> = ({
                         setItems([items[0] + 3, items[1] + 3, items[2] + 3]);
                         setEnd(endItem + 3);
                     }
-                    if (selectedPage < lengtList) {
+                    if (selectedPage < lengthList) {
                         onClick(selectedPage + 1);
                     }
                 }}
