@@ -57,8 +57,8 @@ const Content: React.FC = () => {
                                     </span>
                                 }
                                 title={recipe.title}
-                                subtitle={recipesStore.getDescribe(recipe.nutrition.ingredients)}
-                                contentSlot={recipesStore.getKcal(recipe)}
+                                subtitle={recipe.describe}
+                                contentSlot={recipe.kcal}
                                 actionSlot={<Button>Save</Button>}
                             />
                         )
