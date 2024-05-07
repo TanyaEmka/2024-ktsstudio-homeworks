@@ -1,7 +1,15 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { RecipeType, Status } from "types/apiTypes";
-import { RecipeInit, NotStartedStatus } from "config/initValues";
+import { 
+    RecipeInit, 
+    NotStartedStatus, 
+    LoadingStatus, 
+    SuccessfulStatus, 
+    errorStatus 
+} from "config/initValues";
 import { ILocalStore } from "hooks/useLocalStore";
+import { urlPrefix, apiKey } from "config/api";
+import axios from "axios";
 
 type PrivateFields = '_status' | '_recipe';
 
@@ -15,6 +23,7 @@ export default class RecipeStore implements ILocalStore {
             _recipe: observable.ref,
             setStatus: action.bound,
             setRecipe: action.bound,
+            loadingRecipe: action.bound,
             recipe: computed,
             status: computed,
         })
@@ -26,6 +35,19 @@ export default class RecipeStore implements ILocalStore {
 
     setRecipe(newRecipe: RecipeType) {
         this._recipe = { ...newRecipe };
+    }
+
+    loadingRecipe(id: number) {
+        const url = urlPrefix + 'recipes/' + id + '/information?apiKey=' + apiKey;
+        this.setStatus(LoadingStatus);
+        axios.get(url)
+        .then((resp) => {
+            this.setStatus(SuccessfulStatus);
+            this.setRecipe(resp.data);
+        })
+        .catch((err) => {
+            this.setStatus(errorStatus(err.message));
+        })
     }
 
     get recipe() {

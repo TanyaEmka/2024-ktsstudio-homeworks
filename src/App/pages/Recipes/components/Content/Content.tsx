@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import * as React from "react";
+import { useEffect } from "react";
 import { useNavigate , useSearchParams } from "react-router-dom";
 
 import Button from "components/Button";
@@ -8,7 +9,6 @@ import ErrorBox from "components/ErrorBox";
 import TimeIcon from "components/icons/TimeIcon";
 
 import { useLocalStore } from "hooks/useLocalStore";
-import { useGetRecipeList } from "query/RecipeQuery";
 import RecipeListStore from "store/RecipeListStore";
 
 import ContentFilters from "../ContentFilters";
@@ -17,7 +17,7 @@ import ContentHeader from "./ContentHeader";
 
 import styles from './Content.module.scss';
 
-import { getTypeString, getOffset } from "utils/searchParamsHandlers";
+import { getParamsString, getOffset, getSearchParam } from "utils/searchParamsHandlers";
 
 const Content: React.FC = () => {
 
@@ -25,16 +25,13 @@ const Content: React.FC = () => {
     const recipesStore = useLocalStore(() => new RecipeListStore());
     const navigate = useNavigate();
 
-    useGetRecipeList(
-        (newData) => { recipesStore.setRecipeList(newData) },
-        (status) => { recipesStore.setStatus(status) },
-        { 
-            offset: getOffset(searchParams), 
-            query: searchParams.get('query') || '', 
-            types: getTypeString(searchParams),
-        },
-        [searchParams],
-    );
+    useEffect(() => {
+        recipesStore.loadingRecipeList(
+            getOffset(searchParams),
+            getSearchParam(searchParams, 'query'),
+            getParamsString(searchParams, 'type'),
+        )
+    }, [searchParams]);
 
     return (
         <div className={styles["content"]}>

@@ -1,7 +1,14 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { RecipeListRequest, Status, RecipeUnit, RecipeList } from "types/apiTypes";
-import { NotStartedStatus } from "config/initValues";
+import { 
+    LoadingStatus, 
+    NotStartedStatus, 
+    SuccessfulStatus, 
+    errorStatus
+} from "config/initValues";
 import { ILocalStore } from "hooks/useLocalStore";
+import { urlPrefix, pageElementCount, apiKey } from "config/api";
+import axios from "axios";
 
 type PrivateFields = '_status' | '_recipeResults' | '_totalResults';
 
@@ -17,6 +24,7 @@ export default class RecipeListStore implements ILocalStore {
             _totalResults: observable,
             setStatus: action.bound,
             setRecipeList: action.bound,
+            loadingRecipeList: action.bound,
             results: computed,
             totalResults: computed,
             status: computed,
@@ -53,6 +61,32 @@ export default class RecipeListStore implements ILocalStore {
 
     getDescribe(ingredients: Array<{ name: string }>) {
         return ingredients.map((ing) => ing.name).join(' + ');
+    }
+
+    loadingRecipeList(
+        offset: string, 
+        query: string = '', 
+        types: string | null = ''
+    ) {
+        const params = {
+            addRecipeNutrition: true,
+            number: pageElementCount,
+            offset: offset,
+            apiKey: apiKey,
+            query: query,
+        }
+        const pathUrl = 'complexSearch?';
+        const pathParams = Object.entries(params).map((param) => param.join('='));
+        const url = urlPrefix + 'recipes/' + pathUrl + [...pathParams, types].join('&');
+        this.setStatus(LoadingStatus);
+        axios.get(url)
+        .then((resp) => {
+            this.setStatus(SuccessfulStatus);
+            this.setRecipeList(resp.data);
+        })
+        .catch((err) => {
+            this.setStatus(errorStatus(err.message));
+        })
     }
 
     destroy(): void {

@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import * as React from "react";
+import { useEffect } from "react";
 import { useParams , useNavigate } from "react-router-dom";
 
 import Button from "components/Button";
@@ -12,7 +13,6 @@ import IngIcon from "components/icons/IngIcon";
 import { RecipeType } from "types/apiTypes";
 
 import { useLocalStore } from "hooks/useLocalStore";
-import { useGetRecipe } from "query/RecipeQuery";
 import RecipeStore from "store/RecipeStore";
 import PreviewBlock from "./components/PreviewBlock";
 import RecipeNeed from "./components/RecipeNeed";
@@ -21,16 +21,16 @@ import styles from './Recipe.module.scss';
 const Recipe: React.FC = () => {
 
     const { id } = useParams();
-    const { recipe: recipeObj, status, 
-            setRecipe, setStatus } = useLocalStore(() => new RecipeStore());
+    const { 
+        recipe: recipeObj, 
+        status, 
+        loadingRecipe 
+    } = useLocalStore(() => new RecipeStore());
     const navigate = useNavigate();
 
-    useGetRecipe(
-        (recipe) => setRecipe(recipe),
-        (status) => setStatus(status),
-        { id: id || '' },
-        [id]
-    );
+    useEffect(() => {
+        loadingRecipe(Number(id));
+    }, [id]);
 
     const getEquipment = (recipeObj: RecipeType) => {
         const uniqEq = new Set<string>();

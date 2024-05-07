@@ -11,7 +11,7 @@ export default class FilterStore implements ILocalStore {
     constructor() {
         makeObservable<FilterStore, PrivateFields>(this, {
             _searchField: observable,
-            _category: observable,
+            _category: observable.ref,
             setSearch: action.bound,
             setCategory: action.bound,
             searchField: computed,
