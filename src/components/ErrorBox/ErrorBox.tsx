@@ -1,4 +1,5 @@
 import * as React from "react";
+import { memo } from "react";
 import Text from "components/Text";
 import styles from './ErrorBox.module.scss';
 
@@ -22,4 +23,4 @@ const ErrorBox: React.FC<ErrorBoxProps> = (props) => {
     )
 }
 
-export default ErrorBox;
+export default memo(ErrorBox);

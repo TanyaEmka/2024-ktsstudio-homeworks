@@ -1,4 +1,5 @@
 import * as React from "react";
+import { memo } from "react";
 
 import Text from "components/Text";
 
@@ -18,4 +19,4 @@ const PreviewBlock: React.FC<PreviewBlockProps> = (props) => {
     )
 }
 
-export default PreviewBlock;
+export default memo(PreviewBlock);

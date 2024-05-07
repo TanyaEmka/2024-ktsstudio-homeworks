@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
+import { memo } from 'react';
 import styles from './Loader.module.scss';
 
 export type LoaderProps = {
@@ -26,4 +27,4 @@ const Loader: React.FC<LoaderProps> = ({
     )
 };
 
-export default Loader;
+export default memo(Loader);

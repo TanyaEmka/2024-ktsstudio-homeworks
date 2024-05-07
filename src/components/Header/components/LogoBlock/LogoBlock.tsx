@@ -1,4 +1,5 @@
 import * as React from "react";
+import { memo } from "react";
 import Text from "components/Text";
 import LogoIcon from "components/icons/LogoIcon";
 import styles from './LogoBlock.module.scss';
@@ -13,4 +14,4 @@ const LogoBlock: React.FC = () => {
     )
 }
 
-export default LogoBlock;
+export default memo(LogoBlock);

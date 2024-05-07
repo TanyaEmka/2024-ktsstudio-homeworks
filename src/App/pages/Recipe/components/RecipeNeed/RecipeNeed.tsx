@@ -1,4 +1,5 @@
 import * as React from "react";
+import { memo } from "react";
 import Text from "components/Text";
 import styles from './RecipeNeed.module.scss';
 
@@ -30,4 +31,4 @@ const RecipeNeed: React.FC<RecipeNeedProps> = (props) => {
     )
 }
 
-export default RecipeNeed;
+export default memo(RecipeNeed);

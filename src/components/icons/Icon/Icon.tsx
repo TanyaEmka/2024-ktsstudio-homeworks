@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
+import { memo } from 'react';
 
 export type IconProps = React.SVGAttributes<SVGElement> & {
     className?: string;
@@ -31,4 +32,4 @@ const Icon: React.FC<React.PropsWithChildren<IconProps>> = ({
     )
 }
 
-export default Icon;
+export default memo(Icon);

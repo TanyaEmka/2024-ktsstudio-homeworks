@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
+import { memo } from 'react';
 import styles from './Text.module.scss';
 
 export type TextProps = {
@@ -42,4 +43,4 @@ const Text: React.FC<TextProps> = ({ ...props }) => {
     )
 }
 
-export default Text;
+export default memo(Text);

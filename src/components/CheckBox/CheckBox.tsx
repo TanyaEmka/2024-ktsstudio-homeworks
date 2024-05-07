@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import * as React from "react";
+import { memo } from "react";
 import CheckIcon from '../icons/CheckIcon';
 import styles from './CheckBox.module.scss';
 
@@ -46,4 +47,4 @@ const CheckBox: React.FC<CheckBoxProps> = (props) => {
   )
 };
 
-export default CheckBox;
+export default memo(CheckBox);

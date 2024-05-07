@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import * as React from "react";
+import { memo } from 'react';
 import Loader from '../Loader';
 import styles from './Button.module.scss';
 
@@ -31,10 +32,10 @@ const Button: React.FC<ButtonProps> = ({
       })}
       disabled={disabled || loading}
     >
-      {loading ? <Loader size='s' /> : <></>}
+      {loading && <Loader size='s' />}
       {children}
     </button>
   )
 };
 
-export default Button;
+export default memo(Button);

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate , useLocation } from "react-router-dom";
 
 import Text from "components/Text";
-import paths from "../../../../config/paths";
+import paths from "config/paths";
 import styles from './Menu.module.scss';
 
 const Menu: React.FC = () => {
@@ -19,9 +19,16 @@ const Menu: React.FC = () => {
         setUrl((index === -1 ? 0 : index));
     }, [location.pathname]);
 
+    const goToPath = (index: number, url: string) => {
+        setUrl(index);
+        navigate(url);
+    };
+
     return (
         <div className={styles["menu"]}>
             {paths.map((path, index) => {
+                const handleClick = () => { goToPath(index, path.url) }
+
                 return (
                     <Text
                         key={path.name}
@@ -31,7 +38,7 @@ const Menu: React.FC = () => {
                         })}
                         view='p-16'
                         tag='div'
-                        onCLick={() => { setUrl(index); navigate(path.url); }}
+                        onCLick={handleClick}
                     >
                         {path.name}
                     </Text>

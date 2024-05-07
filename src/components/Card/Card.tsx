@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import * as React from "react";
+import { memo } from "react";
 import Text from '../Text';
 import styles from './Card.module.scss';
-
 
 export type CardProps = {
     /** Дополнительный classname */
@@ -70,4 +70,4 @@ const Card: React.FC<CardProps> = (props) => {
     )
 };
 
-export default Card;
+export default memo(Card);

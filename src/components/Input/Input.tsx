@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import * as React from 'react';
+import { memo } from 'react';
 import styles from './Input.module.scss';
 
 export type InputProps = Omit<
@@ -46,4 +47,4 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     )
   });
 
-export default Input;
+export default memo(Input);
