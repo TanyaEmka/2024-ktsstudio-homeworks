@@ -16,7 +16,7 @@ export default class FilterStore implements ILocalStore {
             setCategory: action.bound,
             searchField: computed,
             category: computed,
-        })
+        });
     }
 
     setSearch(newValue: string) {

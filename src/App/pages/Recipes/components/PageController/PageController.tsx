@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import * as React from "react";
-
+import { useEffect } from "react";
 import Text from "components/Text";
 import ArrowLeftIcon from "components/icons/ArrowLeftIcon";
 import ArrowRightIcon from "components/icons/ArrowRightIcon";
@@ -22,8 +22,15 @@ const PageController: React.FC<PageControllerProps> = ({
     onClick
 }) => {
 
-    const { items, endItem, setItems, setEnd } = useLocalStore(() => new PageControllerStore(pageCount));
+    const { 
+        items, endItem, 
+        setItems, setEnd 
+    } = useLocalStore(() => new PageControllerStore());
     const lengthList = totalResults / pageCount;
+
+    useEffect(() => {
+        setEnd(pageCount);
+    }, []);
 
     return (
         <div className={styles["page-controller"]}>

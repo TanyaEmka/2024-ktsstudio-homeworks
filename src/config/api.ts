@@ -16,3 +16,6 @@ export const mealTypes = ['main course',
                     'fingerfood',
                     'snack',
                     'drink'];
+
+export const mealTypesOptions = mealTypes
+    .map((type, index) => ({ key: index.toString(), value: type }));

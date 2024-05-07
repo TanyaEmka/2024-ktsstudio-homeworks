@@ -7,7 +7,7 @@ export default class PageControllerStore implements ILocalStore {
     private _items: Array<number> = [1, 2, 3];
     private _endItem: number = 9;
     
-    constructor(firstEndItem: number) {
+    constructor() {
         makeObservable<PageControllerStore, PrivateFields>(this, {
             _items: observable.ref,
             _endItem: observable,
@@ -16,8 +16,6 @@ export default class PageControllerStore implements ILocalStore {
             items: computed,
             endItem: computed,
         });
-
-        this._endItem = firstEndItem;
     }
 
     setItems(newItems: Array<number>) {
