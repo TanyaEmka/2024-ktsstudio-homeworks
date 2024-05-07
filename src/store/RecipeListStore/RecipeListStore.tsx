@@ -1,5 +1,5 @@
 import { action, computed, makeObservable, observable } from "mobx";
-import { RecipeListRequest, Status, RecipeUnit, RecipeList } from "config/apiTypes";
+import { RecipeListRequest, Status, RecipeUnit, RecipeList } from "types/apiTypes";
 import { NotStartedStatus } from "config/initValues";
 import { ILocalStore } from "hooks/useLocalStore";
 

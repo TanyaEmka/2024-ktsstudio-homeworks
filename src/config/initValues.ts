@@ -1,4 +1,4 @@
-import { RecipeType, Status } from "config/apiTypes";
+import { RecipeType, Status } from "types/apiTypes";
 
 export const RecipeInit: RecipeType = {
     id: 0,

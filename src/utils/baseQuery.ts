@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as React from "react";
-import { Status } from "config/apiTypes";
+import { Status } from "types/apiTypes";
 import { 
     LoadingStatus, 
     errorStatus, 

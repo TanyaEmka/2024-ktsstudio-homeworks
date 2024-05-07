@@ -9,7 +9,7 @@ import ArrowLeftIcon from "components/icons/ArrowLeftIcon";
 import EqIcon from "components/icons/EqIcon";
 import IngIcon from "components/icons/IngIcon";
 
-import { RecipeType } from "config/apiTypes";
+import { RecipeType } from "types/apiTypes";
 
 import { useLocalStore } from "hooks/useLocalStore";
 import { useGetRecipe } from "query/RecipeQuery";

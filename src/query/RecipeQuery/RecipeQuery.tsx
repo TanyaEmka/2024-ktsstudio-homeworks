@@ -1,5 +1,5 @@
 import { pageElementCount, urlPrefix, apiKey } from "config/api";
-import { RecipeListRequest, RecipeType } from "config/apiTypes";
+import { RecipeListRequest, RecipeType } from "types/apiTypes";
 import { configureQueryBox, buildEndPoint } from "utils/baseQuery";
 
 export type GetRecipeListParams = {
