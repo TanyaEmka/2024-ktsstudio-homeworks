@@ -1,0 +1,28 @@
+$content-margin: 0 100px 0 100px;
+$content-gap: 48px;
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: $content-gap;
+    margin: $content-margin;
+
+    &__header {
+        text-align: center;
+    }
+
+    &__cards {
+        display: grid;
+        column-gap: 80px;
+        row-gap: 64px;
+        grid-template-columns: repeat(auto-fit, 348px);
+        justify-content: center;
+
+        &__card__time {
+            display: flex;
+            align-items: center;
+            align-content: center;
+            gap: 6px;
+        }
+    }
+}

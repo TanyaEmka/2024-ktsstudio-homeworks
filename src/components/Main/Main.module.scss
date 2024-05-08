@@ -1,0 +1,8 @@
+$main-bg: rgba(255, 192, 118, 0.23);
+
+.main {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100vh;
+    background-color: $main-bg;
+}

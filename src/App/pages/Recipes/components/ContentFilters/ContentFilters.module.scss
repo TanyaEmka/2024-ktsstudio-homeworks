@@ -1,0 +1,29 @@
+$content-filters-gap: 20px;
+$content-filters-search-gap: 19px;
+$content-filters-category-width: 300px;
+
+.content-filters {
+    display: flex;
+    flex-direction: column;
+    gap: $content-filters-gap;
+    width: 100%;
+
+    &__search {
+        display: flex;
+        gap: $content-filters-search-gap;
+        justify-content: space-between;
+
+        &__input {
+            width: 100%;    
+        }
+    }
+
+    &__category {
+        display: flex;
+        justify-content: end;
+
+        &__block {
+            width: $content-filters-category-width;
+        }
+    }
+}

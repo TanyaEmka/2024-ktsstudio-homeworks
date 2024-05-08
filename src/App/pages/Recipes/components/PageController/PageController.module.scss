@@ -1,0 +1,27 @@
+@use 'styles/variables.scss' as var;
+
+.page-controller {
+    margin: 0 auto;
+    display: flex;
+    gap: 15px;
+
+    &__numbers {
+        display: flex;
+        gap: 0;
+
+        &__number, &__points {
+            cursor: pointer;
+            width: 38px;
+            height: 42px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &_selected {
+                background-color: var.$brand;
+                color: var.$light;
+            }
+        }
+    }
+}

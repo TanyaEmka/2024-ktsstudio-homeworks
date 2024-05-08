@@ -1,0 +1,21 @@
+.recipe__box__needs__block {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+
+    &__elems {
+        display: grid;
+        row-gap: 8px;
+        column-gap: 29px;
+        grid-template-columns: 1fr 1fr;
+        justify-content: start;
+
+        div {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            align-content: center;
+        }
+    }
+}

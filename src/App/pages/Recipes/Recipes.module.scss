@@ -1,0 +1,9 @@
+$recipes-gap: 36px;
+$recipes-bottom: 28px;
+
+.recipes {
+    display: flex;
+    flex-direction: column;
+    gap: $recipes-gap;
+    padding-bottom: $recipes-bottom;
+}

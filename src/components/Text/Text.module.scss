@@ -1,0 +1,86 @@
+@use 'styles/variables.scss' as var;
+
+$primary: var.$dark;
+$secondary: var.$gray;
+$accent: var.$brand;
+
+$p20: 20px;
+$p18: 18px;
+$p16: 16px;
+$p14: 14px;
+$title: 44px;
+$button: 18px;
+
+$normal: 400;
+$medium: 500;
+$bold: 700;
+
+.text {
+
+    font-family: 'Roboto';
+
+    &_color {
+        &_primary {
+            color: $primary;
+        }
+    
+        &_secondary {
+            color: $secondary;
+        }
+    
+        &_accent {
+            color: $accent;
+        }
+
+        &_inherit {
+            color: inherit;
+        }
+    }
+
+    &_view {
+        &_title {
+            font-size: $title;
+            line-height: calc(#{$title} + 4px);
+            font-weight: $bold;
+        }
+
+        &_button {
+            font-size: $button;
+            line-height: $button;
+        }
+
+        &_p-20 {
+            font-size: $p20;
+            line-height: calc(#{$p20} + 4px);
+        }
+
+        &_p-18 {
+            font-size: $p18;
+            line-height: calc(#{$p18} + 4px);
+        }
+
+        &_p-16 {
+            font-size: $p16;
+            line-height: calc(#{$p16} + 4px);
+        }
+
+        &_p-14 {
+            font-size: $p14;
+            line-height: calc(#{$p14} + 4px);
+        }
+    }
+
+    &_weight {
+        &_normal {
+            font-weight: $normal;
+        }
+
+        &_medium {
+            font-weight: $medium;
+        }
+
+        &_bold {
+            font-weight: $bold;
+        }
+    }
+}
