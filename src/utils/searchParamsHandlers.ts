@@ -30,7 +30,8 @@ export const getOptionsBySearchParam = (
 
 export const getSearchParam = (
     searchParams: URLSearchParams, 
-    paramName: string
+    paramName: string,
+    initValue?: string,
 ) => {
-    return searchParams.get(paramName) || '';
+    return searchParams.get(paramName) || (initValue || '');
 }

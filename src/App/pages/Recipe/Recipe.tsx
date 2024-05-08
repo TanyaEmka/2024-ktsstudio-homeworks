@@ -30,7 +30,7 @@ const Recipe: React.FC = () => {
 
     useEffect(() => {
         loadingRecipe(Number(id));
-    }, [id]);
+    }, [id, loadingRecipe]);
 
     const getEquipment = (recipeObj: RecipeType) => {
         const uniqEq = new Set<string>();

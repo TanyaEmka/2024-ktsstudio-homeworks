@@ -25,7 +25,6 @@
       "styles": ["styles/*"],
       "utils": ["utils/*"],
       "assets": ["assets/*"],
-      "query": ["query/*"],
       "store": ["store/*"],
       "hooks": ["hooks/*"],
       "types": ["types/*"]

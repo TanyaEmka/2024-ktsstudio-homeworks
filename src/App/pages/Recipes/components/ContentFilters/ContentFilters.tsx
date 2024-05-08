@@ -23,7 +23,7 @@ const ContentFilters: React.FC = () => {
     useEffect(() => {
         setSearch(getSearchParam(searchParams, 'query'));
         setCategory(getOptionsBySearchParam(searchParams, 'type', mealTypesOptions));
-    }, []);
+    }, [searchParams, setSearch, setCategory]);
 
     const onChangeInputHandle = (value: string) => {
         setSearch(value);
@@ -32,6 +32,7 @@ const ContentFilters: React.FC = () => {
     const changeSearchParams = () => {
         searchParams.delete('query');
         searchParams.delete('type');
+        searchParams.delete('page');
         if (searchField !== '') {
             searchParams.set('query', searchField);
         }

@@ -72,17 +72,6 @@ export default class RecipeListStore implements ILocalStore {
         return this._status;
     }
 
-    getKcal(recipe: RecipeUnit) {
-        const recipeKcal = recipe.nutrition.nutrients
-            .filter((obj) => obj.name === 'Calories')[0];
-
-        return [Math.ceil(recipeKcal.amount), recipeKcal.unit].join(' ');
-    }
-
-    getDescribe(ingredients: Array<{ name: string }>) {
-        return ingredients.map((ing) => ing.name).join(' + ');
-    }
-
     loadingRecipeList(
         offset: string, 
         query: string = '', 
