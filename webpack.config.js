@@ -17,7 +17,8 @@ const getSettingsForStyles = (withModules = false) => {
                 options: {
                     esModule: false,
                     modules: {
-                        localIdentName: !isProd ? '[path][name]__[local]' : '[hash:base64]',
+                        localIdentName: !isProd ? '[name]__[local]' : '[hash:base64]',
+                        exportLocalsConvention: "asIs",
                     },
                 },
             },
