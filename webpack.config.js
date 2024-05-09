@@ -9,7 +9,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const getSettingsForStyles = (withModules = false) => {
     return [
-        'less-loader',
         isProd ? MiniCssExtractPlugin.loader : 'style-loader',
         !withModules
             ? 'css-loader'
@@ -18,7 +17,6 @@ const getSettingsForStyles = (withModules = false) => {
                 options: {
                     modules: {
                         localIdentName: !isProd ? '[path][name]__[local]' : '[hash:base64]',
-                        esModule: false,
                     },
                 },
             },
@@ -37,6 +35,7 @@ const getSettingsForStyles = (withModules = false) => {
 module.exports = {
     entry: path.resolve(srcPath, 'index.tsx'), 
     target: !isProd ? 'web' : 'browserslist',
+    devtool: isProd? 'hidden-source-map' : 'eval-source-map',
     output: {
         path: buildPath,
         filename: "bundle.js"
@@ -54,20 +53,17 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\module.(sass|less|css|scss)$/,
-                use: ['style-loader', 'css-loader', {
-                    loader: 'postcss-loader',
-                    options: {
-                        postcssOptions: {
-                            plugins: ['autoprefixer'],
-                        },
-                    },
-                },]
+                test: /\.module\.s?css$/,
+                use: getSettingsForStyles(true),
+            },
+            {
+                test: /\.s?css$/,
+                exclude: /\.module\.s?css$/,
+                use: getSettingsForStyles(),
             },
             {
                 test: /\.[tj]sx?$/,
                 use: 'babel-loader',
-                exclude: /node_modules/
             },
             {
                 test: /\.(png|svg|jpg)$/,
@@ -77,8 +73,7 @@ module.exports = {
                         maxSize: 10 * 1024
                     }
                 },
-                exclude: /node_modules/
-            }
+            },
         ]
     },
     resolve: {
