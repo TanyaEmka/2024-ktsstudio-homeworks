@@ -1,5 +1,11 @@
 {
   "compilerOptions": {
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ],
+
     "noEmit": true,
 	  "allowJs": true,
 
@@ -17,16 +23,16 @@
 
     "baseUrl": "src",
     "paths": {
-      "components": ["components/*"],
-      "config": ["config/*"],
-      "styles": ["styles/*"],
-      "utils": ["utils/*"],
-      "assets": ["assets/*"],
-      "store": ["store/*"],
-      "hooks": ["hooks/*"],
-      "types": ["types/*"]
+      "components/*": ["components/*"],
+      "config/*": ["config/*"],
+      "styles/*": ["styles/*"],
+      "utils/*": ["utils/*"],
+      "assets/*": ["assets/*"],
+      "store/*": ["store/*"],
+      "hooks/*": ["hooks/*"],
+      "types/*": ["types/*"]
     }
   },
   "include": ["src/**/*", "declaration.d.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["node_modules"]
 }

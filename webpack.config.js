@@ -9,6 +9,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const getSettingsForStyles = (withModules = false) => {
     return [
+        'less-loader',
         isProd ? MiniCssExtractPlugin.loader : 'style-loader',
         !withModules
             ? 'css-loader'
@@ -34,7 +35,7 @@ const getSettingsForStyles = (withModules = false) => {
 };
 
 module.exports = {
-    entry: path.resolve(__dirname, './vite.config.ts'), 
+    entry: path.resolve(srcPath, 'index.tsx'), 
     target: !isProd ? 'web' : 'browserslist',
     output: {
         path: buildPath,
@@ -42,7 +43,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(srcPath, 'index.tsx'),
+            template: path.resolve(__dirname, 'index.html'),
         }),
         !isProd && new ReactRefreshWebpackPlugin(),
         isProd && new MiniCssExtractPlugin({
@@ -53,17 +54,20 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.module\.s?css$/,
-                use: getSettingsForStyles(true),
-            },
-            {
-                test: /\.s?css$/,
-                exclude: /\.module\.s?css$/,
-                use: getSettingsForStyles(),
+                test: /\module.(sass|less|css|scss)$/,
+                use: ['style-loader', 'css-loader', {
+                    loader: 'postcss-loader',
+                    options: {
+                        postcssOptions: {
+                            plugins: ['autoprefixer'],
+                        },
+                    },
+                },]
             },
             {
                 test: /\.[tj]sx?$/,
-                use: 'babel-loader'
+                use: 'babel-loader',
+                exclude: /node_modules/
             },
             {
                 test: /\.(png|svg|jpg)$/,
@@ -72,7 +76,8 @@ module.exports = {
                     dataUrlCondition: {
                         maxSize: 10 * 1024
                     }
-                }
+                },
+                exclude: /node_modules/
             }
         ]
     },
