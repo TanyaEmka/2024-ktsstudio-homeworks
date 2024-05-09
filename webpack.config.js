@@ -1,5 +1,4 @@
 const path = require('path');
-
 const buildPath = path.resolve(__dirname, 'dist');
 const srcPath = path.resolve(__dirname, 'src');
 const isProd = process.env.NODE_ENV === 'production';
@@ -35,7 +34,7 @@ const getSettingsForStyles = (withModules = false) => {
 };
 
 module.exports = {
-    entry: path.resolve(__dirname, './package.json'), 
+    entry: path.resolve(__dirname, './vite.config.ts'), 
     target: !isProd ? 'web' : 'browserslist',
     output: {
         path: buildPath,
@@ -61,10 +60,6 @@ module.exports = {
                 test: /\.s?css$/,
                 exclude: /\.module\.s?css$/,
                 use: getSettingsForStyles(),
-            },
-            {
-                test: /\.css/,
-                use: ['style-loader','css-loader']
             },
             {
                 test: /\.[tj]sx?$/,
