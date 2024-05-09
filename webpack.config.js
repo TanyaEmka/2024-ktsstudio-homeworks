@@ -15,6 +15,7 @@ const getSettingsForStyles = (withModules = false) => {
             : {
                 loader: 'css-loader',
                 options: {
+                    esModule: false,
                     modules: {
                         localIdentName: !isProd ? '[path][name]__[local]' : '[hash:base64]',
                     },
@@ -64,6 +65,7 @@ module.exports = {
             {
                 test: /\.[tj]sx?$/,
                 use: 'babel-loader',
+                exclude: '/node_modules/'
             },
             {
                 test: /\.(png|svg|jpg)$/,

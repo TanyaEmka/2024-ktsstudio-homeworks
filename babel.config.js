@@ -4,10 +4,11 @@ module.exports = api => {
     const presets = [ 
         '@babel/preset-env',
         '@babel/preset-react',
-        "@babel/preset-typescript"
+        "@babel/preset-typescript",
     ];
 
     const plugins = [
+        '@babel/plugin-transform-runtime',
         process.env.NODE_ENV === 'development' && 'react-refresh/babel'
     ].filter(Boolean);
 
