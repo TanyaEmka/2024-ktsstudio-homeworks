@@ -1,11 +1,12 @@
 const path = require('path');
-const buildPath = path.resolve(__dirname, 'dist');
-const srcPath = path.resolve(__dirname, 'src');
-const isProd = process.env.NODE_ENV === 'production';
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TsCheckerPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const buildPath = path.resolve(__dirname, 'dist');
+const srcPath = path.resolve(__dirname, 'src');
+const isProd = process.env.NODE_ENV === 'production';
 
 const getSettingsForStyles = (withModules = false) => {
     return [
@@ -15,10 +16,10 @@ const getSettingsForStyles = (withModules = false) => {
             : {
                 loader: 'css-loader',
                 options: {
-                    esModule: false,
                     modules: {
                         localIdentName: !isProd ? '[name]__[local]' : '[hash:base64]',
                         exportLocalsConvention: "asIs",
+                        namedExport: false
                     },
                 },
             },
@@ -40,7 +41,7 @@ module.exports = {
     devtool: isProd? 'hidden-source-map' : 'eval-source-map',
     output: {
         path: buildPath,
-        filename: "bundle.js"
+        filename: isProd ? "bundle-[hash].js" : "bundle.js"
     },
     plugins: [
         new HtmlWebpackPlugin({
