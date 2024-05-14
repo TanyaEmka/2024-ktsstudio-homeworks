@@ -38,3 +38,24 @@ export interface MinMaxFilterType extends FilterType {
 export interface BooleanFilterType extends FilterType {
     filterName: string,
 }
+
+export type NumberStoreType = {
+    name: string, 
+    value: number,
+}
+
+export type BooleanStoreType = {
+    name: string,
+    value: boolean,
+}
+
+export type StringStoreType = {
+    name: string,
+    value: string,
+}
+
+export type MinMaxStoreType = {
+    name: string,
+    min: number,
+    max: number,
+}

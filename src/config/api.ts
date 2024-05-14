@@ -1,3 +1,5 @@
+import { Option } from "components/MultiDropdown";
+
 export const apiKey = '66e4df47862c4978bfafa99ce991e16d';
 // 40532b3e701c465bb20134983ac0f837
 export const pageElementCount = 9;
@@ -60,27 +62,38 @@ export const sortList = [
 
 export const sortDirectionList = ['asc', 'desc'];
 
+export const stringFilters = [
+    'author', 'tags', 
+    'titleMatch', 'equipment'
+];
+
+export const booleanFilters = [ 'ignorePantry' ];
+
+export const minMaxFilters = [
+    'Servings', 'Carbs', 'Protein',
+    'Calories', 'Fat', 'Alcohol',
+    'Caffeine', 'Copper', 'Calcium',
+    'Choline', 'Cholesterol', 'Fluoride',
+    'SaturatedFat', 'VitaminA', 'VitaminC',
+    'VitaminD', 'VitaminE', 'VitaminK',
+    'VitaminB1', 'VitaminB2', 'VitaminB5',
+    'VitaminB3', 'VitaminB6', 'VitaminB12',
+    'Fiber', 'Folate', 'FolicAcid',
+    'Iodine', 'Iron', 'Magnesium',
+    'Manganese', 'Phosphorus', 'Potassium',
+    'Selenium', 'Sodium', 'Sugar',
+    'Zinc'];
+
+export const numberFilters = [ 'maxReadyTime' ];
+
+export function createOptionList(arr: string[]): Option[] {
+    return arr
+        .map((type, index) => ({ key: index.toString(), value: type }));
+}
+
+export function createValueList(arr: string[]) {
+
+}
+
 export const mealTypesOptions = mealTypes
     .map((type, index) => ({ key: index.toString(), value: type }));
-
-export const stringFilters = [
-    'author', 'tags', 'titleMatch'
-];
-
-export const booleanFilters = [
-    'ignorePantry',
-];
-
-export const perFilters = [
-    'minCarbs', 'maxCarbs',
-    'minProtein', 'maxProtein',
-    'minCalories', 'maxCalories',
-    'minFat', 'maxFat',
-    'minAlcohol', 'maxAlcohol',
-    'minCaffeine', 'maxCaffeine',
-];
-
-export const numberFilters = [
-    'maxReadyTime', 'minServings',
-    'maxServings'
-];
