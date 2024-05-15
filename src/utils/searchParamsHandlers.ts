@@ -32,7 +32,13 @@ export const getOptionsBySearchParam = (
 export const getSearchParam = (
     searchParams: URLSearchParams, 
     paramName: string,
-    initValue?: string,
+    initValue: string = '',
 ) => {
-    return searchParams.get(paramName) || (initValue || '');
+    return searchParams.get(paramName) || initValue;
+}
+
+export const getAllKeyValue = (
+    searchParams: URLSearchParams,
+): Array<[string, string | null]> => {
+    return [ ...searchParams.entries() ];
 }

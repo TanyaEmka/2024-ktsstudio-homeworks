@@ -74,8 +74,6 @@ export default class RecipeListStore implements ILocalStore {
 
     loadingRecipeList(
         offset: string, 
-        query: string = '', 
-        types: string | null = '',
         ...other: Array<[string, string | null]>
     ) {
         const params = {
@@ -83,7 +81,6 @@ export default class RecipeListStore implements ILocalStore {
             number: pageElementCount,
             offset: offset,
             apiKey: apiKey,
-            query: query,
         }
         const pathUrl = 'complexSearch?';
         let pathParams = Object.entries(params).map((param) => param.join('='));
@@ -92,7 +89,8 @@ export default class RecipeListStore implements ILocalStore {
                 pathParams.push(element.join('='));
             }
         });
-        const url = urlPrefix + 'recipes/' + pathUrl + [...pathParams, types].join('&');
+        const url = urlPrefix + 'recipes/' + pathUrl + [...pathParams ].join('&');
+        console.log(url);
         this.setStatus(LoadingStatus);
         axios.get(url)
         .then((resp) => {

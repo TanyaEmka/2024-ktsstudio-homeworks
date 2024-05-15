@@ -12,7 +12,7 @@ import TimeIcon from "components/icons/TimeIcon";
 import { useLocalStore } from "hooks/useLocalStore";
 import RecipeListStore from "store/RecipeListStore";
 
-import { getParamsString, getOffset, getSearchParam } from "utils/searchParamsHandlers";
+import { getParamsString, getOffset, getSearchParam, getAllKeyValue } from "utils/searchParamsHandlers";
 import ContentFilters from "../ContentFilters";
 import PageController from "../PageController";
 import ContentHeader from "./ContentHeader";
@@ -29,9 +29,7 @@ const Content: React.FC = () => {
     useEffect(() => {
         recipesStore.loadingRecipeList(
             getOffset(searchParams),
-            getSearchParam(searchParams, 'query'),
-            getParamsString(searchParams, 'type'),
-            ['cuisine', getParamsString(searchParams, 'cuisine')]
+            ...getAllKeyValue(searchParams),
         )
     }, [searchParams, recipesStore]);
 

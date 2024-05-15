@@ -5,7 +5,8 @@ import {
     NumberStoreType, BooleanStoreType,
     StringStoreType, MinMaxStoreType 
 } from "types/filterTypes";
-import { getStoreFilterArr, getIndexByName } from "utils/filterHandlers";
+import { normalizeFilter } from "utils/filterHandlers";
+import { linearizeCollection } from "utils/collection";
 import { 
     stringFilters, booleanFilters,
     numberFilters, minMaxFilters
@@ -27,10 +28,10 @@ export default class FilterStore implements ILocalStore {
     private _diet: Array<Option> = [];
     private _intolerances: Array<Option> = [];
 
-    private _stringOptions = getStoreFilterArr<StringStoreType>(stringFilters, '');
-    private _numberOptions = getStoreFilterArr<NumberStoreType>(numberFilters, 0);
-    private _booleanOptions = getStoreFilterArr<BooleanStoreType>(booleanFilters, false);
-    private _minMaxOptions = getStoreFilterArr<MinMaxStoreType>(minMaxFilters, { min: 0, max: 0 });
+    private _stringOptions = normalizeFilter<StringStoreType>(stringFilters, '');
+    private _numberOptions = normalizeFilter<NumberStoreType>(numberFilters, 0);
+    private _booleanOptions = normalizeFilter<BooleanStoreType>(booleanFilters, false);
+    private _minMaxOptions = normalizeFilter<MinMaxStoreType>(minMaxFilters, { min: 0, max: 0 });
     
     constructor() {
         makeObservable<FilterStore, PrivateFields>(this, {
@@ -72,7 +73,6 @@ export default class FilterStore implements ILocalStore {
             numberValues: computed,
             booleanValues: computed,
             minMaxValues: computed,
-
         });
     }
 
@@ -101,31 +101,29 @@ export default class FilterStore implements ILocalStore {
     }
 
     setString(name: string, newString: string) {
-        const index = getIndexByName(this._stringOptions, name);
-        if (index !== -1) {
-            this._stringOptions[index].value = newString;
+        if (this._stringOptions.entities[name]) {
+            this._stringOptions.entities[name].value = newString;
         }
+        this._stringOptions = { ...this._stringOptions };
     }
 
     setNumber(name: string, newNumber: number) {
-        const index = getIndexByName(this._numberOptions, name);
-        if (index !== -1) {
-            this._numberOptions[index].value = newNumber;
+        if (this._numberOptions.entities[name]) {
+            this._numberOptions.entities[name].value = newNumber;
         }
+        this._numberOptions = { ...this._numberOptions };
     }
 
     setBoolean(name: string, newBoolean: boolean) {
-        const index = getIndexByName(this._booleanOptions, name);
-        if (index !== -1) {
-            this._booleanOptions[index].value = newBoolean;
+        if (this._booleanOptions.entities[name]) {
+            this._booleanOptions.entities[name].value = newBoolean;
         }
     }
 
     setMinMax(name: string, newMinMax: { min: number, max: number }) {
-        const index = getIndexByName(this._minMaxOptions, name);
-        if (index !== -1) {
-            this._minMaxOptions[index].value.min = newMinMax.min;
-            this._minMaxOptions[index].value.max = newMinMax.max;
+        if (this._minMaxOptions.entities[name]) {
+            this._minMaxOptions.entities[name].value.min = newMinMax.min;
+            this._minMaxOptions.entities[name].value.max = newMinMax.max;
         }
     }
 
@@ -154,19 +152,19 @@ export default class FilterStore implements ILocalStore {
     }
 
     get stringValues() {
-        return this._stringOptions;
+        return linearizeCollection(this._stringOptions);
     }
 
     get numberValues() {
-        return this._numberOptions;
+        return linearizeCollection(this._numberOptions);
     }
 
     get booleanValues() {
-        return this._booleanOptions;
+        return linearizeCollection(this._booleanOptions);
     }
 
     get minMaxValues() {
-        return this._minMaxOptions;
+        return linearizeCollection(this._minMaxOptions);
     }
 
     destroy(): void {

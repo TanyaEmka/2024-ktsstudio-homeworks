@@ -1,5 +1,6 @@
 import { Option } from "components/MultiDropdown";
 import { FilterStoreType } from "types/filterTypes";
+import { normalizeCollection } from "./collection";
 
 export function createOptionList(arr: string[]): Option[] {
     return arr
@@ -18,16 +19,10 @@ export function getStoreFilterArr<T extends FilterStoreType>(
         }) as T[];
 }
 
-export function getValueByName<T extends FilterStoreType>(
-    arr: T[], 
-    name: string
-): T | undefined {
-    return arr.find((arrObj) => arrObj.name === name);   
-}
-
-export function getIndexByName<T extends FilterStoreType>(
-    arr: T[], 
-    name: string
-): number {
-    return arr.map((arrObj) => arrObj.name).indexOf(name);
+export function normalizeFilter<T extends FilterStoreType>(
+    arr: string[],
+    initialValue: T['value']
+) {
+    const tArray = getStoreFilterArr(arr, initialValue);
+    return normalizeCollection(tArray, (element) => element.name);
 }
