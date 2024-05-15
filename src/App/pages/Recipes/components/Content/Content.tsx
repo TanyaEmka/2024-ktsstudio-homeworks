@@ -31,6 +31,7 @@ const Content: React.FC = () => {
             getOffset(searchParams),
             getSearchParam(searchParams, 'query'),
             getParamsString(searchParams, 'type'),
+            ['cuisine', getParamsString(searchParams, 'cuisine')]
         )
     }, [searchParams, recipesStore]);
 

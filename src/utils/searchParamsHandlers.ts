@@ -7,17 +7,18 @@ export const getOffset = (searchParams: URLSearchParams) => {
 export const getParamsString = (
     searchParams: URLSearchParams, 
     paramName: string
-) => {
-    return searchParams
-        .getAll(paramName).map((value) => [paramName, value].join('=')).join('&') || '';       
+): string | null => {
+    return searchParams.get(paramName);
 }
 
 export const getOptionsBySearchParam = (
     searchParams: URLSearchParams, 
     paramName: string,
-    options: Array<Option>
+    options: Array<Option>,
+    prefix: string = ','
 ) => {
-    const values = searchParams.getAll(paramName);
+    const valueName = searchParams.get(paramName) || '';
+    const values = valueName.split(prefix);
     const firstCats: Option[] = [];
     values.forEach((value) => {
         const elemInd = options.map((opt) => opt.value).indexOf(value);

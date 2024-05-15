@@ -7,7 +7,7 @@ export type FilterUnitType = {
 
 export interface FilterType {
     filterName: string,
-    filterSettings: {
+    filterSettings?: {
         [key: string]: 
             FilterValueType | 
             FilterValueType[] | 
@@ -39,23 +39,35 @@ export interface BooleanFilterType extends FilterType {
     filterName: string,
 }
 
-export type NumberStoreType = {
-    name: string, 
+export interface FilterStoreType {
+    name: string,
+    value: 
+        number | 
+        boolean | 
+        string | 
+        {
+            [key: string]: number | boolean | string
+        }
+}
+
+export interface NumberStoreType extends FilterStoreType {
+    name: string,
     value: number,
 }
 
-export type BooleanStoreType = {
+export interface BooleanStoreType extends FilterStoreType {
     name: string,
     value: boolean,
 }
 
-export type StringStoreType = {
+export interface StringStoreType extends FilterStoreType {
     name: string,
     value: string,
 }
 
-export type MinMaxStoreType = {
+export interface MinMaxStoreType extends FilterStoreType {
     name: string,
-    min: number,
-    max: number,
+    value: {
+        min: number, max: number
+    }
 }

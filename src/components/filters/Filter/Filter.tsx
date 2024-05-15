@@ -1,5 +1,5 @@
 import * as React from "react";
-import styles from './Filter.scss';
+import styles from './Filter.module.scss';
 
 import Text from "components/Text";
 
