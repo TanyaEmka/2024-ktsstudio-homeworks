@@ -1,0 +1,7 @@
+.list-shower {
+    display: grid;
+    column-gap: 80px;
+    row-gap: 64px;
+    grid-template-columns: repeat(auto-fit, 348px);
+    justify-content: center;
+}

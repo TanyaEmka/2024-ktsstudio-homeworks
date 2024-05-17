@@ -5,12 +5,9 @@ import { useLocalStore } from "hooks/useLocalStore";
 import Card from "components/Card";
 import { useSearchParams } from "react-router-dom";
 import { getOffset, getAllKeyValue } from "utils/searchParamsHandlers";
-import ErrorBox from "components/ErrorBox";
-import Text from "components/Text";
 import { observer } from "mobx-react-lite";
 import IngredientListStore from "store/IngredientsStore/IngredientListStore";
-import PageController from "../Recipes/components/PageController";
-import { getSearchParam } from "utils/searchParamsHandlers";
+import ListShower from "components/ListShower";
 
 const Ingredients: React.FC = () => {
 
@@ -24,43 +21,24 @@ const Ingredients: React.FC = () => {
         ));
     }, [searchParams, ingredientStore]);
 
-    const pageControllerClick = (page: number) => {
-        searchParams.set('page', page.toString());
-        setSearchParams(searchParams);
-    }
-
     return (
         <PageTemplate headerName="Ingredients">
             <div className="ingredients">
-                {ingredientStore.status.statusName === 'ERROR' ?
-                <ErrorBox>
-                    {ingredientStore.status.statusMessage}
-                </ErrorBox>
-                : ingredientStore.status.statusName === 'LOADING' ?
-                <Text>Loading...</Text>
-                :
-                <>
-                    <div className="ingredients-cards">
-                        {ingredientStore.results.map((ingredient) => {
-                            return (
-                                <Card 
-                                    key={ingredient.id}
-                                    image={ingredientStore.getImageUrl(ingredient.image)}
-                                    title={ingredient.name}
-                                    subtitle={''}
-                                />
-                            )
-                        })}
-                    </div>
-                    {ingredientStore.results.length > 0 &&
-                    <PageController 
-                        selectedPage={Number(getSearchParam(searchParams, 'page', '1'))}
-                        totalResults={ingredientStore.total}
-                        onClick={pageControllerClick}
-                    />
-                }
-                </>
-                }
+                <ListShower 
+                    status={ingredientStore.status}
+                    totalCount={ingredientStore.total}
+                >
+                    {ingredientStore.results.map((ingredient) => {
+                        return (
+                            <Card 
+                                key={ingredient.id}
+                                image={ingredientStore.getImageUrl(ingredient.image)}
+                                title={ingredient.name}
+                                subtitle={''}
+                            />
+                        )
+                    })}
+                </ListShower>
             </div>
         </PageTemplate>
     )

@@ -5,16 +5,14 @@ import { useNavigate , useSearchParams } from "react-router-dom";
 
 import Button from "components/Button";
 import Card from "components/Card";
-import ErrorBox from "components/ErrorBox";
-import Text from "components/Text";
 import TimeIcon from "components/icons/TimeIcon";
+import ListShower from "components/ListShower";
 
 import { useLocalStore } from "hooks/useLocalStore";
 import RecipeListStore from "store/RecipeListStore";
 
-import { getOffset, getSearchParam, getAllKeyValue } from "utils/searchParamsHandlers";
+import { getOffset, getAllKeyValue } from "utils/searchParamsHandlers";
 import ContentFilters from "../ContentFilters";
-import PageController from "../PageController";
 import ContentHeader from "./ContentHeader";
 
 import styles from './Content.module.scss';
@@ -33,11 +31,6 @@ const Content: React.FC = () => {
         ));
     }, [searchParams, recipesStore]);
 
-    const pageControllerClick = (page: number) => {
-        searchParams.set('page', page.toString());
-        setSearchParams(searchParams);
-    }
-
     const navigateToRecipePage = (id: number) => {
         navigate('/recipe/' + id);
     }
@@ -46,45 +39,30 @@ const Content: React.FC = () => {
         <div className={styles["content"]}>
             <ContentHeader />
             <ContentFilters />
-            {recipesStore.status.statusName === 'ERROR' ? 
-            <ErrorBox>
-                {recipesStore.status.statusMessage}
-            </ErrorBox>
-            :
-            recipesStore.status.statusName === 'LOADING' ?
-            <Text>Loading...</Text>
-            :
-            <>
-                <div className={styles["content__cards"]}>
-                    {recipesStore.results.map((recipe) => {
-                        return (
-                            <Card 
-                                onClick={() => { navigateToRecipePage(recipe.id) }}
-                                key={recipe.id}
-                                image={recipe.image}
-                                captionSlot={
-                                    <span className={styles["content__cards__card__time"]}>
-                                        <TimeIcon />
-                                        <span>{recipe.readyInMinutes} minutes</span>
-                                    </span>
-                                }
-                                title={recipe.title}
-                                subtitle={recipe.describe}
-                                contentSlot={recipe.kcal}
-                                actionSlot={<Button>Save</Button>}
-                            />
-                        )
-                    })}
-                </div>
-                {recipesStore.results.length > 0 &&
-                <PageController 
-                    selectedPage={Number(getSearchParam(searchParams, 'page', '1'))}
-                    totalResults={recipesStore.total}
-                    onClick={pageControllerClick}
-                />
-                }
-            </>
-            }
+            <ListShower 
+                status={recipesStore.status}
+                totalCount={recipesStore.total}
+            >
+                {recipesStore.results.map((recipe) => {
+                    return (
+                        <Card 
+                            onClick={() => { navigateToRecipePage(recipe.id) }}
+                            key={recipe.id}
+                            image={recipe.image}
+                            captionSlot={
+                                <span className={styles["content__cards__card__time"]}>
+                                    <TimeIcon />
+                                    <span>{recipe.readyInMinutes} minutes</span>
+                                </span>
+                            }
+                            title={recipe.title}
+                            subtitle={recipe.describe}
+                            contentSlot={recipe.kcal}
+                            actionSlot={<Button>Save</Button>}
+                        />
+                    )
+                })}    
+            </ListShower>
         </div>
     )
 }

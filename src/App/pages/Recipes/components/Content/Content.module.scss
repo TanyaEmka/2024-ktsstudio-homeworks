@@ -12,12 +12,6 @@ $content-gap: 48px;
     }
 
     &__cards {
-        display: grid;
-        column-gap: 80px;
-        row-gap: 64px;
-        grid-template-columns: repeat(auto-fit, 348px);
-        justify-content: center;
-
         &__card__time {
             display: flex;
             align-items: center;
