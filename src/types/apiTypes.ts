@@ -50,6 +50,21 @@ export type ProductUnit = {
     imageType: string,
 }
 
+export type ServingsType = {
+    number: number,
+    size: number,
+    unit: string,
+}
+
+export type MenuItemUnit = {
+    id: number,
+    title: string,
+    restaurantChain: string,
+    image: string,
+    imageType: string,
+    servings: ServingsType,
+}
+
 export type Status = {
     statusName: 'LOADING' | 'ERROR' | 'SUCCESS' | 'NOT_STARTED',
     statusMessage: string,

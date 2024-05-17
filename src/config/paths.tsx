@@ -13,7 +13,7 @@ const paths = [
     },
     {
         name: 'Menu Items',
-        url: '/items',
+        url: '/menuItems',
     },
     {
         name: 'Meal planning',

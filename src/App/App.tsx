@@ -7,6 +7,7 @@ import Recipe from './pages/Recipe';
 import Recipes from './pages/Recipes';
 import Ingredients from './pages/Ingredients';
 import Products from './pages/Products';
+import MenuItems from './pages/MenuItems/MenuItems';
 
 const App: React.FC = () => {
 
@@ -19,6 +20,7 @@ const App: React.FC = () => {
           <Route path='/recipe/:id' element={<Recipe />} />
           <Route path='/ingredients' element={<Ingredients />} />
           <Route path='/products' element={<Products />} />
+          <Route path='/menuItems' element={<MenuItems />} />
 
           <Route path='*' element={<Navigate to='/recipes' replace />} />
         </Route>
