@@ -24,7 +24,7 @@ const Content: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const recipesStore = useLocalStore(() => new RecipeListStore());
     const navigate = useNavigate();
-    const { addSavedRecipe } = localStorage;
+    const { addSavedRecipe, checkRecipeInSaved, loadingSaved, cards } = localStorage;
 
     useEffect(() => {
         recipesStore.loadingList(recipesStore.getUrl(
@@ -60,8 +60,18 @@ const Content: React.FC = () => {
                             subtitle={recipe.describe}
                             contentSlot={recipe.kcal}
                             actionSlot={
-                                <Button onClick={() => { addSavedRecipe(recipe) }}>
+                                !checkRecipeInSaved(recipe.id) ?
+                                <Button onClick={(e) => {
+                                    e.stopPropagation();
+                                    addSavedRecipe(recipe);
+                                }}>
                                     Save
+                                </Button> :
+                                <Button onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate('/saved');
+                                }}>
+                                    In saves
                                 </Button>
                             }
                         />

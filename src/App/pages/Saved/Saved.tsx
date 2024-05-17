@@ -44,7 +44,10 @@ const Saved: React.FC = () => {
                             subtitle={recipe.describe}
                             contentSlot={recipe.kcal}
                             actionSlot={
-                                <Button onClick={() => { deleteSavedCard(recipe.id) }}>
+                                <Button onClick={(e) => {
+                                    e.stopPropagation();
+                                    deleteSavedCard(recipe.id);
+                                }}>
                                     Delete
                                 </Button>
                             }

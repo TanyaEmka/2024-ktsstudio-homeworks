@@ -11,7 +11,7 @@ type CardRecipeType = {
     image: string,
 }
 
-type PrivateFields = '_savedCardRecipes';
+type PrivateFields = '_savedCardRecipes' | '_fullPrefix';
 
 export class LocalStorage implements ILocalStore {
 
@@ -22,8 +22,10 @@ export class LocalStorage implements ILocalStore {
     constructor() {
         makeObservable<LocalStorage, PrivateFields>(this, {
             _savedCardRecipes: observable.ref,
+            _fullPrefix: observable,
             deleteRecipe: action.bound,
             addSavedRecipe: action.bound,
+            checkRecipeInSaved: action.bound,
             loadingSaved: action.bound,
             cards: computed
         });
@@ -61,6 +63,11 @@ export class LocalStorage implements ILocalStore {
             });
         }
         return [];
+    }
+
+    checkRecipeInSaved(id: number) {
+        const index = this._savedCardRecipes.map((card) => card.id).indexOf(id);
+        return index !== -1;
     }
 
     deleteRecipe(id: number) {
