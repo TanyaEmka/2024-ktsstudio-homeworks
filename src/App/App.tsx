@@ -5,6 +5,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Main from 'components/Main';
 import Recipe from './pages/Recipe';
 import Recipes from './pages/Recipes';
+import Ingredients from './pages/Ingredients';
 
 const App: React.FC = () => {
 
@@ -15,6 +16,8 @@ const App: React.FC = () => {
           <Route path='/recipes' element={<Recipes />} />
           <Route path='/' element={<Recipes />} />
           <Route path='/recipe/:id' element={<Recipe />} />
+          <Route path='/ingredients' element={<Ingredients />} />
+
           <Route path='*' element={<Navigate to='/recipes' replace />} />
         </Route>
       </Routes>

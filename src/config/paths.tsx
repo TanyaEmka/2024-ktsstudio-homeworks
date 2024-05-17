@@ -4,8 +4,8 @@ const paths = [
         url: '/recipes',
     },
     {
-        name: 'Ingradients',
-        url: '/ingradients',
+        name: 'Ingredients',
+        url: '/ingredients',
     },
     {
         name: 'Products',

@@ -30,6 +30,17 @@ export type RecipeList = Array<RecipeUnit>;
 export type RecipeListRequest = {
     results: RecipeList,
     totalResults: number,
+};
+
+export type IngredientUnit = {
+    id: number,
+    name: string,
+    image: string,    
+};
+
+export type IngredientListRequest = {
+    results: Array<IngredientUnit>,
+    totalResults: number,    
 }
 
 export type Status = {
