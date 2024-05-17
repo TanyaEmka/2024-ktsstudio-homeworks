@@ -54,10 +54,13 @@ export class LocalStorage implements ILocalStore {
 
     getAllRecipes(): CardRecipeType[] {
         const recipeList = localStorage.getItem(this._fullPrefix) || '';
-        const idList = recipeList.split(',');
-        return idList.map((strId) => {
-            return this.getSavedRecipe(strId);
-        });
+        if (recipeList !== '') {
+            const idList = recipeList.split(',');
+            return idList.map((strId) => {
+                return this.getSavedRecipe(strId);
+            });
+        }
+        return [];
     }
 
     deleteRecipe(id: number) {

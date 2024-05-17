@@ -14,8 +14,6 @@ const Saved: React.FC = () => {
     const { cards, deleteRecipe } = localStorage;
     const navigate = useNavigate();
 
-    console.log(cards);
-
     const navigateToRecipePage = (id: number) => {
         navigate('/recipe/' + id);
     }
