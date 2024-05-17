@@ -51,13 +51,14 @@ export default class BaseListStore<
 
     loadingList(
         url: string,
+        resultsName: string = 'results',
         totalName: string = 'totalResults',
     ) {
         this.setStatus(LoadingStatus);
         axios.get(url)
         .then((resp) => {
             this.setStatus(SuccessfulStatus);
-            this.setResultRequest(resp.data.results, resp.data[totalName]);
+            this.setResultRequest(resp.data[resultsName], resp.data[totalName]);
         })
         .catch((err) => {
             this.setStatus(errorStatus(err.message));

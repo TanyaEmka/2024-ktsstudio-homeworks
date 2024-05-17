@@ -43,6 +43,13 @@ export type IngredientListRequest = {
     totalResults: number,    
 }
 
+export type ProductUnit = {
+    id: number,
+    title: string,
+    image: string,
+    imageType: string,
+}
+
 export type Status = {
     statusName: 'LOADING' | 'ERROR' | 'SUCCESS' | 'NOT_STARTED',
     statusMessage: string,

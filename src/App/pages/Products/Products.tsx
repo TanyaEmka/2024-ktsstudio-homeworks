@@ -6,34 +6,34 @@ import Card from "components/Card";
 import { useSearchParams } from "react-router-dom";
 import { getOffset, getAllKeyValue } from "utils/searchParamsHandlers";
 import { observer } from "mobx-react-lite";
-import IngredientListStore from "store/IngredientsStore";
+import ProductListStore from "store/ProductListStore";
 import ListShower from "components/ListShower";
 
-const Ingredients: React.FC = () => {
+const Products: React.FC = () => {
 
-    const ingredientStore = useLocalStore(() => new IngredientListStore());
+    const productStore = useLocalStore(() => new ProductListStore());
     const [ searchParams, setSearchParams ] = useSearchParams();
 
     useEffect(() => {
-        ingredientStore.loadingList(ingredientStore.getUrl(
+        productStore.loadingList(productStore.getUrl(
             getOffset(searchParams), 'a',
             ...getAllKeyValue(searchParams),
-        ));
-    }, [searchParams, ingredientStore]);
+        ), 'products', 'totalProducts');
+    }, [searchParams, productStore]);
 
     return (
-        <PageTemplate headerName="Ingredients">
+        <PageTemplate headerName="Products">
             <div className="ingredients">
                 <ListShower 
-                    status={ingredientStore.status}
-                    totalCount={ingredientStore.total}
+                    status={productStore.status}
+                    totalCount={productStore.total}
                 >
-                    {ingredientStore.results.map((ingredient) => {
+                    {productStore.results.map((product) => {
                         return (
                             <Card 
-                                key={ingredient.id}
-                                image={ingredientStore.getImageUrl(ingredient.image)}
-                                title={ingredient.name}
+                                key={product.id}
+                                image={product.image}
+                                title={product.title}
                                 subtitle={''}
                             />
                         )
@@ -44,4 +44,4 @@ const Ingredients: React.FC = () => {
     )
 }
 
-export default observer(Ingredients);
+export default observer(Products);
