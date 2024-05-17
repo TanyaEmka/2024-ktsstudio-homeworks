@@ -14,7 +14,7 @@ export type RecipeType = {
     }]
 }
 
-export type RecipeUnit = {
+export interface RecipeUnit {
     id: number,
     image: string,
     title: string,

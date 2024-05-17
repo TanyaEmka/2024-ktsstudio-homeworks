@@ -20,9 +20,9 @@ export default class BaseListStore<
     ResultUnit extends ListUnit, 
 > implements ILocalStore {
     
-    private _status: Status = NotStartedStatus;
-    private _results = getInitialCollectionModel<number, ResultUnit>();
-    private _total: number = 0;
+    protected _status: Status = NotStartedStatus;
+    protected _results = getInitialCollectionModel<number, ResultUnit>();
+    protected _total: number = 0;
 
     constructor() {
         makeObservable<BaseListStore<ResultUnit>, PrivateFields>(this, {

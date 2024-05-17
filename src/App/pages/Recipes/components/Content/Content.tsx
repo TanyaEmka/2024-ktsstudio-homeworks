@@ -12,7 +12,7 @@ import TimeIcon from "components/icons/TimeIcon";
 import { useLocalStore } from "hooks/useLocalStore";
 import RecipeListStore from "store/RecipeListStore";
 
-import { getParamsString, getOffset, getSearchParam, getAllKeyValue } from "utils/searchParamsHandlers";
+import { getOffset, getSearchParam, getAllKeyValue } from "utils/searchParamsHandlers";
 import ContentFilters from "../ContentFilters";
 import PageController from "../PageController";
 import ContentHeader from "./ContentHeader";
@@ -27,10 +27,10 @@ const Content: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        recipesStore.loadingRecipeList(
+        recipesStore.loadingList(recipesStore.getUrl(
             getOffset(searchParams),
             ...getAllKeyValue(searchParams),
-        )
+        ));
     }, [searchParams, recipesStore]);
 
     const pageControllerClick = (page: number) => {
@@ -79,7 +79,7 @@ const Content: React.FC = () => {
                 {recipesStore.results.length > 0 &&
                 <PageController 
                     selectedPage={Number(getSearchParam(searchParams, 'page', '1'))}
-                    totalResults={recipesStore.totalResults}
+                    totalResults={recipesStore.total}
                     onClick={pageControllerClick}
                 />
                 }

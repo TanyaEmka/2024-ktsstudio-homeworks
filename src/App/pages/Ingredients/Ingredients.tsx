@@ -9,6 +9,8 @@ import ErrorBox from "components/ErrorBox";
 import Text from "components/Text";
 import { observer } from "mobx-react-lite";
 import IngredientListStore from "store/IngredientsStore/IngredientListStore";
+import PageController from "../Recipes/components/PageController";
+import { getSearchParam } from "utils/searchParamsHandlers";
 
 const Ingredients: React.FC = () => {
 
@@ -21,6 +23,11 @@ const Ingredients: React.FC = () => {
             ...getAllKeyValue(searchParams),
         ));
     }, [searchParams, ingredientStore]);
+
+    const pageControllerClick = (page: number) => {
+        searchParams.set('page', page.toString());
+        setSearchParams(searchParams);
+    }
 
     return (
         <PageTemplate headerName="Ingredients">
@@ -45,6 +52,13 @@ const Ingredients: React.FC = () => {
                             )
                         })}
                     </div>
+                    {ingredientStore.results.length > 0 &&
+                    <PageController 
+                        selectedPage={Number(getSearchParam(searchParams, 'page', '1'))}
+                        totalResults={ingredientStore.total}
+                        onClick={pageControllerClick}
+                    />
+                }
                 </>
                 }
             </div>
