@@ -1,15 +1,8 @@
 import { urlPrefix, pageElementCount, apiKey } from "config/api";
-import { RecipeUnit } from "types/apiTypes";
-import {
-    normalizeCollection, 
-} from "utils/collection";
+import { RecipeUnit, RecipeCollectionUnitType } from "types/apiTypes";
+import { normalizeCollection } from "utils/collection";
 
 import BaseListStore from "store/BaseListStore";
-
-type RecipeCollectionUnitType = RecipeUnit & {
-    kcal: string,
-    describe: string,
-};
 
 export default class RecipeListStore extends BaseListStore<RecipeCollectionUnitType> {
 

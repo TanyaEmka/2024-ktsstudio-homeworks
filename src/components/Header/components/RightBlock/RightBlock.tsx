@@ -9,16 +9,16 @@ const RightBlock: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const goToLikes = useCallback(() => { 
-        navigate('likes') 
+    const goToSaved = useCallback(() => { 
+        navigate('/saved') 
     }, [navigate]);
     const goToProfile = useCallback(() => { 
-        navigate('profile') 
+        navigate('/profile') 
     }, [navigate]);
 
     return (
         <div className={styles["right-block"]}>
-            <HeartIcon onClick={goToLikes}/>
+            <HeartIcon onClick={goToSaved}/>
             <UserIcon onClick={goToProfile}/>
         </div>
     )

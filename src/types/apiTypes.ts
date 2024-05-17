@@ -25,6 +25,11 @@ export interface RecipeUnit {
     }
 };
 
+export type RecipeCollectionUnitType = RecipeUnit & {
+    kcal: string,
+    describe: string,
+};
+
 export type RecipeList = Array<RecipeUnit>;
 
 export type RecipeListRequest = {

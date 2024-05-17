@@ -10,6 +10,7 @@ import ListShower from "components/ListShower";
 
 import { useLocalStore } from "hooks/useLocalStore";
 import RecipeListStore from "store/RecipeListStore";
+import localStorage from "store/LocalStorage";
 
 import { getOffset, getAllKeyValue } from "utils/searchParamsHandlers";
 import ContentFilters from "../ContentFilters";
@@ -23,6 +24,7 @@ const Content: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const recipesStore = useLocalStore(() => new RecipeListStore());
     const navigate = useNavigate();
+    const { addSavedRecipe } = localStorage;
 
     useEffect(() => {
         recipesStore.loadingList(recipesStore.getUrl(
@@ -38,7 +40,6 @@ const Content: React.FC = () => {
     return (
         <div className={styles["content"]}>
             <ContentHeader />
-            <ContentFilters />
             <ListShower 
                 status={recipesStore.status}
                 totalCount={recipesStore.total}
@@ -58,10 +59,14 @@ const Content: React.FC = () => {
                             title={recipe.title}
                             subtitle={recipe.describe}
                             contentSlot={recipe.kcal}
-                            actionSlot={<Button>Save</Button>}
+                            actionSlot={
+                                <Button onClick={() => { addSavedRecipe(recipe) }}>
+                                    Save
+                                </Button>
+                            }
                         />
                     )
-                })}    
+                })}
             </ListShower>
         </div>
     )
