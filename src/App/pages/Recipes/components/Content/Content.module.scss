@@ -10,13 +10,4 @@ $content-gap: 48px;
     &__header {
         text-align: center;
     }
-
-    &__cards {
-        &__card__time {
-            display: flex;
-            align-items: center;
-            align-content: center;
-            gap: 6px;
-        }
-    }
 }

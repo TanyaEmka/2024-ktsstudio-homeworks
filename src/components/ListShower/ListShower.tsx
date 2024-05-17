@@ -9,13 +9,16 @@ import styles from './ListShower.module.scss';
 
 interface ListShowerProps {
     status: Status,
-    totalCount: number,
+    totalCount?: number,
     children: React.ReactNode,
 }
 
-const ListShower: React.FC<ListShowerProps> = (props) => {
+const ListShower: React.FC<ListShowerProps> = ({
+    status,
+    totalCount=0,
+    children
+}) => {
 
-    const { status, totalCount, children } = props;
     const [ searchParams, setSearchParams ] = useSearchParams();
 
     const pageControllerClick = (page: number) => {

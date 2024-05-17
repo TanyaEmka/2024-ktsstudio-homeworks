@@ -2,7 +2,7 @@ import { ILocalStore } from "hooks/useLocalStore";
 import { action, computed, makeObservable, observable } from "mobx";
 import { RecipeCollectionUnitType } from "types/apiTypes";
 
-type CardRecipeType = {
+export type CardRecipeType = {
     id: number,
     readyInMinutes: number,
     title: string,
