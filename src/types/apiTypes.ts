@@ -93,7 +93,6 @@ export type MealPlanItemWithIdType = {
     servings: number,
     title: string,
     imageType: string,
-    image: string,    
 }
 
 export type MealPlanIngredientType = {
@@ -135,6 +134,7 @@ export interface MealPlanIngredientsType extends MealPlanItemType {
 }
 
 export type MealPlanCommonItemType = 
+    MealPlanRecipeType |
     MealPlanProductType |
     MealPlanMenuItemType | 
     MealPlanCustomFoodType |

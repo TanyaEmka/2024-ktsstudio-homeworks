@@ -8,6 +8,7 @@ import Text from "components/Text";
 import ErrorBox from "components/ErrorBox";
 import Button from "components/Button";
 import { observer } from "mobx-react-lite";
+import DayInfo from "./components/DayInfo";
 
 const MealPlanning: React.FC = () => {
 
@@ -16,12 +17,14 @@ const MealPlanning: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (userStatus === 'none') {
-            navigate('/login');
-        } else {
+        if (userStatus !== 'none') {
             loadingPlan(user.username, user.hash);
         }
     }, [userStatus]);
+
+    useEffect(() => {
+        console.log(plan);
+    }, [plan])
 
     return (
         <div className="mealplanning-page">
@@ -36,7 +39,11 @@ const MealPlanning: React.FC = () => {
             status.statusName === 'ERROR' ?
             <ErrorBox>{status.statusMessage}</ErrorBox> 
             :
-            <Text>Meal Planning</Text>
+            <>
+            {plan.days &&
+            <DayInfo {...plan.days[0]} />
+            }
+            </>
             }
         </div>
     )
