@@ -1,0 +1,26 @@
+@use 'styles/variables.scss' as var;
+
+$day-padding: 6px;
+
+.day-info {
+
+    width: 100%;
+    text-align: center;
+
+    &__name {
+        padding: $day-padding;
+    }
+
+    &__slots {
+        background-color: var.$light;
+        padding: $day-padding;
+    }
+
+    &__summary {
+        text-align: left;
+        bottom: 0;
+        background-color: var.$gray;
+        color: var.$light;
+        padding: $day-padding;
+    }
+}

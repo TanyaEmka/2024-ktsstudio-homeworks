@@ -25,7 +25,8 @@ export default class MealPlanningStore implements ILocalStore {
             deleteFromPlan: action.bound,
             clearPlan: action.bound,
             status: computed,
-            plan: computed       
+            plan: computed,
+            weekStart: computed,    
         });
     }
 
@@ -37,20 +38,27 @@ export default class MealPlanningStore implements ILocalStore {
         this._plan = { ...weekPlan };
     }
 
-    getDateForm() {
-        const now = new Date();    
-        const date = now.toLocaleDateString('fr-CA', { 
+    getDateForm(dateObj: Date) {
+        const date = dateObj.toLocaleDateString('fr-CA', { 
             year: 'numeric', 
             month: '2-digit', 
             day: '2-digit' });
         return date;
     }
 
+    getStartOfWeek(dateObj: Date) {
+        let date = new Date(dateObj);
+        let day = date.getDay();
+        console.log(day);
+        const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+        return this.getDateForm(new Date(date.setDate(diff)));
+    }
+
     loadingPlan(
         username: string,
         hash: string,
     ) {
-        const date = this.getDateForm();
+        const date = this.getStartOfWeek(new Date());
         const url = 
             urlPrefix + 
             'mealplanner/' + 
@@ -75,7 +83,8 @@ export default class MealPlanningStore implements ILocalStore {
         username: string,
         hash: string
     ) {
-        const nowPrev = this.getDateForm();
+        const nowPrev = this.getStartOfWeek(new Date());
+        console.log(nowPrev);
         const now = new Date(nowPrev).getTime();
         const url = 
             urlPrefix + 'mealplanner/' + 
@@ -112,6 +121,10 @@ export default class MealPlanningStore implements ILocalStore {
 
     get plan() {
         return this._plan;
+    }
+
+    get weekStart() {
+        return this.getStartOfWeek(new Date());
     }
 
     destroy(): void {

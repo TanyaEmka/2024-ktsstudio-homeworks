@@ -8,7 +8,8 @@ import Text from "components/Text";
 import ErrorBox from "components/ErrorBox";
 import Button from "components/Button";
 import { observer } from "mobx-react-lite";
-import DayInfo from "./components/DayInfo";
+import WeekInfo from "./components/WeekInfo";
+import styles from "./MealPlanning.module.scss";
 
 const MealPlanning: React.FC = () => {
 
@@ -27,7 +28,7 @@ const MealPlanning: React.FC = () => {
     }, [plan])
 
     return (
-        <div className="mealplanning-page">
+        <div className={styles["mealplanning-page"]}>
             <Button onClick={() => {
                 generatePlan(37, user.username, user.hash);
             }}>
@@ -41,7 +42,7 @@ const MealPlanning: React.FC = () => {
             :
             <>
             {plan.days &&
-            <DayInfo {...plan.days[0]} />
+            <WeekInfo plan={plan} />
             }
             </>
             }

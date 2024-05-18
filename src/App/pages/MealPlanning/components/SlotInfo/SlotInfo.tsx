@@ -2,6 +2,8 @@ import * as React from "react";
 import { MealPlanCommonItemType } from "types/apiTypes";
 import Text from "components/Text";
 import { imagePrefix } from "config/api";
+import { memo } from "react";
+import styles from "./SlotInfo.module.scss";
 
 interface SlotInfoProps {
     slots: MealPlanCommonItemType[]
@@ -18,10 +20,10 @@ const SlotInfo: React.FC<SlotInfoProps> = (props) => {
             let imgUrl = imagePrefix;
             switch(item.type) {
                 case 'PRODUCT':
-                    imgUrl += 'products/' + item.value.id + '-240x150.' + item.value.imageType;
+                    imgUrl += 'products/' + item.value.id + '-90x90.' + item.value.imageType;
                     break;
                 case 'MENU_ITEM':
-                    imgUrl += 'menu-items/' + item.value.id + '-240x150.' + item.value.imageType;
+                    imgUrl += 'menu-items/' + item.value.id + '-90x90.' + item.value.imageType;
                     break;
                 case 'RECIPE':
                     imgUrl += 'recipes/' + item.value.id + '-240x150.' + item.value.imageType;
@@ -42,8 +44,8 @@ const SlotInfo: React.FC<SlotInfoProps> = (props) => {
                 <>
                     {item.value.ingredients.map((ing, index) => {
                         return (
-                            <div className="item__ingredient" key={index}>
-                                <img src={ing.image} alt='ingredient' />
+                            <div className={styles["slot-info__item__ingr"]} key={index}>
+                                <img src={ing.image} alt={ing.name} />
                                 <Text>{ing.amount}{' '}{ing.name}{' '}{ing.unit}</Text>
                             </div>
                         )
@@ -54,10 +56,10 @@ const SlotInfo: React.FC<SlotInfoProps> = (props) => {
     }
 
     return (
-        <div className="slot-info">
+        <div className={styles["slot-info"]}>
             {elements.map((slot, index) => {
                 return (
-                    <div className="slot-info__item" key={slot.type + index}>
+                    <div className={styles["slot-info__item"]} key={slot.type + index}>
                         {getItemElementByType(slot)}
                     </div>
                 )
@@ -66,4 +68,4 @@ const SlotInfo: React.FC<SlotInfoProps> = (props) => {
     )
 }
 
-export default SlotInfo;
+export default memo(SlotInfo);
