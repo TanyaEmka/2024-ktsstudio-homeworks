@@ -88,6 +88,21 @@ export type MealPlanItemKind =
     'RECIPE' | 
     'CUSTOM_FOOD';
 
+export type MealPlanItemWithIdType = {
+    id: number,
+    servings: number,
+    title: string,
+    imageType: string,
+    image: string,    
+}
+
+export type MealPlanIngredientType = {
+    name: string,
+    unit: string,
+    amount: string,
+    image: string
+}
+
 export interface MealPlanItemType {
     id: number,
     slot: number,
@@ -97,55 +112,33 @@ export interface MealPlanItemType {
 
 export interface MealPlanRecipeType extends MealPlanItemType {
     type: 'RECIPE',
-    value: {
-        id: number,
-        servings: number,
-        title: string,
-        imageType: string,
-        image: string,
-    }
+    value: MealPlanItemWithIdType
 }
 
 export interface MealPlanProductType extends MealPlanItemType {
     type: 'PRODUCT',
-    value: {
-        id: number,
-        servings: number,
-        title: string,
-        imageType: string,
-        image: string,
-    }
+    value: MealPlanItemWithIdType
 }
 export interface MealPlanMenuItemType extends MealPlanItemType {
     type: 'MENU_ITEM',
-    value: {
-        id: number,
-        servings: number,
-        title: string,
-        imageType: string,
-        image: string,
-    }
+    value: MealPlanItemWithIdType
 }
 export interface MealPlanCustomFoodType extends MealPlanItemType {
     type: 'CUSTOM_FOOD',
-    value: {
-        id: number,
-        servings: number,
-        title: string,
-        imageType: string,
-        image: string,
-    }
+    value: MealPlanItemWithIdType
 }
 export interface MealPlanIngredientsType extends MealPlanItemType {
     type: 'INGREDIENTS',
     value: {
-        id: number,
-        servings: number,
-        title: string,
-        imageType: string,
-        image: string,
+        ingredients: MealPlanIngredientType[]
     }
 }
+
+export type MealPlanCommonItemType = 
+    MealPlanProductType |
+    MealPlanMenuItemType | 
+    MealPlanCustomFoodType |
+    MealPlanIngredientsType;
 
 export type MealPlanDayType = {
     nutritionSummary: NutritionSummaryType,
@@ -154,7 +147,7 @@ export type MealPlanDayType = {
     nutritionSummaryDinner: NutritionSummaryType,
     date: number,
     day: string,
-    items: MealPlanItemType[],
+    items: MealPlanCommonItemType[],
 }
 
 export type MealPlanWeekType = {
