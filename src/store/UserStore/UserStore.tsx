@@ -1,15 +1,21 @@
 import { ILocalStore } from "hooks/useLocalStore";
-import { action, makeObservable, observable } from "mobx";
+import { action, makeObservable, observable, computed } from "mobx";
 import { Status } from "types/apiTypes";
 import axios from "axios";
-import { LoadingStatus, NotStartedStatus, SuccessfulStatus, errorStatus } from "config/initValues";
+import {
+    LoadingStatus, 
+    NotStartedStatus, 
+    SuccessfulStatus, 
+    errorStatus 
+} from "config/initValues";
+import { urlPrefix, apiKey } from "config/api";
 
 type CookieObjectType = {
     [key: string]: string,
 }
 
 type UserStatusType = 'none' | 'auth';
-type LoginRequestType = {
+export type LoginRequestType = {
     username: string,
     firstName: string,
     lastName: string,
@@ -25,7 +31,7 @@ type UserType = LoginRequestType & LoginResponseType;
 type PrivateFields = '_user' | '_userStatus' | '_status';
 const initUser: UserType = {} as UserType;
 
-export default class UserStore implements ILocalStore {
+class UserStore implements ILocalStore {
 
     private _user: UserType = initUser;
     private _userStatus: UserStatusType = 'none';
@@ -37,6 +43,15 @@ export default class UserStore implements ILocalStore {
             _userStatus: observable,
             _status: observable.ref,
             setStatus: action.bound,
+            setUserData: action.bound,
+            deleteUserData: action.bound,
+            login: action.bound,
+            getCookies: action.bound,
+            logout: action.bound,
+
+            user: computed,
+            status: computed,
+            userStatus: computed,
         });
     }
 
@@ -94,15 +109,16 @@ export default class UserStore implements ILocalStore {
         this._user = initUser;
         this._userStatus = 'none';
         this.setStatus(LoadingStatus);
-        axios.post('', { ...user })
+        axios.post(urlPrefix + 'users/connect?apiKey=' + apiKey, { ...user })
         .then((resp) => {
             const { status, ...userResp } = resp.data;
             if (status === 'success') {
                 this.setStatus(SuccessfulStatus);
                 const userResponse = userResp as LoginResponseType;
                 this.setUserData({
-                    ...userResponse, ...user
+                    ...user, ...userResponse,
                 });
+                console.log('SUCCESS LOGIN', this._user);
             } else {
                 this.setStatus(errorStatus(resp.data['message']));
             }
@@ -113,6 +129,7 @@ export default class UserStore implements ILocalStore {
     }
 
     getCookies() {
+        this._userStatus = 'none';
         const cookieObj = this.parseCookie();
         Object.keys(this._user).forEach((key) => {
             this._user[key as keyof UserType] = this.getCookieProperty(cookieObj, '_' + key);
@@ -120,10 +137,23 @@ export default class UserStore implements ILocalStore {
         if (this._user.hash !== '') {
             this._userStatus = 'auth';
         }
+        console.log(this._user, cookieObj);
     }
 
     logout() {
         this.deleteUserData();
+    }
+
+    get user() {
+        return this._user;
+    }
+
+    get status() {
+        return this._status;
+    }
+
+    get userStatus() {
+        return this._userStatus;
     }
 
     destroy(): void {
@@ -132,3 +162,5 @@ export default class UserStore implements ILocalStore {
         this._status = NotStartedStatus;
     }
 }
+
+export default new UserStore();

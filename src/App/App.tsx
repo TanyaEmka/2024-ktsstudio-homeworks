@@ -10,14 +10,21 @@ import Ingredients from './pages/Ingredients';
 import Products from './pages/Products';
 import MenuItems from './pages/MenuItems';
 import Saved from './pages/Saved';
+import Login from './pages/Login';
 
 import localStorage from 'store/LocalStorage';
+import userStore from 'store/UserStore';
 import { observer } from 'mobx-react-lite';
 
 const App: React.FC = () => {
 
   useEffect(() => {
-    return () => localStorage.destroy();
+    userStore.getCookies();
+
+    return () => {
+      localStorage.destroy();
+      userStore.destroy();
+    };
   }, []);
 
   return (
@@ -31,6 +38,7 @@ const App: React.FC = () => {
           <Route path='/products' element={<Products />} />
           <Route path='/menuItems' element={<MenuItems />} />
           <Route path='/saved' element={<Saved />} />
+          <Route path='/login' element={<Login />} />
 
           <Route path='*' element={<Navigate to='/recipes' replace />} />
         </Route>

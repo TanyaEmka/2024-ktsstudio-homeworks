@@ -10,10 +10,10 @@ const RightBlock: React.FC = () => {
     const navigate = useNavigate();
 
     const goToSaved = useCallback(() => { 
-        navigate('/saved') 
+        navigate('/saved');
     }, [navigate]);
     const goToProfile = useCallback(() => { 
-        navigate('/profile') 
+        navigate('/login');
     }, [navigate]);
 
     return (
