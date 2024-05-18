@@ -3,17 +3,24 @@ import { memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import HeartIcon from "components/icons/HeartIcon";
 import UserIcon from "components/icons/UserIcon";
+import userStore from "store/UserStore";
 import styles from './RightBlock.module.scss';
 
 const RightBlock: React.FC = () => {
 
     const navigate = useNavigate();
+    const { userStatus } = userStore;
 
     const goToSaved = useCallback(() => { 
         navigate('/saved');
     }, [navigate]);
+
     const goToProfile = useCallback(() => { 
-        navigate('/login');
+        if (userStatus === 'auth') {
+            navigate('/user');
+        } else {
+            navigate('/login');
+        }
     }, [navigate]);
 
     return (

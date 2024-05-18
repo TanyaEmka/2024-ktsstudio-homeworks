@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Input from "components/Input";
 import Text from "components/Text";
@@ -7,6 +7,7 @@ import Button from "components/Button";
 
 import userStore from "store/UserStore";
 import { LoginRequestType } from "store/UserStore/UserStore";
+import { useNavigate } from "react-router-dom";
 
 const initRequestValue: LoginRequestType = {
     username: '',
@@ -18,7 +19,14 @@ const initRequestValue: LoginRequestType = {
 const Login: React.FC = () => {
 
     const [ user, setUser ] = useState(initRequestValue);
-    const { login, status } = userStore;
+    const { login, status, userStatus } = userStore;
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (userStatus === 'auth') {
+            navigate('/user');
+        }
+    }, [userStatus]);
 
     return (
         <div className="login-page">

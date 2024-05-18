@@ -11,6 +11,7 @@ import Products from './pages/Products';
 import MenuItems from './pages/MenuItems';
 import Saved from './pages/Saved';
 import Login from './pages/Login';
+import User from './pages/User';
 
 import localStorage from 'store/LocalStorage';
 import userStore from 'store/UserStore';
@@ -39,6 +40,7 @@ const App: React.FC = () => {
           <Route path='/menuItems' element={<MenuItems />} />
           <Route path='/saved' element={<Saved />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/user' element={<User />} />
 
           <Route path='*' element={<Navigate to='/recipes' replace />} />
         </Route>

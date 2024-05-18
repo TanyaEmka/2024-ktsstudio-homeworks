@@ -6,7 +6,6 @@ import RightBlock from "./components/RightBlock";
 import styles from './Header.module.scss';
 
 export const Header: React.FC = () => {
-
     return (
         <nav className={styles["header"]}>
             <div className={styles["header__left"]}>

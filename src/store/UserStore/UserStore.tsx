@@ -29,7 +29,14 @@ type LoginResponseType = {
 type UserType = LoginRequestType & LoginResponseType; 
 
 type PrivateFields = '_user' | '_userStatus' | '_status';
-const initUser: UserType = {} as UserType;
+const initUser: UserType = {
+    username: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    spoonacularPassword: '',
+    hash: '',
+};
 
 class UserStore implements ILocalStore {
 
