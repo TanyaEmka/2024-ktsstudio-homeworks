@@ -101,7 +101,6 @@ export class LocalStorage implements ILocalStore {
     }
 
     destroy() {
-        localStorage.clear();
         this._savedCardRecipes = [];
     }
 }

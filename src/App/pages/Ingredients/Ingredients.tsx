@@ -6,7 +6,7 @@ import Card from "components/Card";
 import { useSearchParams } from "react-router-dom";
 import { getOffset, getAllKeyValue } from "utils/searchParamsHandlers";
 import { observer } from "mobx-react-lite";
-import IngredientListStore from "store/IngredientsStore";
+import IngredientListStore from "store/IngredientListStore";
 import ListShower from "components/ListShower";
 
 const Ingredients: React.FC = () => {
