@@ -16,16 +16,19 @@ import MealPlanning from './pages/MealPlanning';
 
 import localStorage from 'store/LocalStorage';
 import userStore from 'store/UserStore';
+import searchParamsStore from 'store/SearchParamsStore';
 import { observer } from 'mobx-react-lite';
 
 const App: React.FC = () => {
 
   useEffect(() => {
     userStore.getCookies();
+    searchParamsStore.getSearchParams();
 
     return () => {
       localStorage.destroy();
       userStore.destroy();
+      searchParamsStore.destroy();
     };
   }, []);
 

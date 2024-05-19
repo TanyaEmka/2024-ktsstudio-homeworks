@@ -1,36 +1,34 @@
 import { observer } from "mobx-react-lite";
 import * as React from "react";
 import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
 
 import ListShower from "components/ListShower";
 
 import { useLocalStore } from "hooks/useLocalStore";
 import RecipeListStore from "store/RecipeListStore";
 
-import { getOffset, getAllKeyValue } from "utils/searchParamsHandlers";
 import ContentFilters from "../ContentFilters";
 import ContentHeader from "./ContentHeader";
 import RecipeCard from "components/RecipeCard";
+import searchParamsStore from "store/SearchParamsStore";
 
 import styles from './Content.module.scss';
 
 
 const Content: React.FC = () => {
-
-    const [searchParams, setSearchParams] = useSearchParams();
     const recipesStore = useLocalStore(() => new RecipeListStore());
 
     useEffect(() => {
         recipesStore.loadingList(recipesStore.getUrl(
-            getOffset(searchParams),
-            ...getAllKeyValue(searchParams),
+            searchParamsStore.getOffset(),
+            searchParamsStore.getParamPair('query'),
         ));
-    }, [searchParams, recipesStore]);
+    }, [searchParamsStore.searchParams, recipesStore]);
 
     return (
         <div className={styles["content"]}>
             <ContentHeader />
+            <ContentFilters />
             <ListShower 
                 status={recipesStore.status}
                 totalCount={recipesStore.total}
