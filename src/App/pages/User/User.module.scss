@@ -1,0 +1,25 @@
+$user-page-margin: 50px 100px 0 100px;
+
+.user-page {
+
+    margin: $user-page-margin;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        &__unit {
+            display: flex;
+            justify-content: start;
+            gap: 6px;
+        }
+    }
+
+    &__logout {
+        width: fit-content;
+    }
+}
