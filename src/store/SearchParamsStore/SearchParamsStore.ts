@@ -45,6 +45,8 @@ class SearchParamsStore implements ILocalStore {
         Object.entries(this._searchParams).forEach(([key, value]) => {
             if (value) {
                 searchParams.set(key, encodeURIComponent(value));
+            } else {
+                searchParams.delete(key);
             }
         });
         return searchParams;
@@ -76,7 +78,7 @@ class SearchParamsStore implements ILocalStore {
 
     deleteSearchParam(key: string, updating: boolean = true) {
         if (this._searchParams.hasOwnProperty(key)) {
-            delete this._searchParams[key];
+            this._searchParams[key] = null;
             if (updating) {
                 const searchParams = this.getSearchObject();
                 searchParams.delete(key);
@@ -110,6 +112,8 @@ class SearchParamsStore implements ILocalStore {
         category?: Option[],
         otherTags?: [string, string][]
     ) {
+        console.log(otherTags);
+        console.log(category);
         this.deleteSearchParam('query', false);
         this.deleteSearchParam('page', false);
         if (search !== '') {
@@ -121,6 +125,9 @@ class SearchParamsStore implements ILocalStore {
         }
         if (otherTags) {
             otherTags.forEach(([key, value]) => {
+                if (key !== '') {
+                    this.deleteSearchParam(key, false);
+                }
                 if (key !== '' && value !== '') {
                     this.setSearchParam(key, value, false);
                 }

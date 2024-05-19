@@ -12,24 +12,33 @@ import styles from './ContentFilters.module.scss';
 import searchStore from "store/SearchParamsStore";
 import { FilterItemTypes } from "store/FilterStore/FilterStore";
 import MultiStringFilter from "components/filters/MultiStringFilter";
+import StringFilter from "components/filters/StringFilter";
+import NumberFilter from "components/filters/NumberFilter";
+import BooleanFilter from "components/filters/BooleanFilter";
 
 interface ConfigType {
     type: FilterItemTypes
 }
 
 interface ConfigSingleType extends ConfigType {
-    type: 'STRING' | 'BOOLEAN' | 'NUMBER' | 'MINMAX',
+    type: 'STRING' | 'BOOLEAN' | 'NUMBER',
     placeholder: string,
+}
+
+interface ConfigMinMaxType extends ConfigType {
+    type: 'MINMAX',
+    minMaxValues: Option[],
 }
 
 interface ConfigOptionType extends ConfigType {
     type: 'OPTION',
     placeholder: string,
-    options: Option[]
+    options: Option[],
+    selectMode?: 'ONE' | 'MULTI',
 }
 
 export type OtherType = {
-    [key: string]: ConfigSingleType | ConfigOptionType
+    [key: string]: ConfigSingleType | ConfigOptionType | ConfigMinMaxType
 }
 
 interface ContentFiltersProps {
@@ -43,7 +52,6 @@ interface ContentFiltersProps {
 const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
 
     const filter = useLocalStore(() => new FilterStore());
-    const paramNames = Object.keys(props.otherFilters || {});
 
     const getFiltersForStore = () => {
         if (props.otherFilters) {
@@ -66,6 +74,10 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                     const valueStr = encodeURIComponent(values.map((opt) => opt.value).join(','));
                     return [key, valueStr] as [string, string];
                 }
+                if (filt.type !== 'MINMAX') {
+                    const value = filter.getSingleItemValue(key);
+                    return [key, value];
+                }
                 return ['', ''];
             })
         }
@@ -86,6 +98,17 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                 props.categoryTag, 
                 props.categoryOptions
             ));
+        }
+        if (props.otherFilters) {
+            Object.entries(props.otherFilters).map(([key, value]) => {
+                if (value.type === 'OPTION') {
+                    filter.setOptionItemValue(key, searchStore.getMultipleParam(
+                        key, value.options
+                    ));
+                } else if (value.type !== 'MINMAX') {
+                    filter.setSingleItemValue(key, searchStore.getParam(key));
+                }
+            });
         }
     }, [searchStore.searchParams, filter]);
 
@@ -123,6 +146,10 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
         filter.setVisibility(true);
     }
 
+    const hideMoreFilters = () => {
+        filter.setVisibility(false);
+    }
+
     return (
         <div className={styles["content-filters"]}>
             <div className={styles["content-filters__search"]}>
@@ -157,15 +184,24 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                 }
             </div>
             {props.otherFilters && filter.visibility && !filter.isEmpty &&
-            <div>
-                {Object.entries(props.otherFilters).map(([key, value]) => {
+            <div className={styles["content-filters__other"]}>
+                <Text
+                    tag='div'
+                    view='p-20'
+                    className={styles["content-filters__other__header"]}
+                >
+                    Other Filters
+                </Text>
+                <div
+                    className={styles["content-filters__other__multi"]}
+                >
+                    {Object.entries(props.otherFilters).filter(([key, val]) => val.type === 'OPTION').map(([key, value]) => {
 
-                    if (value.type === 'OPTION') {
+                        if (value.type === 'OPTION') {
                         return (
                             <MultiStringFilter
                                 key={key}
                                 filterName={key}
-                                className={styles["content-filters__category__block"]}
                                 options={value.options}
                                 value={filter.getOptionItemValue(key)}
                                 onChange={(newVal: Option[]) => { 
@@ -174,10 +210,84 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                                 getTitle={(newVal: Option[]) => {
                                     return getTitleWithInit(newVal, value.placeholder);
                                 }}
-                            />
+                                selectMode={value.selectMode}
+                            />   
                         )
+                        }
+                    })
                     }
-                })}
+                </div>
+                <div
+                    className={styles["content-filters__other__string"]}
+                >
+                    {Object.entries(props.otherFilters)
+                        .filter(([key, val]) => val.type === 'STRING').map(([key, value]) => {
+
+                        if (value.type === 'STRING') {
+                            return (
+                                <StringFilter 
+                                    key={key}
+                                    filterName={key}
+                                    filterSettings={{ help: '' }}
+                                    placeholder={value.placeholder}
+                                    value={filter.getSingleItemValue(key)}
+                                    onChange={(value) => { filter.setSingleItemValue(key, value) }}
+                                />
+                            )
+                        }
+                    })
+                    }
+                </div>
+                <div
+                    className={styles["content-filters__other__number"]}
+                >
+                    {Object.entries(props.otherFilters)
+                        .filter(([key, val]) => val.type === 'NUMBER').map(([key, value]) => {
+
+                        if (value.type === 'NUMBER') {
+                            return (
+                                <NumberFilter
+                                    key={key}
+                                    filterName={key}
+                                    filterSettings={{ unit: '' }}
+                                    placeholder={value.placeholder}
+                                    value={filter.getSingleItemValue(key)}
+                                    onChange={(value) => { filter.setSingleItemValue(key, value) }}
+                                />
+                            )
+                        }
+                    })
+                    }
+                </div>
+                <div
+                    className={styles["content-filters__other__boolean"]}
+                >
+                    {Object.entries(props.otherFilters)
+                        .filter(([key, val]) => val.type === 'BOOLEAN').map(([key, value]) => {
+
+                        if (value.type === 'BOOLEAN') {
+                            return (
+                                <BooleanFilter
+                                    key={key}
+                                    filterName={key}
+                                    checked={filter.getSingleItemValue(key) === 'true'} 
+                                    onChange={(checked) => { 
+                                        console.log(filter.getSingleItemValue(key));
+                                        filter.setSingleItemValue(key, (checked).toString());
+                                    }}
+                                />
+                            )
+                        }
+                    })
+                    }
+                </div>
+                <div className={styles["content-filters__other__hide"]}>
+                    <Button onClick={() => {
+                        hideMoreFilters();
+                    }}>
+                        hide filters
+                    </Button>
+                </div>
             </div>
             }
         </div>

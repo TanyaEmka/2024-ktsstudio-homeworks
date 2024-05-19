@@ -9,6 +9,8 @@ import ListShower from "components/ListShower";
 import ContentFilters from "components/ContentFilters";
 import { intoleranceTypesOptions } from "config/api";
 import searchStore from "store/SearchParamsStore";
+import { ingredientFilters } from "config/api";
+import { OtherType } from "components/ContentFilters/ContentFilters";
 
 const Ingredients: React.FC = () => {
 
@@ -32,6 +34,7 @@ const Ingredients: React.FC = () => {
                 categoryTag="intolerances"
                 categoryPlaceholder="Intolerances"
                 categoryOptions={intoleranceTypesOptions}
+                otherFilters={ingredientFilters as OtherType}
             />
             <ListShower 
                 status={ingredientStore.status}

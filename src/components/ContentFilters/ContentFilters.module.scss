@@ -1,6 +1,9 @@
+@use 'styles/variables.scss' as var;
+
 $content-filters-gap: 20px;
 $content-filters-search-gap: 19px;
 $content-filters-category-width: 300px;
+$filters-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
 
 .content-filters {
     display: flex;
@@ -29,6 +32,52 @@ $content-filters-category-width: 300px;
 
         &__shower {
             cursor: pointer;
+        }
+    }
+
+    &__other {
+        background-color: #ffecd5;
+        border-radius: var.$border-radius;
+        border: 3px solid var.$light;
+        box-shadow: $filters-shadow;
+        z-index: 100;
+        position: fixed;
+        top: 10%;
+        max-height: 100%;
+        padding: 24px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        max-width: 80%;
+        min-width: 800px;
+        overflow-y: scroll;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
+        &__header {
+            text-align: center;
+            padding-bottom: 12px; 
+        }
+
+        &__hide {
+            width: 100%;
+            display: flex;
+            justify-content: end;
+        }
+
+        &__multi, &__string, &_number, &__boolean {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, 200px);
+            justify-content: space-between;
+            row-gap: 12px;
+            column-gap: 8px;
         }
     }
 }

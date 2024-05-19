@@ -68,6 +68,7 @@ export default class FilterStore implements ILocalStore {
             visibility: computed,
             isEmpty: computed,
             options: computed,
+            minMaxes: computed,
         });
     }
 
@@ -81,15 +82,7 @@ export default class FilterStore implements ILocalStore {
                         type: value
                     }
                 });
-            } else if (value === 'MINMAX') {
-                this._itemMinMaxList.push(['', '']);
-                Object.assign(this._itemIndexList, {
-                    [key]: {
-                        point: this._itemMinMaxList.length - 1,
-                        type: value
-                    }
-                });
-            } else {
+            } else if (value !== 'MINMAX') {
                 this._itemOptionList.push([]);
                 Object.assign(this._itemIndexList, {
                     [key]: {
@@ -134,6 +127,10 @@ export default class FilterStore implements ILocalStore {
         return this._itemOptionList;
     }
 
+    get minMaxes() {
+        return this._itemMinMaxList;
+    }
+
     getSingleItemValue(name: string): string {
         return this._itemSingleList[this._itemIndexList[name].point] || '';
     }
@@ -157,9 +154,11 @@ export default class FilterStore implements ILocalStore {
         if (this._itemIndexList.hasOwnProperty(name)) {
             const itemPoint = this._itemIndexList[name].point;
             if (this.isSingle(name)) {
-                this._itemSingleList[itemPoint] = value;    
+                this._itemSingleList[itemPoint] = value;
+                this._itemSingleList = [ ...this._itemSingleList ];
             }
         }
+        this._itemSingleList = [ ...this._itemSingleList ];
     }
 
     setMinMaxItemValue(name: string, value: string, position: number) {
@@ -167,8 +166,10 @@ export default class FilterStore implements ILocalStore {
             const itemPoint = this._itemIndexList[name].point;
             if (this._itemIndexList[name].type === 'MINMAX') {
                 this._itemMinMaxList[itemPoint][position] = value;
+                this._itemMinMaxList = [ ...this._itemMinMaxList ];
             }
         }
+        this._itemMinMaxList = [ ...this._itemMinMaxList ];
     }
 
     addMinMaxItem(name: string) {

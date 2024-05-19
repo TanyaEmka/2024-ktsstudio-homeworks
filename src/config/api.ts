@@ -97,3 +97,107 @@ export const dietTypesOptions = dietList
 
 export const intoleranceTypesOptions = intoleranceList
     .map((type, index) => ({ key: index.toString(), value: type.toLowerCase() }));
+
+export const minMaxTypesOptions = minMaxFilters
+    .map((type, index) => ({ key: index.toString(), value: type }));
+
+export const sortTypesOptions = sortList
+    .map((type, index) => ({ key: index.toString(), value: type }));
+
+export const sortdirectTypesOptions = sortDirectionList
+    .map((type, index) => ({ key: index.toString(), value: type }));
+
+export const ingredientFilters = {
+    intolerances: { 
+        type: 'OPTION',
+        placeholder: 'intolerances',
+        options: intoleranceTypesOptions
+    },    
+    sort: {
+        type: 'OPTION',
+        placeholder: 'sort',
+        options: sortTypesOptions,
+        selectMode: 'ONE'
+    },
+    sortDirection: {
+        type: 'OPTION',
+        placeholder: 'sort direction',
+        options: sortdirectTypesOptions,
+        selectMode: 'ONE'
+    },
+    language: {
+        type: 'STRING',
+        placeholder: 'en or de'
+    },
+};
+
+export const recipesFilters = {
+        cuisine: {
+            type: 'OPTION',
+            placeholder: 'cuisine',
+            options: cuisineTypesOptions
+        },
+        excludeCuisine: {
+            type: 'OPTION',
+            placeholder: 'excludeCuisine',
+            options: cuisineTypesOptions
+        },
+        diet: {
+            type: 'OPTION',
+            placeholder: 'diet',
+            options: dietTypesOptions,
+        },
+        intolerances: { 
+            type: 'OPTION',
+            placeholder: 'intolerances',
+            options: intoleranceTypesOptions
+        },
+        equipment: {
+            type: 'STRING',
+            placeholder: 'equipment'
+        },
+        includeIngredients: {
+            type: 'STRING',
+            placeholder: 'tomato,cheese'
+        },
+        excludeIngredients: {
+            type: 'STRING',
+            placeholder: 'eggs,tomato'
+        },
+        author: {
+            type: 'STRING',
+            placeholder: 'author',
+        },
+        tags: {
+            type: 'STRING',
+            placeholder: 'tag1,tag2,...'
+        },
+        titlteMatch: {
+            type: 'STRING',
+            placeholder: 'Title'
+        },
+        maxReadyTime: {
+            type: 'NUMBER',
+            placeholder: 'max ready time',
+        },
+        ignorePantry: {
+            type: 'BOOLEAN',
+            placeholder: '...',
+        },
+        other: {
+            type: 'MINMAX',
+            minMaxValues: minMaxTypesOptions,
+        },
+        sort: {
+            type: 'OPTION',
+            placeholder: 'sort',
+            options: sortTypesOptions,
+            selectMode: 'ONE'
+        },
+        sortDirection: {
+            type: 'OPTION',
+            placeholder: 'sort direction',
+            options: sortdirectTypesOptions,
+            selectMode: 'ONE'
+        }
+    };

@@ -13,9 +13,9 @@ const Filter: React.FC<FilterProps> = (props) => {
     return (
         <div className={styles['filter']}>
             <Text view='p-16' weight='bold'>
-                {props.name}{': '}
+                {props.name}
             </Text>
-            <div className={styles['filter-form']}>
+            <div className={styles['filter__form']}>
                 {props.children}
             </div>
         </div>
