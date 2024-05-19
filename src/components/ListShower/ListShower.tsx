@@ -3,9 +3,8 @@ import { Status } from 'types/apiTypes';
 import ErrorBox from 'components/ErrorBox';
 import Text from 'components/Text';
 import PageController from 'components/PageController';
-import { useSearchParams } from 'react-router-dom';
-import { getSearchParam } from 'utils/searchParamsHandlers';
 import styles from './ListShower.module.scss';
+import searchStore from 'store/SearchParamsStore';
 
 interface ListShowerProps {
     status: Status,
@@ -19,11 +18,8 @@ const ListShower: React.FC<ListShowerProps> = ({
     children
 }) => {
 
-    const [ searchParams, setSearchParams ] = useSearchParams();
-
     const pageControllerClick = (page: number) => {
-        searchParams.set('page', page.toString());
-        setSearchParams(searchParams);
+        searchStore.setSearchParam('page', page.toString());
     }
     
     return (
@@ -41,7 +37,7 @@ const ListShower: React.FC<ListShowerProps> = ({
                 </div>
                 {totalCount > 0 &&
                 <PageController 
-                    selectedPage={Number(getSearchParam(searchParams, 'page', '1'))}
+                    selectedPage={Number(searchStore.getNumberParam('page'))}
                     totalResults={totalCount}
                     onClick={pageControllerClick}
                 />

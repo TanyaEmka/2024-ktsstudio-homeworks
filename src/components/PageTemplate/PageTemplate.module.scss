@@ -1,3 +1,23 @@
+$page-margin: 50px 100px 0 100px;
+$page-padding-bottom: 50px;
+$page-content-gap: 24px;
+$page-gap: 48px;
+
 .page-template {
-    
+
+    margin: $page-margin;
+    display: flex;
+    flex-direction: column;
+    gap: $page-gap;
+    padding-bottom: $page-padding-bottom;
+
+    &__name {
+        text-align: center;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: $page-content-gap;
+    }    
 }

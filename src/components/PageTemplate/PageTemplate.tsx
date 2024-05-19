@@ -12,8 +12,15 @@ const PageTemplate: React.FC<PageTemplateProps> = (props) => {
 
     return (
         <div className={styles['page-template']}>
-            <Text view='title'>{props.headerName}</Text>
-            {props.children}
+            <Text 
+                view='title'
+                className={styles['page-template__name']}
+            >
+                {props.headerName}
+            </Text>
+            <div className={styles['page-template__content']}>
+                {props.children}
+            </div>
         </div>
     )
 }

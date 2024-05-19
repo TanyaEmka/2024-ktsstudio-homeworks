@@ -20,14 +20,15 @@ $content-filters-category-width: 300px;
 
     &__category {
         display: flex;
-        justify-content: end;
+        justify-content: space-between;
+        align-items: center;
 
         &__block {
             width: $content-filters-category-width;
         }
-    }
 
-    &__other {
-        
+        &__shower {
+            cursor: pointer;
+        }
     }
 }

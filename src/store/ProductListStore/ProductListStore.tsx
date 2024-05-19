@@ -17,7 +17,6 @@ export default class ProductListStore extends BaseListStore<ProductUnit> {
             number: pageElementCount,
             offset: offset,
             query: query,
-            apiKey: apiKey,
         }
         const pathUrl = 'search?';
         let pathParams = Object.entries(params).map((param) => param.join('='));
@@ -26,6 +25,7 @@ export default class ProductListStore extends BaseListStore<ProductUnit> {
                 pathParams.push(element.join('='));
             }
         });
+        pathParams.push(['apiKey', apiKey].join('='));
         const url = urlPrefix + 'food/products/' + pathUrl + [...pathParams ].join('&');
         return url;
     }

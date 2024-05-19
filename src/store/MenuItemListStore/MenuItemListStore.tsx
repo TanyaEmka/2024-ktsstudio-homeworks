@@ -17,7 +17,6 @@ export default class MenuItemListStore extends BaseListStore<MenuItemUnit> {
             number: pageElementCount,
             offset: offset,
             query: query,
-            apiKey: apiKey,
         }
         const pathUrl = 'search?';
         let pathParams = Object.entries(params).map((param) => param.join('='));
@@ -26,6 +25,7 @@ export default class MenuItemListStore extends BaseListStore<MenuItemUnit> {
                 pathParams.push(element.join('='));
             }
         });
+        pathParams.push(['apiKey', apiKey].join('='));
         const url = urlPrefix + 'food/menuItems/' + pathUrl + [...pathParams ].join('&');
         return url;
     }

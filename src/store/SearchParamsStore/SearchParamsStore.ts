@@ -20,7 +20,7 @@ class SearchParamsStore implements ILocalStore {
             setMultiParam: action.bound,
             deleteSearchParam: action.bound,
 
-            changeSearchParamsForRecipes: action.bound,
+            changeSearchParamsForFilters: action.bound,
             updateUrl: action.bound,
             updateSearchParams: action.bound,
 
@@ -44,7 +44,7 @@ class SearchParamsStore implements ILocalStore {
         let searchParams = this.getSearchObject();
         Object.entries(this._searchParams).forEach(([key, value]) => {
             if (value) {
-                searchParams.set(key, value);
+                searchParams.set(key, encodeURIComponent(value));
             }
         });
         return searchParams;
@@ -56,10 +56,9 @@ class SearchParamsStore implements ILocalStore {
         const paramArray = Array.from(searchParams.entries());
         paramArray.forEach(([key, value]) => {
             Object.assign(this._searchParams, {
-                [key]: value
+                [key]: decodeURIComponent(value)
             })
         });
-        console.log(this._searchParams);
     }
 
     setSearchParam(key: string, value: string | null, updating: boolean = true) {
@@ -69,7 +68,7 @@ class SearchParamsStore implements ILocalStore {
             });
             if (updating) {
                 const searchParams = this.getSearchObject();
-                searchParams.set(key, value);
+                searchParams.set(key, encodeURIComponent(value.toLowerCase()));
                 this.updateUrl(searchParams);
             }
         }
@@ -99,29 +98,37 @@ class SearchParamsStore implements ILocalStore {
             });
             if (updating) {
                 const searchParams = this.getSearchObject();
-                searchParams.set(key, valueStr);
+                searchParams.set(key, encodeURIComponent(valueStr.toLowerCase()));
                 this.updateUrl(searchParams);
             }
         }
     }
 
-    changeSearchParamsForRecipes(
+    changeSearchParamsForFilters(
         search: string,
-        category: Option[]
+        categoryTag?: string,
+        category?: Option[]
     ) {
         this.deleteSearchParam('query', false);
-        this.deleteSearchParam('type', false);
         this.deleteSearchParam('page', false);
         if (search !== '') {
             this.setSearchParam('query', search, false);
         }
-        this.setMultiParam('type', category.map((cat) => cat.value), ',', false);
+        if (categoryTag && category) {
+            this.deleteSearchParam(categoryTag, false);
+            this.setMultiParam(categoryTag, category.map((cat) => cat.value), ',', false);
+        }
         this.updateUrl(this.updateSearchParams());
         this._searchParams = { ...this._searchParams };
     }
 
     getParam(key: string): string {
         return this._searchParams[key] || '';
+    }
+
+    getNumberParam(key: string, init: number = 1): number {
+        const value = Number(this._searchParams[key]);
+        return !isNaN(value) ? value : init;
     }
 
     getParamPair(key: string): [string, string | null] {
@@ -143,7 +150,7 @@ class SearchParamsStore implements ILocalStore {
         }
         const valueArray = valueStr.split(prefix);
         return options.filter((opt) => {
-            const index = valueArray.indexOf(opt.value);
+            const index = valueArray.indexOf(opt.value.toLowerCase());
             return index !== -1;
         })
     }

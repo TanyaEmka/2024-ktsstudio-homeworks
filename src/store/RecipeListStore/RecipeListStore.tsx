@@ -29,7 +29,6 @@ export default class RecipeListStore extends BaseListStore<RecipeCollectionUnitT
             addRecipeNutrition: true,
             number: pageElementCount,
             offset: offset,
-            apiKey: apiKey,
         }
         const pathUrl = 'complexSearch?';
         let pathParams = Object.entries(params).map((param) => param.join('='));
@@ -38,6 +37,7 @@ export default class RecipeListStore extends BaseListStore<RecipeCollectionUnitT
                 pathParams.push(element.join('='));
             }
         });
+        pathParams.push(['apiKey', apiKey].join('='));
         const url = urlPrefix + 'recipes/' + pathUrl + [...pathParams ].join('&');
         return url;        
     }

@@ -13,7 +13,7 @@ import {
 } from "config/api";
 
 type PrivateFields = 
-    '_searchField' | '_category' |
+    '_searchField' | '_category' | '_visibility' |
     '_cuisine' | '_excludeCuisine' |
     '_diet' | '_intolerances' |
     '_stringOptions' | '_numberOptions' |
@@ -22,6 +22,7 @@ type PrivateFields =
 export default class FilterStore implements ILocalStore {
     private _searchField = '';
     private _category: Array<Option> = [];
+    private _visibility: boolean = false;
 
     private _cuisine: Array<Option> = [];
     private _excludeCuisine: Array<Option> = [];
@@ -37,6 +38,7 @@ export default class FilterStore implements ILocalStore {
         makeObservable<FilterStore, PrivateFields>(this, {
             _searchField: observable,
             _category: observable.ref,
+            _visibility: observable.ref,
 
             _cuisine: observable.ref,
             _excludeCuisine: observable.ref,
@@ -50,6 +52,7 @@ export default class FilterStore implements ILocalStore {
 
             setSearch: action.bound,
             setCategory: action.bound,
+            setVisibility: action.bound,
 
             setCuisine: action.bound,
             setExcludeCuisine: action.bound,
@@ -63,6 +66,7 @@ export default class FilterStore implements ILocalStore {
 
             searchField: computed,
             category: computed,
+            visibility: computed,
 
             cuisine: computed,
             excludeCuisine: computed,
@@ -82,6 +86,10 @@ export default class FilterStore implements ILocalStore {
 
     setCategory(newValue: Array<Option>) {
         this._category = newValue;
+    }
+
+    setVisibility(newValue: boolean) {
+        this._visibility = newValue;
     }
 
     setCuisine(newCuisine: Array<Option>) {
@@ -133,6 +141,10 @@ export default class FilterStore implements ILocalStore {
 
     get category() {
         return this._category;
+    }
+
+    get visibility() {
+        return this._visibility;
     }
 
     get cuisine() {
