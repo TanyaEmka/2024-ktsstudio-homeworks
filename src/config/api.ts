@@ -1,4 +1,4 @@
-export const apiKey = '66e4df47862c4978bfafa99ce991e16d';
+export const apiKey = '40532b3e701c465bb20134983ac0f837';
 // 66e4df47862c4978bfafa99ce991e16d
 // 40532b3e701c465bb20134983ac0f837
 export const pageElementCount = 9;
@@ -107,12 +107,30 @@ export const sortTypesOptions = sortList
 export const sortdirectTypesOptions = sortDirectionList
     .map((type, index) => ({ key: index.toString(), value: type }));
 
+export const publicTemplates = [
+    {
+        key: '37',
+        value: "Busy Work Week"
+    },
+    {
+        key: '480',
+        value: "Keto Meal Plan"
+    },
+    {
+        key: '120',
+        value: "Not-So-Strict Paleo Meal Plan"
+    },
+    {
+        key: '451',
+        value: "Week 1 Meal Plan"
+    },
+    {
+        key: '581',
+        value: "Whole30 Meal Plan"
+    },
+];
+
 export const ingredientFilters = {
-    intolerances: { 
-        type: 'OPTION',
-        placeholder: 'intolerances',
-        options: intoleranceTypesOptions
-    },    
     sort: {
         type: 'OPTION',
         placeholder: 'sort',

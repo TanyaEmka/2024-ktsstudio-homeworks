@@ -164,6 +164,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                 </Button>
             </div>
             <div className={styles["content-filters__category"]}>
+                {props.otherFilters ?
                 <Text 
                     color="accent" 
                     view='p-16'
@@ -173,6 +174,8 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                 >
                     <u>Show more filters</u>
                 </Text>
+                : <span></span>
+                }
                 {props.categoryOptions && props.categoryPlaceholder && props.categoryTag &&
                 <MultiDropdown 
                     className={styles["content-filters__category__block"]}

@@ -24,7 +24,11 @@ const ListShower: React.FC<ListShowerProps> = ({
     
     return (
         <>
-            {status.statusName === 'ERROR' ?
+            {status.statusName === 'NOT_STARTED' ?
+            <Text tag='div' view='p-20' color='secondary'>
+                Try searching!
+            </Text>
+            : status.statusName === 'ERROR' ?
             <ErrorBox>
                 {status.statusMessage}
             </ErrorBox>

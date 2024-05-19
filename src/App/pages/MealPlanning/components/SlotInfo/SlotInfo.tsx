@@ -1,5 +1,5 @@
 import * as React from "react";
-import { MealPlanCommonItemType } from "types/apiTypes";
+import { MealPlanCommonItemType, IngOneType, IngTwoType } from "types/apiTypes";
 import Text from "components/Text";
 import { imagePrefix } from "config/api";
 import { memo } from "react";
@@ -14,6 +14,7 @@ const SlotInfo: React.FC<SlotInfoProps> = (props) => {
     const elements = props.slots.sort((a, b) => {
         return (a.position < b.position) ? -1 : 0;
     });
+    console.log(elements);
 
     const getItemElementByType = (item: MealPlanCommonItemType) => {
         if (item.type !== 'INGREDIENTS') {
@@ -40,18 +41,27 @@ const SlotInfo: React.FC<SlotInfoProps> = (props) => {
                 </>
             )
         } else {
-            return (
-                <>
-                    {item.value.ingredients.map((ing, index) => {
-                        return (
-                            <div className={styles["slot-info__item__ingr"]} key={index}>
-                                <img src={ing.image} alt={ing.name} />
-                                <Text>{ing.amount}{' '}{ing.name}{' '}{ing.unit}</Text>
-                            </div>
-                        )
-                    })}
-                </>
-            )
+            if ('ingredients' in item.value) {
+                return (
+                    <>
+                        {item.value.ingredients.map((ing, index) => {
+                            return (
+                                <div className={styles["slot-info__item__ingr"]} key={index}>
+                                    <img src={ing.image} alt={ing.name} />
+                                    <Text>{ing.amount}{' '}{ing.name}{' '}{ing.unit}</Text>
+                                </div>
+                            )
+                        })}
+                    </>
+                )
+            } else if ('title' in item.value) {
+                return (
+                    <div className={styles["slot-info__item__ingr"]} key={item.value.title}>
+                        <Text>{item.value.title}</Text>
+                        <Text>{item.value.servings} minutes</Text>
+                    </div>
+                )
+            }
         }
     }
 

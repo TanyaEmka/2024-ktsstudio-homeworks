@@ -24,25 +24,23 @@ const DayInfo: React.FC<MealPlanDayType & DayInfoOtherType> = (props) => {
     }
 
     return (
-        <div className={styles["day-info"]}>
+        <>
             <Text 
                 className={styles["day-info__name"]}
                 tag='div' view='p-16' weight='bold'
             >
                 {props.dayName}
             </Text>
-            <div className={styles["day-info__slots"]}>
-                <SlotInfo slots={breakfastItems} />
-                <SlotInfo slots={lunchItems} />
-                <SlotInfo slots={dinnerItems} />
-            </div>
+            <SlotInfo slots={breakfastItems} />
+            <SlotInfo slots={lunchItems} />
+            <SlotInfo slots={dinnerItems} />
             <div className={styles["day-info__summary"]}>
                 <Text>{getNutritionByName('Calories')}</Text>
                 <Text>{getNutritionByName('Fat')}</Text>
                 <Text>{getNutritionByName('Protein')}</Text>
                 <Text>{getNutritionByName('Carbs')}</Text>
             </div>
-        </div>
+        </>
     )
 }
 

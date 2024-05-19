@@ -125,14 +125,19 @@ class UserStore implements ILocalStore {
                 this.setUserData({
                     ...user, ...userResponse,
                 });
-                console.log('SUCCESS LOGIN', this._user);
+                this._user = { ...this._user };
+                this._userStatus = this._userStatus;
             } else {
                 this.setStatus(errorStatus(resp.data['message']));
             }
         })
         .catch((err) => {
             this.setStatus(errorStatus(err.message));
+            this._user = { ...this._user };
+            this._userStatus = this._userStatus;
         });
+        this._user = { ...this._user };
+        this._userStatus = this._userStatus;
     }
 
     getCookies() {
@@ -144,7 +149,6 @@ class UserStore implements ILocalStore {
         if (this._user.hash !== '') {
             this._userStatus = 'auth';
         }
-        console.log(this._user, cookieObj);
     }
 
     logout() {

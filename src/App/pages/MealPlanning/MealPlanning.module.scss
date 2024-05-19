@@ -10,4 +10,10 @@
     button {
         width: fit-content;
     }
+
+    &__form {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+    }
 }

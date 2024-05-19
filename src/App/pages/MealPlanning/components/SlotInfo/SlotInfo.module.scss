@@ -1,4 +1,9 @@
+@use 'styles/variables.scss' as var;
+
 .slot-info {
+    background-color: var.$light;
+    padding: 6px;
+
     &__item {
         img {
             max-width: 100%;

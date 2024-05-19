@@ -8,6 +8,9 @@ import Button from "components/Button";
 import userStore from "store/UserStore";
 import { LoginRequestType } from "store/UserStore/UserStore";
 import { useNavigate } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+
+import styles from './Login.module.scss';
 
 const initRequestValue: LoginRequestType = {
     username: '',
@@ -19,19 +22,18 @@ const initRequestValue: LoginRequestType = {
 const Login: React.FC = () => {
 
     const [ user, setUser ] = useState(initRequestValue);
-    const { login, status, userStatus } = userStore;
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (userStatus === 'auth') {
+        if (userStore.userStatus === 'auth') {
             navigate('/user');
         }
-    }, [userStatus]);
+    }, [userStore.userStatus]);
 
     return (
-        <div className="login-page">
+        <div className={styles["login-page"]}>
             <Text view='title' tag='div'>Login</Text>
-            <div className="login-page-form">
+            <div className={styles["login-page__form"]}>
                 {Object.entries(user).map(([key, value]) => {
                     
                     return (
@@ -47,13 +49,13 @@ const Login: React.FC = () => {
                     )
                 })}
                 <Button onClick={() => {
-                    login(user);
+                    userStore.login(user);
                 }}>
                     login
                 </Button>
-                {status.statusName === 'ERROR' &&
+                {userStore.status.statusName === 'ERROR' &&
                 <Text color='accent' view='p-16' tag='div'>
-                    {status.statusMessage}
+                    {userStore.status.statusMessage}
                 </Text>
                 }
             </div>
@@ -61,4 +63,4 @@ const Login: React.FC = () => {
     )
 }
 
-export default Login;
+export default observer(Login);

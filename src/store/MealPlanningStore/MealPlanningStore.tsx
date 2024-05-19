@@ -85,7 +85,7 @@ export default class MealPlanningStore implements ILocalStore {
     ) {
         const nowPrev = this.getStartOfWeek(new Date());
         console.log(nowPrev);
-        const now = new Date(nowPrev).getTime();
+        const now = new Date(nowPrev).getTime() / 1000;
         const url = 
             urlPrefix + 'mealplanner/' + 
             username + '/items?apiKey=' + apiKey +

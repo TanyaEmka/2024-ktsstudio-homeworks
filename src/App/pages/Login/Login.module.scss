@@ -1,0 +1,26 @@
+$login-page-margin: 50px 100px 0 100px;
+
+.login-page {
+
+    margin: $login-page-margin;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 600px;
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        &__unit {
+            display: flex;
+            justify-content: start;
+            gap: 6px;
+        }
+    }
+
+    > button {
+        width: fit-content;
+    }
+}

@@ -126,11 +126,18 @@ export interface MealPlanCustomFoodType extends MealPlanItemType {
     type: 'CUSTOM_FOOD',
     value: MealPlanItemWithIdType
 }
+
+export interface IngOneType {
+    ingredients: MealPlanIngredientType[]
+}
+
+export interface IngTwoType {
+    title: string, servings: string
+}
+
 export interface MealPlanIngredientsType extends MealPlanItemType {
     type: 'INGREDIENTS',
-    value: {
-        ingredients: MealPlanIngredientType[]
-    }
+    value: IngOneType | IngTwoType
 }
 
 export type MealPlanCommonItemType = 
