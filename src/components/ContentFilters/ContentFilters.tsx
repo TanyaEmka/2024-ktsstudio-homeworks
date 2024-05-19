@@ -10,20 +10,73 @@ import { useLocalStore } from "hooks/useLocalStore";
 import FilterStore from "store/FilterStore";
 import styles from './ContentFilters.module.scss';
 import searchStore from "store/SearchParamsStore";
+import { FilterItemTypes } from "store/FilterStore/FilterStore";
+import MultiStringFilter from "components/filters/MultiStringFilter";
+
+interface ConfigType {
+    type: FilterItemTypes
+}
+
+interface ConfigSingleType extends ConfigType {
+    type: 'STRING' | 'BOOLEAN' | 'NUMBER' | 'MINMAX',
+    placeholder: string,
+}
+
+interface ConfigOptionType extends ConfigType {
+    type: 'OPTION',
+    placeholder: string,
+    options: Option[]
+}
+
+export type OtherType = {
+    [key: string]: ConfigSingleType | ConfigOptionType
+}
 
 interface ContentFiltersProps {
     inputPlaceholder?: string,
     categoryTag?: string,
     categoryOptions?: Option[],
     categoryPlaceholder?: string,
+    otherFilters?: OtherType,
 }
 
 const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
 
     const filter = useLocalStore(() => new FilterStore());
+    const paramNames = Object.keys(props.otherFilters || {});
+
+    const getFiltersForStore = () => {
+        if (props.otherFilters) {
+            let filterObj = {};
+            Object.entries(props.otherFilters).forEach(([key, value]) => {
+                Object.assign(filterObj, {
+                    [key]: value.type,
+                })
+            });
+            return filterObj;
+        }
+        return {};
+    }
+
+    const generateOtherFilters = (): [string, string][] => {
+        if (props.otherFilters) {
+            return Object.entries(props.otherFilters).map(([key, filt]) => {
+                if (filt.type === 'OPTION') {
+                    const values = filter.getOptionItemValue(key);
+                    const valueStr = encodeURIComponent(values.map((opt) => opt.value).join(','));
+                    return [key, valueStr] as [string, string];
+                }
+                return ['', ''];
+            })
+        }
+        return [];
+    } 
 
     useEffect(() => {
         searchStore.getSearchParams();
+        if (props.otherFilters) {
+            filter.configFilters(getFiltersForStore());
+        }
     }, []);
 
     useEffect(() => {
@@ -40,6 +93,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
         searchStore.changeSearchParamsForFilters(
             filter.searchField,
             props.categoryTag, filter.category,
+            generateOtherFilters()
         )
     }
 
@@ -48,7 +102,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
     }
 
     const onChangeCategory = (value: Option[]) => { 
-        filter.setCategory(value) 
+        filter.setCategory(value);
     }
 
     const getTitleWithInit = (value: Option[], initValue: string) => {
@@ -102,6 +156,30 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                 />
                 }
             </div>
+            {props.otherFilters && filter.visibility && !filter.isEmpty &&
+            <div>
+                {Object.entries(props.otherFilters).map(([key, value]) => {
+
+                    if (value.type === 'OPTION') {
+                        return (
+                            <MultiStringFilter
+                                key={key}
+                                filterName={key}
+                                className={styles["content-filters__category__block"]}
+                                options={value.options}
+                                value={filter.getOptionItemValue(key)}
+                                onChange={(newVal: Option[]) => { 
+                                    filter.setOptionItemValue(key, newVal);
+                                }}
+                                getTitle={(newVal: Option[]) => {
+                                    return getTitleWithInit(newVal, value.placeholder);
+                                }}
+                            />
+                        )
+                    }
+                })}
+            </div>
+            }
         </div>
     )
 }

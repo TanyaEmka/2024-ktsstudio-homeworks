@@ -1,83 +1,105 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { Option } from "components/MultiDropdown";
 import { ILocalStore } from "hooks/useLocalStore";
-import { 
-    NumberStoreType, BooleanStoreType,
-    StringStoreType, MinMaxStoreType 
-} from "types/filterTypes";
-import { normalizeFilter } from "utils/filterHandlers";
-import { linearizeCollection } from "utils/collection";
-import { 
-    stringFilters, booleanFilters,
-    numberFilters, minMaxFilters
-} from "config/api";
 
 type PrivateFields = 
-    '_searchField' | '_category' | '_visibility' |
-    '_cuisine' | '_excludeCuisine' |
-    '_diet' | '_intolerances' |
-    '_stringOptions' | '_numberOptions' |
-    '_booleanOptions' | '_minMaxOptions';
+    '_searchField' | 
+    '_category' | 
+    '_visibility' |
+    '_itemSingleList' |
+    '_itemMinMaxList' |
+    '_itemOptionList' |
+    '_itemIndexList';
+
+export type FilterItemTypes = 
+    'STRING' | 
+    'NUMBER' | 
+    'BOOLEAN' | 
+    'MINMAX' |
+    'OPTION';
+
+export type FilterStoreConfigType = {
+    [key: string]: FilterItemTypes
+}
+
+type FilterSingleItemType = string;
+type FilterMinMaxItemType = [string, string];
+type FilterOptionItemType = Option[];
+
+type FilterItemPointListType = {
+    [key: string]: {
+        point: number,
+        type: FilterItemTypes
+    },
+}
 
 export default class FilterStore implements ILocalStore {
     private _searchField = '';
     private _category: Array<Option> = [];
     private _visibility: boolean = false;
 
-    private _cuisine: Array<Option> = [];
-    private _excludeCuisine: Array<Option> = [];
-    private _diet: Array<Option> = [];
-    private _intolerances: Array<Option> = [];
+    private _itemIndexList: FilterItemPointListType = {};
+    private _itemSingleList: FilterSingleItemType[] = [];
+    private _itemMinMaxList: FilterMinMaxItemType[] = [];
+    private _itemOptionList: FilterOptionItemType[] = [];
 
-    private _stringOptions = normalizeFilter<StringStoreType>(stringFilters, '');
-    private _numberOptions = normalizeFilter<NumberStoreType>(numberFilters, 0);
-    private _booleanOptions = normalizeFilter<BooleanStoreType>(booleanFilters, false);
-    private _minMaxOptions = normalizeFilter<MinMaxStoreType>(minMaxFilters, { min: 0, max: 0 });
-    
     constructor() {
         makeObservable<FilterStore, PrivateFields>(this, {
             _searchField: observable,
             _category: observable.ref,
             _visibility: observable.ref,
-
-            _cuisine: observable.ref,
-            _excludeCuisine: observable.ref,
-            _diet: observable.ref,
-            _intolerances: observable.ref,
-
-            _stringOptions: observable.ref,
-            _numberOptions: observable.ref,
-            _booleanOptions: observable.ref,
-            _minMaxOptions: observable.ref,
+            _itemIndexList: observable.ref,
+            _itemSingleList: observable.ref,
+            _itemMinMaxList: observable.ref,
+            _itemOptionList: observable.ref,
 
             setSearch: action.bound,
             setCategory: action.bound,
             setVisibility: action.bound,
 
-            setCuisine: action.bound,
-            setExcludeCuisine: action.bound,
-            setDiet: action.bound,
-            setIntolerances: action.bound,
-
-            setString: action.bound,
-            setNumber: action.bound,
-            setBoolean: action.bound,
-            setMinMax: action.bound,
+            setSingleItemValue: action.bound,
+            setMinMaxItemValue: action.bound,
+            setOptionItemValue: action.bound,
+            addMinMaxItem: action.bound,
+            configFilters: action.bound,
 
             searchField: computed,
             category: computed,
             visibility: computed,
-
-            cuisine: computed,
-            excludeCuisine: computed,
-            diet: computed,
-            intolerances: computed,
-
-            stringValues: computed,
-            numberValues: computed,
-            booleanValues: computed,
-            minMaxValues: computed,
+            isEmpty: computed,
+            options: computed,
         });
+    }
+
+    configFilters(filters: FilterStoreConfigType) {
+        Object.entries(filters).forEach(([key, value]) => {
+            if (value !== 'OPTION' && value !== 'MINMAX') {
+                this._itemSingleList.push('');
+                Object.assign(this._itemIndexList, {
+                    [key]: {
+                        point: this._itemSingleList.length - 1,
+                        type: value
+                    }
+                });
+            } else if (value === 'MINMAX') {
+                this._itemMinMaxList.push(['', '']);
+                Object.assign(this._itemIndexList, {
+                    [key]: {
+                        point: this._itemMinMaxList.length - 1,
+                        type: value
+                    }
+                });
+            } else {
+                this._itemOptionList.push([]);
+                Object.assign(this._itemIndexList, {
+                    [key]: {
+                        point: this._itemOptionList.length - 1,
+                        type: value
+                    }
+                });
+            }
+        });
+        console.log(this._itemOptionList, this._itemIndexList);
     }
 
     setSearch(newValue: string) {
@@ -92,49 +114,6 @@ export default class FilterStore implements ILocalStore {
         this._visibility = newValue;
     }
 
-    setCuisine(newCuisine: Array<Option>) {
-        this._cuisine = newCuisine;
-    }
-
-    setExcludeCuisine(newExclude: Array<Option>) {
-        this._excludeCuisine = newExclude;
-    }
-
-    setDiet(newDiet: Array<Option>) {
-        this._diet = newDiet;
-    }
-
-    setIntolerances(newInt: Array<Option>) {
-        this._intolerances = newInt;
-    }
-
-    setString(name: string, newString: string) {
-        if (this._stringOptions.entities[name]) {
-            this._stringOptions.entities[name].value = newString;
-        }
-        this._stringOptions = { ...this._stringOptions };
-    }
-
-    setNumber(name: string, newNumber: number) {
-        if (this._numberOptions.entities[name]) {
-            this._numberOptions.entities[name].value = newNumber;
-        }
-        this._numberOptions = { ...this._numberOptions };
-    }
-
-    setBoolean(name: string, newBoolean: boolean) {
-        if (this._booleanOptions.entities[name]) {
-            this._booleanOptions.entities[name].value = newBoolean;
-        }
-    }
-
-    setMinMax(name: string, newMinMax: { min: number, max: number }) {
-        if (this._minMaxOptions.entities[name]) {
-            this._minMaxOptions.entities[name].value.min = newMinMax.min;
-            this._minMaxOptions.entities[name].value.max = newMinMax.max;
-        }
-    }
-
     get searchField() {
         return this._searchField;
     }
@@ -147,40 +126,81 @@ export default class FilterStore implements ILocalStore {
         return this._visibility;
     }
 
-    get cuisine() {
-        return this._cuisine;
+    get isEmpty() {
+        return Object.keys(this._itemIndexList).length === 0;
     }
 
-    get excludeCuisine () {
-        return this._excludeCuisine;
+    get options() {
+        return this._itemOptionList;
     }
 
-    get diet() {
-        return this._diet;
+    getSingleItemValue(name: string): string {
+        return this._itemSingleList[this._itemIndexList[name].point] || '';
     }
 
-    get intolerances() {
-        return this._intolerances;
+    getMinMaxItemValue(name: string): [string, string] {
+        return this._itemMinMaxList[this._itemIndexList[name].point] || ['', ''];
     }
 
-    get stringValues() {
-        return linearizeCollection(this._stringOptions);
+    getOptionItemValue(name: string): Option[] {
+        return this._itemOptionList[this._itemIndexList[name].point] || [];
     }
 
-    get numberValues() {
-        return linearizeCollection(this._numberOptions);
+    isSingle(name: string): boolean {
+        return (
+            this._itemIndexList[name].type !== 'OPTION' &&
+            this._itemIndexList[name].type !== 'MINMAX'
+        )
     }
 
-    get booleanValues() {
-        return linearizeCollection(this._booleanOptions);
+    setSingleItemValue(name: string, value: string) {
+        if (this._itemIndexList.hasOwnProperty(name)) {
+            const itemPoint = this._itemIndexList[name].point;
+            if (this.isSingle(name)) {
+                this._itemSingleList[itemPoint] = value;    
+            }
+        }
     }
 
-    get minMaxValues() {
-        return linearizeCollection(this._minMaxOptions);
+    setMinMaxItemValue(name: string, value: string, position: number) {
+        if (this._itemIndexList.hasOwnProperty(name)) {
+            const itemPoint = this._itemIndexList[name].point;
+            if (this._itemIndexList[name].type === 'MINMAX') {
+                this._itemMinMaxList[itemPoint][position] = value;
+            }
+        }
+    }
+
+    addMinMaxItem(name: string) {
+        this._itemMinMaxList.push(['', '']);
+        Object.assign(this._itemIndexList, {
+            [name]: {
+                point: this._itemMinMaxList.length - 1,
+                type: 'MINMAX'
+            }
+        });
+        this._itemMinMaxList = [ ...this._itemMinMaxList ];
+        this._itemIndexList = { ...this._itemIndexList };
+    }
+
+    setOptionItemValue(name: string, value: Option[]) {
+        if (this._itemIndexList.hasOwnProperty(name)) {
+            const itemPoint = this._itemIndexList[name].point;
+            if (this._itemIndexList[name].type === 'OPTION') {
+                this._itemOptionList[itemPoint] = [ ...value ];
+                this._itemOptionList = [ ...this._itemOptionList ];
+            }
+        }
+        this._itemOptionList = [ ...this._itemOptionList ];
     }
 
     destroy(): void {
         this._searchField = '';
         this._category = [];
+        this._visibility = false;
+        this._itemSingleList = [];
+        this._itemMinMaxList = [];
+        this._itemOptionList = [];
+        this._itemIndexList = {};
     }
 }

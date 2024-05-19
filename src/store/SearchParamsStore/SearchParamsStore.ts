@@ -107,7 +107,8 @@ class SearchParamsStore implements ILocalStore {
     changeSearchParamsForFilters(
         search: string,
         categoryTag?: string,
-        category?: Option[]
+        category?: Option[],
+        otherTags?: [string, string][]
     ) {
         this.deleteSearchParam('query', false);
         this.deleteSearchParam('page', false);
@@ -117,6 +118,13 @@ class SearchParamsStore implements ILocalStore {
         if (categoryTag && category) {
             this.deleteSearchParam(categoryTag, false);
             this.setMultiParam(categoryTag, category.map((cat) => cat.value), ',', false);
+        }
+        if (otherTags) {
+            otherTags.forEach(([key, value]) => {
+                if (key !== '' && value !== '') {
+                    this.setSearchParam(key, value, false);
+                }
+            })
         }
         this.updateUrl(this.updateSearchParams());
         this._searchParams = { ...this._searchParams };

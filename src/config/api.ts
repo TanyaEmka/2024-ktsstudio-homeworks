@@ -89,5 +89,11 @@ export const numberFilters = [ 'maxReadyTime' ];
 export const mealTypesOptions = mealTypes
     .map((type, index) => ({ key: index.toString(), value: type }));
 
+export const cuisineTypesOptions = cuisineList
+    .map((type, index) => ({ key: index.toString(), value: type.toLowerCase() }));
+
+export const dietTypesOptions = dietList
+    .map((type, index) => ({ key: index.toString(), value: type.toLowerCase() }));
+
 export const intoleranceTypesOptions = intoleranceList
     .map((type, index) => ({ key: index.toString(), value: type.toLowerCase() }));

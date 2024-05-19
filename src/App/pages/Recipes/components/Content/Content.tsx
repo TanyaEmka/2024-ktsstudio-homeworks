@@ -12,10 +12,65 @@ import ContentHeader from "./ContentHeader";
 import RecipeCard from "components/RecipeCard";
 import searchStore from "store/SearchParamsStore";
 
-import { mealTypesOptions } from "config/api";
+import { mealTypesOptions, cuisineTypesOptions, intoleranceTypesOptions, dietTypesOptions } from "config/api";
 
 import styles from './Content.module.scss';
+import { OtherType } from "components/ContentFilters/ContentFilters";
 
+const otherFilters = {
+    cuisine: {
+        type: 'OPTION',
+        placeholder: 'cuisine',
+        options: cuisineTypesOptions
+    },
+    excludeCuisine: {
+        type: 'OPTION',
+        placeholder: 'excludeCuisine',
+        options: cuisineTypesOptions
+    },
+    diet: {
+        type: 'OPTION',
+        placeholder: 'diet',
+        options: dietTypesOptions,
+    },
+    intolerances: { 
+        type: 'OPTION',
+        placeholder: 'intolerances',
+        options: intoleranceTypesOptions
+    },
+    equipment: {
+        type: 'STRING',
+        placeholder: 'equipment'
+    },
+    includeIngredients: {
+        type: 'STRING',
+        placeholder: 'tomato,cheese'
+    },
+    excludeIngredients: {
+        type: 'STRING',
+        placeholder: 'eggs,tomato'
+    },
+    author: {
+        type: 'STRING',
+        placeholder: 'author',
+    },
+    tags: {
+        type: 'STRING',
+        placeholder: 'tag1,tag2,...'
+    },
+    titlteMatch: {
+        type: 'STRING',
+        placeholder: 'Title'
+    },
+    maxReadyTime: {
+        type: 'NUMBER',
+        placeholder: 'max ready time',
+    },
+    ignorePantry: {
+        type: 'BOOLEAN',
+        placeholder: '...',
+    }
+};
 
 const Content: React.FC = () => {
 
@@ -26,6 +81,9 @@ const Content: React.FC = () => {
             searchStore.getOffset(),
             searchStore.getParamPair('query'),
             searchStore.getParamPair('type'),
+            ...Object.keys(otherFilters).map((key) => {
+                return searchStore.getParamPair(key);
+            })
         ));
     }, [searchStore.searchParams, recipesStore]);
 
@@ -36,6 +94,7 @@ const Content: React.FC = () => {
                 categoryTag="type"
                 categoryOptions={mealTypesOptions}
                 categoryPlaceholder="Categories"
+                otherFilters={otherFilters as OtherType}
             />
             <ListShower 
                 status={recipesStore.status}
