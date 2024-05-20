@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import 'styles/styles.scss';
 
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Main from 'components/Main';
 import localStorage from 'store/LocalStorage';
 import searchParamsStore from 'store/SearchParamsStore';
@@ -32,7 +32,7 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <BrowserRouter basename=''>
+    <HashRouter basename='/'>
       <Routes>
         <Route path='/' element={<Main />}>
           <Route path='/recipes' element={<Recipes />} />
@@ -49,7 +49,7 @@ const App: React.FC = () => {
           <Route path='*' element={<Navigate to='/recipes' replace />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 

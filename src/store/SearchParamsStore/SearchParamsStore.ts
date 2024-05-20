@@ -35,12 +35,12 @@ class SearchParamsStore implements ILocalStore {
     updateUrl(searchParams: URLSearchParams) {
         const newUrl = 
             window.location.protocol + '//' + 
-            window.location.host + window.location.pathname + 
+            window.location.host + window.location.hash + window.location.pathname + 
             '?' + searchParams.toString();
         window.history.pushState({path: newUrl}, '', newUrl);
     }
 
-    updateSearchParams(): URLSearchParams {
+    updateSearchParams (): URLSearchParams {
         const searchParams = this.getSearchObject();
         Object.entries(this._searchParams).forEach(([key, value]) => {
             if (value) {
@@ -63,7 +63,11 @@ class SearchParamsStore implements ILocalStore {
         });
     }
 
-    setSearchParam(key: string, value: string | null, updating: boolean = true) {
+    setSearchParam(
+        key: string, 
+        value: string | null, 
+        updating: boolean = true
+    ) {
         if (value) {
             Object.assign(this._searchParams, {
                 [key]: value,
@@ -108,7 +112,7 @@ class SearchParamsStore implements ILocalStore {
         }
     }
 
-    changeSearchParamsForFilters(
+    changeSearchParamsForFilters (
         search: string,
         categoryTag?: string,
         category?: Option[],
