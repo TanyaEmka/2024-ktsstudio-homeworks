@@ -1,8 +1,8 @@
 import * as React from "react";
-import { MealPlanWeekType } from "types/apiTypes";
-import Text from "components/Text";
-import DayInfo from "../DayInfo";
 import { memo } from "react";
+import Text from "components/Text";
+import { MealPlanWeekType } from "types/apiTypes";
+import DayInfo from "../DayInfo";
 import styles from './WeekInfo.module.scss';
 
 interface WeekInfoProps {
@@ -22,8 +22,6 @@ const weekDays = [
 
 const WeekInfo: React.FC<WeekInfoProps> = (props) => {
 
-    const emptyDays = Array(7 - props.plan.days.length).fill(0);
-
     return (
         <div className={styles["week-info"]}>
             <Text 
@@ -36,6 +34,7 @@ const WeekInfo: React.FC<WeekInfoProps> = (props) => {
                 {props.plan.days.map((day, index) => {
                     return (
                         <DayInfo 
+                            key={day.date}
                             dayName={weekDays[index]}
                             {...day} 
                         />

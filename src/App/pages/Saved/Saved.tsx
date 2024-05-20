@@ -1,10 +1,10 @@
-import * as React from "react";
-import PageTemplate from "components/PageTemplate";
-import localStorage from "store/LocalStorage";
-import { SuccessfulStatus } from "config/initValues";
-import ListShower from "components/ListShower";
 import { observer } from "mobx-react-lite";
+import * as React from "react";
+import ListShower from "components/ListShower";
+import PageTemplate from "components/PageTemplate";
 import RecipeCard from "components/RecipeCard";
+import { SuccessfulStatus } from "config/initValues";
+import localStorage from "store/LocalStorage";
 
 const Saved: React.FC = () => {
 

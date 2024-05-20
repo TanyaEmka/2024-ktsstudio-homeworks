@@ -1,8 +1,8 @@
 import * as React from "react";
+import MultiDropdown, { MultiDropdownProps } from "components/MultiDropdown";
 import { MultiStringFilterType } from "types/filterTypes";
 import Filter from "../Filter";
 
-import MultiDropdown, { MultiDropdownProps } from "components/MultiDropdown";
 
 const MultiStringFilter: React.FC<MultiStringFilterType & MultiDropdownProps> = (props) => {
 

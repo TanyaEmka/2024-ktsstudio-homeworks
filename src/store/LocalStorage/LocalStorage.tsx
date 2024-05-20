@@ -1,5 +1,5 @@
-import { ILocalStore } from "hooks/useLocalStore";
 import { action, computed, makeObservable, observable } from "mobx";
+import { ILocalStore } from "hooks/useLocalStore";
 import { RecipeCollectionUnitType } from "types/apiTypes";
 
 export type CardRecipeType = {
@@ -44,7 +44,7 @@ export class LocalStorage implements ILocalStore {
     }
 
     getSavedRecipe(id: string): CardRecipeType {
-        let cardRecipe: CardRecipeType = {} as CardRecipeType;
+        const cardRecipe: CardRecipeType = {} as CardRecipeType;
         cardRecipe.id = Number(id);
         cardRecipe.readyInMinutes = Number(localStorage.getItem(this.getItemName(id, 'readyInMinutes')) || '0');
         cardRecipe.title = localStorage.getItem(this.getItemName(id, 'title')) || '';

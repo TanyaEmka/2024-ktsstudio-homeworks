@@ -1,13 +1,13 @@
+import { observer } from "mobx-react-lite";
 import * as React from "react";
 import { useState, useEffect } from "react";
-import Card from "components/Card";
-import { CardRecipeType } from "store/LocalStorage/LocalStorage";
-import { RecipeCollectionUnitType } from "types/apiTypes";
 import { useNavigate } from "react-router-dom";
 import Button from "components/Button";
-import RecipeCardCaption from "./components/RecipeCardCaption";
+import Card from "components/Card";
 import localStorage from "store/LocalStorage";
-import { observer } from "mobx-react-lite";
+import { CardRecipeType } from "store/LocalStorage/LocalStorage";
+import { RecipeCollectionUnitType } from "types/apiTypes";
+import RecipeCardCaption from "./components/RecipeCardCaption";
 
 interface RecipeCardProps {
     mode?: 'RECIPES' | 'SAVED',
@@ -25,7 +25,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
 
     useEffect(() => {
         setIsSaved(checkRecipeInSaved(recipe.id));
-    }, [cards]);
+    }, [cards, checkRecipeInSaved, recipe.id]);
 
     const navigateToRecipePage = (id: number) => {
         navigate('/recipe/' + id);

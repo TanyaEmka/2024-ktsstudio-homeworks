@@ -1,17 +1,17 @@
+import { observer } from "mobx-react-lite";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { useLocalStore } from "hooks/useLocalStore";
 import { useNavigate } from "react-router-dom";
-import userStore from "store/UserStore";
-import MealPlanningStore from "store/MealPlanningStore";
-import Text from "components/Text";
-import ErrorBox from "components/ErrorBox";
 import Button from "components/Button";
-import { observer } from "mobx-react-lite";
+import ErrorBox from "components/ErrorBox";
+import MultiDropdown, { Option } from "components/MultiDropdown";
+import Text from "components/Text";
+import { publicTemplates } from "config/api";
+import { useLocalStore } from "hooks/useLocalStore";
+import MealPlanningStore from "store/MealPlanningStore";
+import userStore from "store/UserStore";
 import WeekInfo from "./components/WeekInfo";
 import styles from "./MealPlanning.module.scss";
-import MultiDropdown, { Option } from "components/MultiDropdown";
-import { publicTemplates } from "config/api";
 
 const MealPlanning: React.FC = () => {
 
@@ -24,11 +24,7 @@ const MealPlanning: React.FC = () => {
         if (userStatus !== 'none') {
             loadingPlan(user.username, user.hash);
         }
-    }, [userStatus]);
-
-    useEffect(() => {
-        console.log(plan);
-    }, [plan])
+    }, [userStatus, loadingPlan, user.hash, user.username]);
 
     return (
         <div className={styles["mealplanning-page"]}>

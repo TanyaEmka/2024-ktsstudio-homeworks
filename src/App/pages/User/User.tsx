@@ -1,12 +1,12 @@
+import { observer } from "mobx-react-lite";
 import * as React from "react";
 import { useEffect } from "react";
-import userStore from "store/UserStore";
 import { useNavigate } from "react-router-dom";
-import { observer } from "mobx-react-lite";
+import Button from "components/Button";
+import Text from "components/Text";
+import userStore from "store/UserStore";
 import styles from './User.module.scss';
 
-import Text from "components/Text";
-import Button from "components/Button";
 
 const User: React.FC = () => {
 
@@ -17,7 +17,7 @@ const User: React.FC = () => {
         if (userStatus === 'none') {
             navigate('/login');
         }
-    }, [userStatus]);
+    }, [userStatus, navigate]);
 
     return (
         <div className={styles["user-page"]}>

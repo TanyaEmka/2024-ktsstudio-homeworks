@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import Button from "components/Button";
 import Input from "components/Input";
 import Text from "components/Text";
@@ -53,7 +53,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
 
     const filter = useLocalStore(() => new FilterStore());
 
-    const getFiltersForStore = () => {
+    const getFiltersForStore = useCallback(() => {
         if (props.otherFilters) {
             let filterObj = {};
             Object.entries(props.otherFilters).forEach(([key, value]) => {
@@ -64,7 +64,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
             return filterObj;
         }
         return {};
-    }
+    }, [props.otherFilters]);
 
     const generateOtherFilters = (): [string, string][] => {
         if (props.otherFilters) {
@@ -89,7 +89,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
         if (props.otherFilters) {
             filter.configFilters(getFiltersForStore());
         }
-    }, []);
+    }, [props.otherFilters, filter]);
 
     useEffect(() => {
         filter.setSearch(searchStore.getParam('query'));
@@ -110,7 +110,13 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                 }
             });
         }
-    }, [searchStore.searchParams, filter]);
+    }, [
+        searchStore.searchParams, 
+        filter,
+        props.categoryOptions,
+        props.categoryTag,
+        props.otherFilters
+    ]);
 
     const changeSearchParams = () => {
         searchStore.changeSearchParamsForFilters(
@@ -198,7 +204,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                 <div
                     className={styles["content-filters__other__multi"]}
                 >
-                    {Object.entries(props.otherFilters).filter(([key, val]) => val.type === 'OPTION').map(([key, value]) => {
+                    {Object.entries(props.otherFilters).filter(([_, val]) => val.type === 'OPTION').map(([key, value]) => {
 
                         if (value.type === 'OPTION') {
                         return (
@@ -224,7 +230,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                     className={styles["content-filters__other__string"]}
                 >
                     {Object.entries(props.otherFilters)
-                        .filter(([key, val]) => val.type === 'STRING').map(([key, value]) => {
+                        .filter(([_, val]) => val.type === 'STRING').map(([key, value]) => {
 
                         if (value.type === 'STRING') {
                             return (
@@ -245,7 +251,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                     className={styles["content-filters__other__number"]}
                 >
                     {Object.entries(props.otherFilters)
-                        .filter(([key, val]) => val.type === 'NUMBER').map(([key, value]) => {
+                        .filter(([_, val]) => val.type === 'NUMBER').map(([key, value]) => {
 
                         if (value.type === 'NUMBER') {
                             return (
@@ -266,7 +272,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                     className={styles["content-filters__other__boolean"]}
                 >
                     {Object.entries(props.otherFilters)
-                        .filter(([key, val]) => val.type === 'BOOLEAN').map(([key, value]) => {
+                        .filter(([_, val]) => val.type === 'BOOLEAN').map(([key, value]) => {
 
                         if (value.type === 'BOOLEAN') {
                             return (
@@ -275,7 +281,6 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                                     filterName={key}
                                     checked={filter.getSingleItemValue(key) === 'true'} 
                                     onChange={(checked) => { 
-                                        console.log(filter.getSingleItemValue(key));
                                         filter.setSingleItemValue(key, (checked).toString());
                                     }}
                                 />

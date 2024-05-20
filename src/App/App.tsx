@@ -1,23 +1,22 @@
+import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { useEffect } from 'react';
 import 'styles/styles.scss';
 
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Main from 'components/Main';
+import localStorage from 'store/LocalStorage';
+import searchParamsStore from 'store/SearchParamsStore';
+import userStore from 'store/UserStore';
+import Ingredients from './pages/Ingredients';
+import Login from './pages/Login';
+import MealPlanning from './pages/MealPlanning';
+import MenuItems from './pages/MenuItems';
+import Products from './pages/Products';
 import Recipe from './pages/Recipe';
 import Recipes from './pages/Recipes';
-import Ingredients from './pages/Ingredients';
-import Products from './pages/Products';
-import MenuItems from './pages/MenuItems';
 import Saved from './pages/Saved';
-import Login from './pages/Login';
 import User from './pages/User';
-import MealPlanning from './pages/MealPlanning';
-
-import localStorage from 'store/LocalStorage';
-import userStore from 'store/UserStore';
-import searchParamsStore from 'store/SearchParamsStore';
-import { observer } from 'mobx-react-lite';
 
 const App: React.FC = () => {
 

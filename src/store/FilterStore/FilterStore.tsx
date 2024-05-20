@@ -92,7 +92,6 @@ export default class FilterStore implements ILocalStore {
                 });
             }
         });
-        console.log(this._itemOptionList, this._itemIndexList);
     }
 
     setSearch(newValue: string) {
@@ -151,7 +150,7 @@ export default class FilterStore implements ILocalStore {
     }
 
     setSingleItemValue(name: string, value: string) {
-        if (this._itemIndexList.hasOwnProperty(name)) {
+        if (name in this._itemIndexList) {
             const itemPoint = this._itemIndexList[name].point;
             if (this.isSingle(name)) {
                 this._itemSingleList[itemPoint] = value;
@@ -162,7 +161,7 @@ export default class FilterStore implements ILocalStore {
     }
 
     setMinMaxItemValue(name: string, value: string, position: number) {
-        if (this._itemIndexList.hasOwnProperty(name)) {
+        if (name in this._itemIndexList) {
             const itemPoint = this._itemIndexList[name].point;
             if (this._itemIndexList[name].type === 'MINMAX') {
                 this._itemMinMaxList[itemPoint][position] = value;
@@ -185,7 +184,7 @@ export default class FilterStore implements ILocalStore {
     }
 
     setOptionItemValue(name: string, value: Option[]) {
-        if (this._itemIndexList.hasOwnProperty(name)) {
+        if (name in this._itemIndexList) {
             const itemPoint = this._itemIndexList[name].point;
             if (this._itemIndexList[name].type === 'OPTION') {
                 this._itemOptionList[itemPoint] = [ ...value ];

@@ -1,7 +1,7 @@
 import * as React from "react";
+import Text from "components/Text";
 import styles from './Filter.module.scss';
 
-import Text from "components/Text";
 
 interface FilterProps {
     name: string,

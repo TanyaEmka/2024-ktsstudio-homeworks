@@ -1,10 +1,10 @@
-import { ILocalStore } from "hooks/useLocalStore";
-import { Status } from "types/apiTypes";
-import { urlPrefix, apiKey } from "config/api";
-import { MealPlanWeekType, MealPlanDayType } from "types/apiTypes";
 import axios from "axios";
-import { LoadingStatus, NotStartedStatus, SuccessfulStatus, errorStatus } from "config/initValues";
 import { action, computed, makeObservable, observable } from "mobx";
+import { urlPrefix, apiKey } from "config/api";
+import { LoadingStatus, NotStartedStatus, SuccessfulStatus, errorStatus } from "config/initValues";
+import { ILocalStore } from "hooks/useLocalStore";
+import { Status , MealPlanWeekType } from "types/apiTypes";
+
 
 type PrivateFields = '_status' | '_plan';
 
@@ -47,9 +47,8 @@ export default class MealPlanningStore implements ILocalStore {
     }
 
     getStartOfWeek(dateObj: Date) {
-        let date = new Date(dateObj);
-        let day = date.getDay();
-        console.log(day);
+        const date = new Date(dateObj);
+        const day = date.getDay();
         const diff = date.getDate() - day + (day === 0 ? -6 : 1);
         return this.getDateForm(new Date(date.setDate(diff)));
     }
@@ -69,7 +68,6 @@ export default class MealPlanningStore implements ILocalStore {
         this.setStatus(LoadingStatus);
         axios.get(url)
         .then((resp) => {
-            console.log(resp.data);
             this.setPlan(resp.data);
             this.setStatus(SuccessfulStatus);
         })
@@ -84,7 +82,6 @@ export default class MealPlanningStore implements ILocalStore {
         hash: string
     ) {
         const nowPrev = this.getStartOfWeek(new Date());
-        console.log(nowPrev);
         const now = new Date(nowPrev).getTime() / 1000;
         const url = 
             urlPrefix + 'mealplanner/' + 
@@ -94,13 +91,9 @@ export default class MealPlanningStore implements ILocalStore {
             mealPlanTemplateId: id,
             startDate: now
         })
-        .then((resp) => {
-            console.log(resp.data);
+        .then(() => {
             this.loadingPlan(username, hash);
         })
-        .catch((err) => {
-            console.log(err);
-        });
     }
 
     addInPlan() {

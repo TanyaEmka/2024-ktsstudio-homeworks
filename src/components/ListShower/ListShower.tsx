@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Status } from 'types/apiTypes';
 import ErrorBox from 'components/ErrorBox';
-import Text from 'components/Text';
+import Loader from 'components/Loader';
 import PageController from 'components/PageController';
-import styles from './ListShower.module.scss';
+import Text from 'components/Text';
 import searchStore from 'store/SearchParamsStore';
+import { Status } from 'types/apiTypes';
+import styles from './ListShower.module.scss';
 
 interface ListShowerProps {
     status: Status,
@@ -33,7 +34,7 @@ const ListShower: React.FC<ListShowerProps> = ({
                 {status.statusMessage}
             </ErrorBox>
             : status.statusName === 'LOADING' ?
-            <Text>Loading...</Text>
+            <Loader />
             :
             <>
                 <div className={styles['list-shower']}>

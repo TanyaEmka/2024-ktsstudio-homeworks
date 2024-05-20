@@ -1,9 +1,9 @@
 import * as React from "react";
-import Filter from "../Filter";
-import { NumberFilterType } from "types/filterTypes";
 
 import Input, { InputProps } from "components/Input";
 import Text from "components/Text";
+import { NumberFilterType } from "types/filterTypes";
+import Filter from "../Filter";
 
 const NumberFilter: React.FC<NumberFilterType & InputProps> = (props) => {
 

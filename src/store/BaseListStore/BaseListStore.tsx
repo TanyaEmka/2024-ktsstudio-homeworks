@@ -1,12 +1,12 @@
+import axios from "axios";
+import { makeObservable, observable, computed, action } from "mobx";
 import { 
     NotStartedStatus, LoadingStatus,
     SuccessfulStatus, errorStatus
 } from "config/initValues";
-import { Status } from "types/apiTypes";
 import { ILocalStore } from "hooks/useLocalStore";
+import { Status } from "types/apiTypes";
 import { getInitialCollectionModel, linearizeCollection, normalizeCollection } from "utils/collection";
-import { makeObservable, observable, computed, action } from "mobx";
-import axios from "axios";
 
 type PrivateFields = '_status' | '_results' | '_total';
 

@@ -1,8 +1,8 @@
 import * as React from "react";
-import { MealPlanCommonItemType, IngOneType, IngTwoType } from "types/apiTypes";
+import { memo } from "react";
 import Text from "components/Text";
 import { imagePrefix } from "config/api";
-import { memo } from "react";
+import { MealPlanCommonItemType } from "types/apiTypes";
 import styles from "./SlotInfo.module.scss";
 
 interface SlotInfoProps {
@@ -14,7 +14,6 @@ const SlotInfo: React.FC<SlotInfoProps> = (props) => {
     const elements = props.slots.sort((a, b) => {
         return (a.position < b.position) ? -1 : 0;
     });
-    console.log(elements);
 
     const getItemElementByType = (item: MealPlanCommonItemType) => {
         if (item.type !== 'INGREDIENTS') {

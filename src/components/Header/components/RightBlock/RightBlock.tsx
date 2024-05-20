@@ -21,7 +21,7 @@ const RightBlock: React.FC = () => {
         } else {
             navigate('/login');
         }
-    }, [navigate]);
+    }, [navigate, userStatus]);
 
     return (
         <div className={styles["right-block"]}>

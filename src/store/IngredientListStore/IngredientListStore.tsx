@@ -4,8 +4,8 @@ import {
     pageElementCount, 
     apiKey 
 } from "config/api";
-import { IngredientUnit } from "types/apiTypes";
 import BaseListStore from "store/BaseListStore";
+import { IngredientUnit } from "types/apiTypes";
 
 export default class IngredientListStore extends BaseListStore<IngredientUnit> {
 
@@ -20,7 +20,7 @@ export default class IngredientListStore extends BaseListStore<IngredientUnit> {
             query: query,
         }
         const pathUrl = 'search?';
-        let pathParams = Object.entries(params).map((param) => param.join('='));
+        const pathParams = Object.entries(params).map((param) => param.join('='));
         other.forEach((element) => {
             if (element[1] !== null) {
                 pathParams.push(element.join('='));
@@ -28,7 +28,7 @@ export default class IngredientListStore extends BaseListStore<IngredientUnit> {
         });
         pathParams.push(['apiKey', apiKey].join('='));
         const url = urlPrefix + 'food/ingredients/' + pathUrl + [...pathParams ].join('&');
-        return url;    
+        return url;
     }
 
     getImageUrl(url: string, size: 100 | 250 | 500 = 500) {

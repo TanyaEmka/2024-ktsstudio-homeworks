@@ -1,9 +1,9 @@
 import * as React from 'react';
+import Input from 'components/Input';
+import Text from 'components/Text';
 import { MinMaxFilterType } from 'types/filterTypes';
 import Filter from '../Filter';
 
-import Input from 'components/Input';
-import Text from 'components/Text';
 
 type MinMaxFilterProps = MinMaxFilterType & {
     minValue: number,

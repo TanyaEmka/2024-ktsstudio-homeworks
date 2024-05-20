@@ -3,8 +3,8 @@ import {
     pageElementCount, 
     apiKey 
 } from "config/api";
-import { MenuItemUnit } from "types/apiTypes";
 import BaseListStore from "store/BaseListStore";
+import { MenuItemUnit } from "types/apiTypes";
 
 export default class MenuItemListStore extends BaseListStore<MenuItemUnit> {
 
@@ -19,7 +19,7 @@ export default class MenuItemListStore extends BaseListStore<MenuItemUnit> {
             query: query,
         }
         const pathUrl = 'search?';
-        let pathParams = Object.entries(params).map((param) => param.join('='));
+        const pathParams = Object.entries(params).map((param) => param.join('='));
         other.forEach((element) => {
             if (element[1] !== null) {
                 pathParams.push(element.join('='));

@@ -1,8 +1,8 @@
 import * as React from "react";
+import { memo } from "react";
+import Text from "components/Text";
 import { MealPlanDayType } from "types/apiTypes";
 import SlotInfo from "../SlotInfo";
-import Text from "components/Text";
-import { memo } from "react";
 import styles from "./DayInfo.module.scss";
 
 type DayInfoOtherType = {

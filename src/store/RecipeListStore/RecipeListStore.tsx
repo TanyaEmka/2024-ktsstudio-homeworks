@@ -1,8 +1,8 @@
 import { urlPrefix, pageElementCount, apiKey } from "config/api";
+import BaseListStore from "store/BaseListStore";
 import { RecipeUnit, RecipeCollectionUnitType } from "types/apiTypes";
 import { normalizeCollection } from "utils/collection";
 
-import BaseListStore from "store/BaseListStore";
 
 export default class RecipeListStore extends BaseListStore<RecipeCollectionUnitType> {
 
@@ -31,7 +31,7 @@ export default class RecipeListStore extends BaseListStore<RecipeCollectionUnitT
             offset: offset,
         }
         const pathUrl = 'complexSearch?';
-        let pathParams = Object.entries(params).map((param) => param.join('='));
+        const pathParams = Object.entries(params).map((param) => param.join('='));
         other.forEach((element) => {
             if (element[1] !== null) {
                 if (element[1] !== '') {

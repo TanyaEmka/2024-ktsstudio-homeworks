@@ -1,14 +1,14 @@
+import { observer } from "mobx-react-lite";
 import * as React from "react";
 import { useState, useEffect } from "react";
 
+import { useNavigate } from "react-router-dom";
+import Button from "components/Button";
 import Input from "components/Input";
 import Text from "components/Text";
-import Button from "components/Button";
 
 import userStore from "store/UserStore";
 import { LoginRequestType } from "store/UserStore/UserStore";
-import { useNavigate } from "react-router-dom";
-import { observer } from "mobx-react-lite";
 
 import styles from './Login.module.scss';
 
@@ -28,7 +28,7 @@ const Login: React.FC = () => {
         if (userStore.userStatus === 'auth') {
             navigate('/user');
         }
-    }, [userStore.userStatus]);
+    }, [navigate]);
 
     return (
         <div className={styles["login-page"]}>

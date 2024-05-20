@@ -1,16 +1,16 @@
+import { observer } from "mobx-react-lite";
 import * as React from "react";
 import { useEffect } from "react";
-import PageTemplate from "components/PageTemplate";
-import { useLocalStore } from "hooks/useLocalStore";
 import Card from "components/Card";
-import { observer } from "mobx-react-lite";
-import IngredientListStore from "store/IngredientListStore";
-import ListShower from "components/ListShower";
 import ContentFilters from "components/ContentFilters";
-import { intoleranceTypesOptions } from "config/api";
-import searchStore from "store/SearchParamsStore";
-import { ingredientFilters } from "config/api";
 import { OtherType } from "components/ContentFilters/ContentFilters";
+import ListShower from "components/ListShower";
+import PageTemplate from "components/PageTemplate";
+import { intoleranceTypesOptions , ingredientFilters } from "config/api";
+import { useLocalStore } from "hooks/useLocalStore";
+import IngredientListStore from "store/IngredientListStore";
+import searchStore from "store/SearchParamsStore";
+
 
 const Ingredients: React.FC = () => {
 

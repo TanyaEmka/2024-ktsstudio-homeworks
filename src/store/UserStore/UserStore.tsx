@@ -1,14 +1,14 @@
-import { ILocalStore } from "hooks/useLocalStore";
-import { action, makeObservable, observable, computed } from "mobx";
-import { Status } from "types/apiTypes";
 import axios from "axios";
+import { action, makeObservable, observable, computed } from "mobx";
+import { urlPrefix, apiKey } from "config/api";
 import {
     LoadingStatus, 
     NotStartedStatus, 
     SuccessfulStatus, 
     errorStatus 
 } from "config/initValues";
-import { urlPrefix, apiKey } from "config/api";
+import { ILocalStore } from "hooks/useLocalStore";
+import { Status } from "types/apiTypes";
 
 type CookieObjectType = {
     [key: string]: string,
@@ -66,7 +66,7 @@ class UserStore implements ILocalStore {
         const cookieKey = encodeURIComponent(key);
         const cookieValue = encodeURIComponent(value);
         const cookieData = [cookieKey, cookieValue].join('=');
-        let date = new Date();
+        const date = new Date();
         date.setMonth(date.getMonth() + months);
         const cookieExpires = ['expires', date.toUTCString()].join('=');
         document.cookie = 

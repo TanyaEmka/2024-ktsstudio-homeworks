@@ -1,9 +1,9 @@
 import * as React from "react";
-import Filter from "../Filter";
-import { StringFilterType } from "types/filterTypes";
 
 import Input, { InputProps } from "components/Input";
 import Text from "components/Text";
+import { StringFilterType } from "types/filterTypes";
+import Filter from "../Filter";
 
 const StringFilter: React.FC<StringFilterType & InputProps> = (props) => {
 

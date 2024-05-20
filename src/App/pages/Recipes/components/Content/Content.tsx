@@ -2,20 +2,20 @@ import { observer } from "mobx-react-lite";
 import * as React from "react";
 import { useEffect } from "react";
 
+import ContentFilters from "components/ContentFilters";
+import { OtherType } from "components/ContentFilters/ContentFilters";
 import ListShower from "components/ListShower";
 
+import RecipeCard from "components/RecipeCard";
+import { mealTypesOptions, recipesFilters } from "config/api";
 import { useLocalStore } from "hooks/useLocalStore";
 import RecipeListStore from "store/RecipeListStore";
 
-import ContentFilters from "components/ContentFilters";
-import ContentHeader from "./ContentHeader";
-import RecipeCard from "components/RecipeCard";
 import searchStore from "store/SearchParamsStore";
+import ContentHeader from "./ContentHeader";
 
-import { mealTypesOptions, recipesFilters } from "config/api";
 
 import styles from './Content.module.scss';
-import { OtherType } from "components/ContentFilters/ContentFilters";
 
 const Content: React.FC = () => {
 

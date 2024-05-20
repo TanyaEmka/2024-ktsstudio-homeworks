@@ -1,6 +1,6 @@
 import { action, computed, makeObservable, observable } from "mobx";
-import { ILocalStore } from "hooks/useLocalStore";
 import { Option } from "components/MultiDropdown";
+import { ILocalStore } from "hooks/useLocalStore";
 
 type SearchParamObjType = {
     [key: string]: string | null,
@@ -41,7 +41,7 @@ class SearchParamsStore implements ILocalStore {
     }
 
     updateSearchParams(): URLSearchParams {
-        let searchParams = this.getSearchObject();
+        const searchParams = this.getSearchObject();
         Object.entries(this._searchParams).forEach(([key, value]) => {
             if (value) {
                 searchParams.set(key, encodeURIComponent(value));
@@ -68,6 +68,7 @@ class SearchParamsStore implements ILocalStore {
             Object.assign(this._searchParams, {
                 [key]: value,
             });
+            this._searchParams = { ...this._searchParams };
             if (updating) {
                 const searchParams = this.getSearchObject();
                 searchParams.set(key, encodeURIComponent(value.toLowerCase()));
@@ -77,7 +78,7 @@ class SearchParamsStore implements ILocalStore {
     }
 
     deleteSearchParam(key: string, updating: boolean = true) {
-        if (this._searchParams.hasOwnProperty(key)) {
+        if (key in this._searchParams) {
             this._searchParams[key] = null;
             if (updating) {
                 const searchParams = this.getSearchObject();
@@ -98,6 +99,7 @@ class SearchParamsStore implements ILocalStore {
             Object.assign(this._searchParams, {
                 [key]: valueStr,
             });
+            this._searchParams = { ...this._searchParams };
             if (updating) {
                 const searchParams = this.getSearchObject();
                 searchParams.set(key, encodeURIComponent(valueStr.toLowerCase()));
@@ -112,8 +114,6 @@ class SearchParamsStore implements ILocalStore {
         category?: Option[],
         otherTags?: [string, string][]
     ) {
-        console.log(otherTags);
-        console.log(category);
         this.deleteSearchParam('query', false);
         this.deleteSearchParam('page', false);
         if (search !== '') {

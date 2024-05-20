@@ -1,7 +1,7 @@
 import * as React from 'react';
+import Text from 'components/Text';
 import styles from './PageTemplate.module.scss';
 
-import Text from 'components/Text';
 
 interface PageTemplateProps {
     headerName: string,

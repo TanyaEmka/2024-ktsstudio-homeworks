@@ -67,7 +67,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
     } else {
       props.onChange(props.value.filter(el => el.key !== clickValue.key));
     }
-  }, [props]);
+  }, [props, selectMode]);
 
   const getFilterList = useCallback((title: string) => {
     if (title !== '') {
