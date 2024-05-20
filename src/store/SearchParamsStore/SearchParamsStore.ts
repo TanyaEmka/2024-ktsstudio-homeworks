@@ -34,7 +34,8 @@ class SearchParamsStore implements ILocalStore {
 
     updateUrl(searchParams: URLSearchParams) {
         const newUrl = 
-            window.location.href + 
+            window.location.protocol + '//' + 
+            window.location.host + window.location.pathname + window.location.hash
             '?' + searchParams.toString();
         window.history.pushState({path: newUrl}, '', newUrl);
     }
