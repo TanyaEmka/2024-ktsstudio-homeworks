@@ -9,7 +9,7 @@ const BooleanFilter: React.FC<BooleanFilterType & CheckBoxProps> = (props) => {
     const { filterName, ...checkboxProps } = props;
 
     return (
-        <Filter name={filterName}>
+        <Filter name={filterName} flexDirection="row">
             <CheckBox {...checkboxProps} />
         </Filter>
     )

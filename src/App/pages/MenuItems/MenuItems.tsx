@@ -27,6 +27,7 @@ const MenuItems: React.FC = () => {
         <PageTemplate headerName="Menu Items">
             <ContentFilters 
                 inputPlaceholder="Enter menu items"
+                emptyError={true}
             />
             <ListShower 
                 status={menuItemsStore.status}

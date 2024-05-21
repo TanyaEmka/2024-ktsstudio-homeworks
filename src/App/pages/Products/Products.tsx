@@ -27,6 +27,7 @@ const Products: React.FC = () => {
         <PageTemplate headerName="Products">
             <ContentFilters 
                 inputPlaceholder="Enter products"
+                emptyError={true}
             />
             <ListShower 
                 status={productStore.status}

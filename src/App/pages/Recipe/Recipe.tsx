@@ -59,6 +59,9 @@ const Recipe: React.FC = () => {
         >
             <div className={styles["recipe__header"]}>
                 <ArrowLeftIcon
+                    style={{
+                        flexShrink: 0,
+                    }}
                     color='accent'
                     onClick={() => { navigate('/recipes') }} 
                 />

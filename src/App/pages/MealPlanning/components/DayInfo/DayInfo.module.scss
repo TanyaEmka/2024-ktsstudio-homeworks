@@ -19,8 +19,9 @@ $day-padding: 6px;
     &__summary {
         text-align: left;
         bottom: 0;
-        background-color: var.$gray;
-        color: var.$light;
+        background-color: var.$light;
+        color: var.$gray;
         padding: $day-padding;
+        padding-bottom: 12px;
     }
 }

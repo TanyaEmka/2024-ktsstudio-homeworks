@@ -11,12 +11,14 @@ import { useSearchParams } from 'react-router-dom';
 interface ListShowerProps {
     status: Status,
     totalCount?: number,
+    emptyName?: string,
     children: React.ReactNode,
 }
 
 const ListShower: React.FC<ListShowerProps> = ({
     status,
     totalCount=0,
+    emptyName='No results. Try other filtres',
     children
 }) => {
 
@@ -61,7 +63,7 @@ const ListShower: React.FC<ListShowerProps> = ({
                 tag='div' view='p-20' color='secondary'
                 className={styles['list-shower__empty']}
             >
-                No results. Try other filtres
+                {emptyName}
             </Text>
             }
         </>    

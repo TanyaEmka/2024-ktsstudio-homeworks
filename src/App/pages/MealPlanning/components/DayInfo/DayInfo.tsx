@@ -20,7 +20,9 @@ const DayInfo: React.FC<MealPlanDayType & DayInfoOtherType> = (props) => {
         if (!nut) {
             return '';
         }
-        return nut.name + ': ' + nut.amount + ' ' + nut.unit;
+        if (nut.amount) {
+            return nut.name + ': ' + nut.amount + ' ' + nut.unit;
+        }
     }
 
     return (
@@ -35,10 +37,10 @@ const DayInfo: React.FC<MealPlanDayType & DayInfoOtherType> = (props) => {
             <SlotInfo slots={lunchItems} />
             <SlotInfo slots={dinnerItems} />
             <div className={styles["day-info__summary"]}>
-                <Text>{getNutritionByName('Calories')}</Text>
-                <Text>{getNutritionByName('Fat')}</Text>
-                <Text>{getNutritionByName('Protein')}</Text>
-                <Text>{getNutritionByName('Carbs')}</Text>
+                <Text color='secondary'>{getNutritionByName('Calories')}</Text>
+                <Text color='secondary'>{getNutritionByName('Fat')}</Text>
+                <Text color='secondary'>{getNutritionByName('Protein')}</Text>
+                <Text color='secondary'>{getNutritionByName('Carbs')}</Text>
             </div>
         </>
     )

@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import * as React from "react";
-import { useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback, useRef, useState } from "react";
 import Button from "components/Button";
 import Input from "components/Input";
 import Text from "components/Text";
@@ -44,6 +44,7 @@ export type OtherType = {
 
 interface ContentFiltersProps {
     inputPlaceholder?: string,
+    emptyError?: boolean,
     categoryTag?: string,
     categoryOptions?: Option[],
     categoryPlaceholder?: string,
@@ -54,6 +55,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
 
     const filter = useLocalStore(() => new FilterStore());
     const [ searchParams, setSearchParam ] = useSearchParams();
+    const [ inputError, setInputError ] = useState(false);
     const ref = useRef<HTMLDivElement | null>(null);
 
     const handleOutsideOtherFiltersClick = (e: MouseEvent | TouchEvent) => {
@@ -95,8 +97,9 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
 
     useEffect(() => {
         document.addEventListener('mousedown', handleOutsideOtherFiltersClick);
-        return () => 
+        return () => {
             document.removeEventListener('mousedown', handleOutsideOtherFiltersClick);
+        }
     }, []);
 
     useEffect(() => {
@@ -143,6 +146,9 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
     }
 
     const onChangeInputHandle = (value: string) => {
+        if (inputError) {
+            setInputError(false);
+        }
         filter.setSearch(value);
     }
 
@@ -183,10 +189,20 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
     return (
         <div className={styles["content-filters"]}>
             <div className={styles["content-filters__search"]}>
-                <Input 
+                <Input
+                    valueError={inputError}
                     className={styles["content-filters__search__input"]}
                     value={filter.searchField}
                     onChange={onChangeInputHandle}
+                    onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                            if (props.emptyError && filter.searchField === '') {
+                                setInputError(true);
+                            } else {
+                                changeSearchParams();
+                            }
+                        }
+                    }}
                     placeholder={props.inputPlaceholder || 'Enter dishes'}
                     afterSlot={
                         <Text
@@ -199,7 +215,13 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                         </Text>
                     }
                 />
-                <Button onClick={changeSearchParams}>
+                <Button onClick={() => {
+                    if (props.emptyError && filter.searchField === '') {
+                        setInputError(true)
+                    } else {
+                        changeSearchParams();
+                    }
+                }}>
                     <SearchIcon width='25' height='24' />
                 </Button>
             </div>

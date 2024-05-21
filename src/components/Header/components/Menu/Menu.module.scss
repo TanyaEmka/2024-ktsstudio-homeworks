@@ -2,28 +2,78 @@
 
 $menu-gap: var.$space-m;
 $menu-option-hover: var.$brand;
+$items-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.1);
+
+#small-button-text {
+    align-items: center;
+}
 
 .menu {
+
+    display: flex;
+    align-items: center;
+    align-content: center;
+
+    .menu__option {
+
+        &:hover {
+            color: $menu-option-hover;
+            cursor: pointer;
+        }
+
+        &_selected {
+            color: $menu-option-hover;
+        }
+    }
+
     @media screen and (max-width: 1023px) {
-        display: none;
+
+        &_small {
+            position: relative;     
+
+            &__button {
+                cursor: pointer;
+                display: flex;
+                gap: 4px;
+
+                &__text {
+                    display: flex;
+                    align-items: center;
+                }
+            }
+
+            &__items {
+                z-index: 100;
+                position: absolute;
+                width: 150px;
+                background-color: var.$light;
+                border-radius: var.$border-radius;
+                box-shadow: $items-shadow;
+                left: -16px;
+                margin-top: 10px;
+                
+                > div {
+                    padding: 16px;
+                }
+            }
+        }
+
+        &_big {
+            display: none;
+        }
     }
 
     @media screen and (min-width: 1024px) {
-        display: flex;
-        align-items: center;
-        align-content: center;
-        gap: $menu-gap;
 
-        &__option {
+        &_small {
+            display: none;
+        }
 
-            &:hover {
-                color: $menu-option-hover;
-                cursor: pointer;
-            }
-
-            &_selected {
-                color: $menu-option-hover;
-            }
+        &_big {
+            display: flex;
+            align-items: center;
+            align-content: center;
+            gap: $menu-gap;
         }
     }
 }

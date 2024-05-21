@@ -34,6 +34,9 @@ const MealPlanning: React.FC = () => {
             >
                 Meal plans
             </Text>
+            <Text color='secondary' view='p-16' tag='div'>
+                Try public templates for meal planning!
+            </Text>
             {userStatus === 'none' ?
             <Button onClick={() => { navigate('/login') }}>
                 Login

@@ -14,6 +14,7 @@ const Saved: React.FC = () => {
         <PageTemplate headerName="Saved">
             <ListShower
                 status={SuccessfulStatus}
+                emptyName="Nothind added to saved"
             >   
                 {cards.map((recipe) => {
                     return (

@@ -31,6 +31,7 @@ const Ingredients: React.FC = () => {
         <PageTemplate headerName="Ingredients">
             <ContentFilters 
                 inputPlaceholder="Enter ingredients"
+                emptyError={true}
                 categoryTag="intolerances"
                 categoryPlaceholder="Intolerances"
                 categoryOptions={intoleranceTypesOptions}

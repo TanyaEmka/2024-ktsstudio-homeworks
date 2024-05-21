@@ -49,7 +49,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
             });
         }
 
-        return getButtonWithCallBack('In saves', () => {
+        return getButtonWithCallBack('In saved', () => {
             navigate('/saved');
         })
     }

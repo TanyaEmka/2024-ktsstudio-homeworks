@@ -24,6 +24,8 @@ $border: 1px dashed var.$brand;
         grid-auto-flow: column;
         grid-auto-rows: max-content;
         align-items: stretch;
+        overflow-x: scroll;
+        overflow-y: hidden;
 
         border-left: $border;
         border-top: $border;

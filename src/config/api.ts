@@ -1,4 +1,4 @@
-export const apiKey = '66e4df47862c4978bfafa99ce991e16d';
+export const apiKey = '40532b3e701c465bb20134983ac0f837';
 // 66e4df47862c4978bfafa99ce991e16d
 // 40532b3e701c465bb20134983ac0f837
 export const pageElementCount = 9;

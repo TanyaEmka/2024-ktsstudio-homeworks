@@ -3,6 +3,8 @@
 $header-bg: var.$light;
 $header-h: 64px;
 $header-left-gap: 80px;
+$header-left-gap-middle: 60px;
+$header-left-gap-small: 20px;
 
 .header {
     margin: 0;
@@ -15,7 +17,18 @@ $header-left-gap: 80px;
 
     &__left {
         display: flex;
-        gap: $header-left-gap;
+
+        @media screen and (max-width: 460px) {
+            gap: $header-left-gap-small;
+        }
+        
+        @media screen and (min-width: 461px) and (max-width: 819px) {
+            gap: $header-left-gap-middle;
+        }
+        
+        @media screen and (min-width: 820px) {
+            gap: $header-left-gap;
+        }
     }
 
     &__right {
