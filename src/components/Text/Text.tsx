@@ -29,6 +29,7 @@ const Text: React.FC<TextProps> = ({ ...props }) => {
         <Tag
             style={{
                 maxLines: props.maxLines || 'none',
+                cursor: props.onCLick ? 'pointer' : 'auto',
             }}
             className={classNames({
                 [props.className || '']: true,

@@ -1,9 +1,6 @@
 @use 'styles/variables.scss' as var;
 
-$recipe-margin: 0 100px 0 100px;
-
 .recipe {
-    margin: $recipe-margin;
 
     &__header {
         margin-top: 49px;

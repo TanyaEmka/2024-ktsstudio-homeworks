@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import * as React from "react";
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef } from "react";
 import Button from "components/Button";
 import Input from "components/Input";
 import Text from "components/Text";
@@ -15,6 +15,7 @@ import MultiStringFilter from "components/filters/MultiStringFilter";
 import StringFilter from "components/filters/StringFilter";
 import NumberFilter from "components/filters/NumberFilter";
 import BooleanFilter from "components/filters/BooleanFilter";
+import { useSearchParams } from "react-router-dom";
 
 interface ConfigType {
     type: FilterItemTypes
@@ -52,6 +53,14 @@ interface ContentFiltersProps {
 const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
 
     const filter = useLocalStore(() => new FilterStore());
+    const [ searchParams, setSearchParam ] = useSearchParams();
+    const ref = useRef<HTMLDivElement | null>(null);
+
+    const handleOutsideOtherFiltersClick = (e: MouseEvent | TouchEvent) => {
+        if (ref.current && !ref.current.contains(e.target as Node)) {
+            filter.setVisibility(false);
+        }
+    }
 
     const getFiltersForStore = useCallback(() => {
         if (props.otherFilters) {
@@ -85,13 +94,19 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
     } 
 
     useEffect(() => {
-        searchStore.getSearchParams();
+        document.addEventListener('mousedown', handleOutsideOtherFiltersClick);
+        return () => 
+            document.removeEventListener('mousedown', handleOutsideOtherFiltersClick);
+    }, []);
+
+    useEffect(() => {
         if (props.otherFilters) {
             filter.configFilters(getFiltersForStore());
         }
     }, [props.otherFilters, filter]);
 
     useEffect(() => {
+        searchStore.getSearchParams(searchParams);
         filter.setSearch(searchStore.getParam('query'));
         if (props.categoryTag && props.categoryOptions) {
             filter.setCategory(searchStore.getMultipleParam(
@@ -111,7 +126,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
             });
         }
     }, [
-        searchStore.searchParams, 
+        searchParams,
         filter,
         props.categoryOptions,
         props.categoryTag,
@@ -124,6 +139,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
             props.categoryTag, filter.category,
             generateOtherFilters()
         )
+        setSearchParam(searchStore.searchParamURL);
     }
 
     const onChangeInputHandle = (value: string) => {
@@ -132,6 +148,11 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
 
     const onChangeCategory = (value: Option[]) => { 
         filter.setCategory(value);
+        searchStore.deleteSearchParam('page');
+        if (props.categoryTag) {
+            searchStore.setMultiParam(props.categoryTag, value.map((val) => val.value));
+        }
+        setSearchParam(searchStore.searchParamURL);
     }
 
     const getTitleWithInit = (value: Option[], initValue: string) => {
@@ -152,8 +173,11 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
         filter.setVisibility(true);
     }
 
-    const hideMoreFilters = () => {
+    const applyMoreFilters = () => {
         filter.setVisibility(false);
+        searchStore.deleteSearchParam('page');
+        searchStore.changeParamArray(...generateOtherFilters());
+        setSearchParam(searchStore.searchParamURL);
     }
 
     return (
@@ -164,6 +188,16 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                     value={filter.searchField}
                     onChange={onChangeInputHandle}
                     placeholder={props.inputPlaceholder || 'Enter dishes'}
+                    afterSlot={
+                        <Text
+                            view='p-14'
+                            color='secondary'
+                            tag='div'
+                            onCLick={() => { filter.setSearch('') }}
+                        >
+                            clear
+                        </Text>
+                    }
                 />
                 <Button onClick={changeSearchParams}>
                     <SearchIcon width='25' height='24' />
@@ -193,14 +227,24 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                 }
             </div>
             {props.otherFilters && filter.visibility && !filter.isEmpty &&
-            <div className={styles["content-filters__other"]}>
-                <Text
-                    tag='div'
-                    view='p-20'
+            <div 
+                ref={ref}
+                className={styles["content-filters__other"]}
+            >
+                <div
                     className={styles["content-filters__other__header"]}
                 >
-                    Other Filters
-                </Text>
+                    <Text tag='div' view='p-20'>
+                        Other Filters
+                    </Text>
+                    <Text 
+                        tag='div' view='p-14' color='accent'
+                        onCLick={() => { filter.setVisibility(false) }}
+                        className={styles["content-filters__other__header__close"]}
+                    >
+                        <u>close</u>
+                    </Text>
+                </div>
                 <div
                     className={styles["content-filters__other__multi"]}
                 >
@@ -291,9 +335,14 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                 </div>
                 <div className={styles["content-filters__other__hide"]}>
                     <Button onClick={() => {
-                        hideMoreFilters();
+                        filter.clearOtherFilters();
                     }}>
-                        hide filters
+                        Clear all
+                    </Button>
+                    <Button onClick={() => {
+                        applyMoreFilters();
+                    }}>
+                        Apply
                     </Button>
                 </div>
             </div>

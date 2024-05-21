@@ -61,7 +61,7 @@ export default class BaseListStore<
             this.setResultRequest(resp.data[resultsName], resp.data[totalName]);
         })
         .catch((err) => {
-            this.setStatus(errorStatus(err.message));
+            this.setStatus(errorStatus(err.response.data.message));
         })
     }
 

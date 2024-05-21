@@ -32,6 +32,9 @@ const Card: React.FC<CardProps> = (props) => {
                 [styles.card]: true, 
             })}
             onClick={props.onClick}
+            style={{
+                cursor: props.onClick ? 'pointer' : 'auto',
+            }}
         >
             <img className={styles['card__img']} alt='товар' src={props.image} />
             <div className={styles['card__info']}>

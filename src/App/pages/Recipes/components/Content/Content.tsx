@@ -16,6 +16,8 @@ import ContentHeader from "./ContentHeader";
 
 
 import styles from './Content.module.scss';
+import custom from 'styles/customStyles.module.scss';
+import classNames from "classnames";
 
 const Content: React.FC = () => {
 
@@ -33,7 +35,12 @@ const Content: React.FC = () => {
     }, [searchStore.searchParams, recipesStore]);
 
     return (
-        <div className={styles["content"]}>
+        <div 
+            className={classNames({
+                [styles["content"]]: true,
+                [custom["margin_hor"]]: true,
+            })}
+        >
             <ContentHeader />
             <ContentFilters 
                 categoryTag="type"

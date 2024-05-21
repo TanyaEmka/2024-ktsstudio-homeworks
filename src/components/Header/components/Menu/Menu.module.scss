@@ -4,20 +4,26 @@ $menu-gap: var.$space-m;
 $menu-option-hover: var.$brand;
 
 .menu {
-    display: flex;
-    align-items: center;
-    align-content: center;
-    gap: $menu-gap;
+    @media screen and (max-width: 1023px) {
+        display: none;
+    }
 
-    &__option {
+    @media screen and (min-width: 1024px) {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        gap: $menu-gap;
 
-        &:hover {
-            color: $menu-option-hover;
-            cursor: pointer;
-        }
+        &__option {
 
-        &_selected {
-            color: $menu-option-hover;
+            &:hover {
+                color: $menu-option-hover;
+                cursor: pointer;
+            }
+
+            &_selected {
+                color: $menu-option-hover;
+            }
         }
     }
 }

@@ -17,6 +17,8 @@ import { RecipeType } from "types/apiTypes";
 import PreviewBlock from "./components/PreviewBlock";
 import RecipeNeed from "./components/RecipeNeed";
 import styles from './Recipe.module.scss';
+import custom from 'styles/customStyles.module.scss';
+import classNames from "classnames";
 
 const Recipe: React.FC = () => {
 
@@ -49,7 +51,12 @@ const Recipe: React.FC = () => {
     }
 
     return (
-        <div className={styles["recipe"]}>
+        <div 
+            className={classNames({
+                [styles["recipe"]]: true,
+                [custom["margin_hor"]]: true,
+            })}
+        >
             <div className={styles["recipe__header"]}>
                 <ArrowLeftIcon
                     color='accent'

@@ -1,7 +1,28 @@
+@use 'components/Card/Card.module.scss' as card;
+
 .list-shower {
     display: grid;
     column-gap: 80px;
     row-gap: 64px;
-    grid-template-columns: repeat(auto-fit, 348px);
     justify-content: center;
+
+    @media screen and (max-width: 460px) {
+        grid-template-columns: repeat(auto-fit, card.$card-width-small);
+    }
+
+    @media screen and (min-width: 461px) and (max-width: 767px) {
+        grid-template-columns: repeat(auto-fit, card.$card-width-middle);
+    }
+    
+    @media screen and (min-width: 768px) and (max-width: 912px) {
+        grid-template-columns: repeat(auto-fit, card.$card-width-small);
+    }
+    
+    @media screen and (min-width: 913px) {
+        grid-template-columns: repeat(auto-fit, card.$card-width-big);
+    }
+
+    &__empty {
+        margin: 0 auto;
+    }
 }

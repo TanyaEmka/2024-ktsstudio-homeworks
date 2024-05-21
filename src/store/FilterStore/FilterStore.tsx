@@ -62,6 +62,7 @@ export default class FilterStore implements ILocalStore {
             setOptionItemValue: action.bound,
             addMinMaxItem: action.bound,
             configFilters: action.bound,
+            clearOtherFilters: action.bound,
 
             searchField: computed,
             category: computed,
@@ -192,6 +193,21 @@ export default class FilterStore implements ILocalStore {
             }
         }
         this._itemOptionList = [ ...this._itemOptionList ];
+    }
+
+    clearOtherFilters() {
+        this._itemSingleList.forEach((_, index) => {
+            this._itemSingleList[index] = '';
+        });
+        this._itemOptionList.forEach((_, index) => {
+            this._itemOptionList[index] = [];
+        });
+        this._itemMinMaxList.forEach((_, index) => {
+            this._itemMinMaxList[index] = ['', ''];
+        });
+        this._itemSingleList = [ ...this._itemSingleList ];
+        this._itemOptionList = [ ...this._itemOptionList ];
+        this._itemMinMaxList = [ ...this._itemMinMaxList ];
     }
 
     destroy(): void {

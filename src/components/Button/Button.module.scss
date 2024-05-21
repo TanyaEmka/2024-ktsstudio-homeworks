@@ -18,6 +18,7 @@ button {
     font-size: $button-font-size;
     height: $button-height;
     border-radius: $buttom-border;
+    cursor: pointer;
 
     padding: var.$space-s var.$space-l;
 

@@ -21,40 +21,16 @@ class SearchParamsStore implements ILocalStore {
             deleteSearchParam: action.bound,
 
             changeSearchParamsForFilters: action.bound,
-            updateUrl: action.bound,
-            updateSearchParams: action.bound,
+            changeParamArray: action.bound,
 
             searchParams: computed,
+            searchParamsString: computed,
+            searchParamURL: computed,
         });
     }
 
-    getSearchObject() {
-        return new URLSearchParams(document.location.href.split('?')[1] || '');        
-    }
-
-    updateUrl(searchParams: URLSearchParams) {
-        const newUrl = 
-            window.location.protocol + '//' + 
-            window.location.host + window.location.pathname + window.location.hash
-            '?' + searchParams.toString();
-        window.history.pushState({path: newUrl}, '', newUrl);
-    }
-
-    updateSearchParams (): URLSearchParams {
-        const searchParams = this.getSearchObject();
-        Object.entries(this._searchParams).forEach(([key, value]) => {
-            if (value) {
-                searchParams.set(key, encodeURIComponent(value));
-            } else {
-                searchParams.delete(key);
-            }
-        });
-        return searchParams;
-    }
-
-    getSearchParams() {
+    getSearchParams(searchParams: URLSearchParams) {
         this._searchParams = {};
-        const searchParams = this.getSearchObject();
         const paramArray = Array.from(searchParams.entries());
         paramArray.forEach(([key, value]) => {
             Object.assign(this._searchParams, {
@@ -66,29 +42,18 @@ class SearchParamsStore implements ILocalStore {
     setSearchParam(
         key: string, 
         value: string | null, 
-        updating: boolean = true
     ) {
         if (value) {
             Object.assign(this._searchParams, {
                 [key]: value,
             });
             this._searchParams = { ...this._searchParams };
-            if (updating) {
-                const searchParams = this.getSearchObject();
-                searchParams.set(key, encodeURIComponent(value.toLowerCase()));
-                this.updateUrl(searchParams);
-            }
         }
     }
 
-    deleteSearchParam(key: string, updating: boolean = true) {
+    deleteSearchParam(key: string) {
         if (key in this._searchParams) {
             this._searchParams[key] = null;
-            if (updating) {
-                const searchParams = this.getSearchObject();
-                searchParams.delete(key);
-                this.updateUrl(searchParams);
-            }
         }
     }
 
@@ -96,7 +61,6 @@ class SearchParamsStore implements ILocalStore {
         key: string, 
         values: string[], 
         prefix: string = ',',
-        updating: boolean = true,
     ) {
         const valueStr = values.join(prefix);
         if (valueStr !== '') {
@@ -104,12 +68,21 @@ class SearchParamsStore implements ILocalStore {
                 [key]: valueStr,
             });
             this._searchParams = { ...this._searchParams };
-            if (updating) {
-                const searchParams = this.getSearchObject();
-                searchParams.set(key, encodeURIComponent(valueStr.toLowerCase()));
-                this.updateUrl(searchParams);
-            }
         }
+    }
+
+    changeParamArray (
+        ...tags: [string, string][]
+    ) {
+        tags.forEach(([key, value]) => {
+            if (key !== '') {
+                this.deleteSearchParam(key);
+            }
+            if (key !== '' && value !== '') {
+                this.setSearchParam(key, value);
+            }
+        });
+        this._searchParams = { ...this._searchParams };
     }
 
     changeSearchParamsForFilters (
@@ -118,26 +91,25 @@ class SearchParamsStore implements ILocalStore {
         category?: Option[],
         otherTags?: [string, string][]
     ) {
-        this.deleteSearchParam('query', false);
-        this.deleteSearchParam('page', false);
+        this.deleteSearchParam('query');
+        this.deleteSearchParam('page');
         if (search !== '') {
-            this.setSearchParam('query', search, false);
+            this.setSearchParam('query', search);
         }
         if (categoryTag && category) {
-            this.deleteSearchParam(categoryTag, false);
-            this.setMultiParam(categoryTag, category.map((cat) => cat.value), ',', false);
+            this.deleteSearchParam(categoryTag);
+            this.setMultiParam(categoryTag, category.map((cat) => cat.value), ',');
         }
         if (otherTags) {
             otherTags.forEach(([key, value]) => {
                 if (key !== '') {
-                    this.deleteSearchParam(key, false);
+                    this.deleteSearchParam(key);
                 }
                 if (key !== '' && value !== '') {
-                    this.setSearchParam(key, value, false);
+                    this.setSearchParam(key, value);
                 }
             })
         }
-        this.updateUrl(this.updateSearchParams());
         this._searchParams = { ...this._searchParams };
     }
 
@@ -172,6 +144,20 @@ class SearchParamsStore implements ILocalStore {
             const index = valueArray.indexOf(opt.value.toLowerCase());
             return index !== -1;
         })
+    }
+
+    get searchParamsString() {
+        let result: string[] = [];
+        Object.entries(this._searchParams).forEach(([key, value]) => {
+            if (value) {
+                result.push([key, value].join('='));
+            }
+        });
+        return result.join('&');
+    }
+
+    get searchParamURL() {
+        return new URLSearchParams(this.searchParamsString);
     }
     
     get searchParams() {

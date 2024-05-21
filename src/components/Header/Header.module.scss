@@ -2,7 +2,6 @@
 
 $header-bg: var.$light;
 $header-h: 64px;
-$header-padding: 0 100px 0 100px; 
 $header-left-gap: 80px;
 
 .header {
@@ -10,7 +9,6 @@ $header-left-gap: 80px;
     box-sizing: border-box;
     width: 100%;
     height: $header-h;
-    padding: $header-padding;
     background-color: $header-bg;
     display: flex;
     justify-content: space-between;

@@ -1,11 +1,23 @@
-$content-margin: 0 100px 0 100px;
 $content-gap: 48px;
+$content-gap-middle: 40px;
+$content-gap-small: 36px;
 
 .content {
     display: flex;
     flex-direction: column;
     gap: $content-gap;
-    margin: $content-margin;
+
+    @media screen and (max-width: 460px) {
+        gap: $content-gap-small;
+    }
+    
+    @media screen and (min-width: 461px) and (max-width: 819px) {
+        gap: $content-gap-middle;
+    }
+    
+    @media screen and (min-width: 820px) {
+        gap: $content-gap;
+    }
 
     &__header {
         text-align: center;

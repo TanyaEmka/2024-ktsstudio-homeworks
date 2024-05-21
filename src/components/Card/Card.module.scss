@@ -1,6 +1,9 @@
 @use 'styles/variables.scss' as var;
 
-$card-width: 348px;
+$card-width-big: 348px;
+$card-width-middle: 300px;
+$card-width-small: 280px;
+
 $card-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
 $card-bg: var.$light;
 $card-image-bg: #D9D9D9;
@@ -15,13 +18,31 @@ $card-border: var.$border-radius;
 .card {
     font-family: 'Roboto';
     display: grid;
-    width: $card-width;
     padding: 0;
     padding-bottom: $card-padding-bottom;
     gap: $card-gap;
-    grid-template-rows: $card-width 1fr;
     background-color: $card-bg;
     border-radius: $card-border;
+
+    @media screen and (max-width: 460px) {
+        width: $card-width-small;
+        grid-template-rows: $card-width-small 1fr;
+    }
+
+    @media screen and (min-width: 461px) and (max-width: 767px) {
+        width: $card-width-middle;
+        grid-template-rows: $card-width-middle 1fr;
+    }
+    
+    @media screen and (min-width: 768px) and (max-width: 912px) {
+        width: $card-width-small;
+        grid-template-rows: $card-width-small 1fr;
+    }
+    
+    @media screen and (min-width: 913px) {
+        width: $card-width-big;
+        grid-template-rows: $card-width-big 1fr;
+    }
 
     &:hover {
         box-shadow: $card-shadow;
@@ -31,7 +52,23 @@ $card-border: var.$border-radius;
         background-color: $card-image-bg;
         object-fit: cover;
         width: 100%;
-        height: $card-width;
+
+        @media screen and (max-width: 460px) {
+            height: $card-width-small;
+        }
+
+        @media screen and (min-width: 461px) and (max-width: 767px) {
+            height: $card-width-middle;
+        }
+        
+        @media screen and (min-width: 768px) and (max-width: 912px) {
+            height: $card-width-small;
+        }
+        
+        @media screen and (min-width: 913px) {
+            height: $card-width-big;
+        }
+
         border-radius: $card-border $card-border 0 0;
     }
 

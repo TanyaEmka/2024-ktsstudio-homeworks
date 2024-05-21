@@ -22,7 +22,6 @@ const App: React.FC = () => {
 
   useEffect(() => {
     userStore.getCookies();
-    searchParamsStore.getSearchParams();
 
     return () => {
       localStorage.destroy();

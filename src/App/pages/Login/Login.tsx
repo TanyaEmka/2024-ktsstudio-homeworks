@@ -11,6 +11,8 @@ import userStore from "store/UserStore";
 import { LoginRequestType } from "store/UserStore/UserStore";
 
 import styles from './Login.module.scss';
+import custom from 'styles/customStyles.module.scss';
+import classNames from "classnames";
 
 const initRequestValue: LoginRequestType = {
     username: '',
@@ -31,7 +33,12 @@ const Login: React.FC = () => {
     }, [navigate]);
 
     return (
-        <div className={styles["login-page"]}>
+        <div 
+            className={classNames({
+                [styles["login-page"]]: true,
+                [custom["margin_top_hor"]]: true,
+            })}
+        >
             <Text view='title' tag='div'>Login</Text>
             <div className={styles["login-page__form"]}>
                 {Object.entries(user).map(([key, value]) => {
