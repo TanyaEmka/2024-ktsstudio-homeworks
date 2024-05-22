@@ -15,6 +15,7 @@ import MultiStringFilter from "components/filters/MultiStringFilter";
 import StringFilter from "components/filters/StringFilter";
 import NumberFilter from "components/filters/NumberFilter";
 import BooleanFilter from "components/filters/BooleanFilter";
+import CloseIcon from "components/icons/CloseIcon";
 import { useSearchParams } from "react-router-dom";
 
 interface ConfigType {
@@ -242,14 +243,12 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                     }}
                     placeholder={props.inputPlaceholder || 'Enter dishes'}
                     afterSlot={
-                        <Text
-                            view='p-14'
+                        <CloseIcon
                             color='secondary'
-                            tag='div'
-                            onCLick={() => { filter.setSearch('') }}
-                        >
-                            clear
-                        </Text>
+                            width={30}
+                            height={30}
+                            onClick={() => { filter.setSearch('') }}
+                        />
                     }
                 />
                 <Button onClick={() => {
@@ -309,13 +308,13 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                     <Text tag='div' view='p-20'>
                         Other Filters
                     </Text>
-                    <Text 
-                        tag='div' view='p-14' color='accent'
-                        onCLick={() => { filter.setVisibility(false) }}
+                    <CloseIcon
+                        color='accent'
+                        width={40}
+                        height={40}
+                        onClick={() => { filter.setVisibility(false) }}
                         className={styles["content-filters__other__header__close"]}
-                    >
-                        <u>close</u>
-                    </Text>
+                    />
                 </div>
                 <div
                     className={styles["content-filters__other__multi"]}
