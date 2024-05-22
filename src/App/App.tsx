@@ -22,6 +22,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     userStore.getCookies();
+    localStorage.loadingSaved();
 
     return () => {
       localStorage.destroy();

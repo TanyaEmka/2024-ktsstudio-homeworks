@@ -93,7 +93,7 @@ export class LocalStorage implements ILocalStore {
     }
 
     loadingSaved() {
-        this._savedCardRecipes = this.getAllRecipes();
+        this._savedCardRecipes = [ ...this.getAllRecipes() ];
     }
 
     get cards() {

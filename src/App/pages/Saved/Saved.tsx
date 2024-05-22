@@ -8,15 +8,14 @@ import localStorage from "store/LocalStorage";
 
 const Saved: React.FC = () => {
 
-    const { cards } = localStorage;
-
     return (
         <PageTemplate headerName="Saved">
             <ListShower
                 status={SuccessfulStatus}
                 emptyName="Nothind added to saved"
+                totalCount={localStorage.cards.length}
             >   
-                {cards.map((recipe) => {
+                {localStorage.cards.map((recipe) => {
                     return (
                         <RecipeCard
                             key={recipe.id} 
