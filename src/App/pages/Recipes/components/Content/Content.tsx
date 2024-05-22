@@ -14,7 +14,6 @@ import RecipeListStore from "store/RecipeListStore";
 import searchStore from "store/SearchParamsStore";
 import ContentHeader from "./ContentHeader";
 
-
 import styles from './Content.module.scss';
 import custom from 'styles/customStyles.module.scss';
 import classNames from "classnames";

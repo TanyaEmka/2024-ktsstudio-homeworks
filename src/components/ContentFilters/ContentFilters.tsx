@@ -109,39 +109,55 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
     }, [props.otherFilters, filter]);
 
     useEffect(() => {
-        searchStore.getSearchParams(searchParams);
-        filter.setSearch(searchStore.getParam('query'));
-        if (props.categoryTag && props.categoryOptions) {
-            filter.setCategory(searchStore.getMultipleParam(
-                props.categoryTag, 
-                props.categoryOptions
-            ));
-        }
-        if (props.otherFilters) {
-            Object.entries(props.otherFilters).map(([key, value]) => {
-                if (value.type === 'OPTION') {
-                    filter.setOptionItemValue(key, searchStore.getMultipleParam(
-                        key, value.options
-                    ));
-                } else if (value.type !== 'MINMAX') {
-                    filter.setSingleItemValue(key, searchStore.getParam(key));
+        if (searchStore.searchParamsString !== searchParams.toString()) {
+            searchStore.getSearchParams(searchParams);
+            const queryParam = searchStore.getParam('query');
+            if (filter.searchField !== queryParam) {
+                filter.setSearch(searchStore.getParam('query'));
+            } 
+            if (props.categoryTag && props.categoryOptions) {
+                const categoryParam = searchStore.getMultipleParam(
+                    props.categoryTag, 
+                    props.categoryOptions
+                );
+                if (
+                    categoryParam.map((cat) => cat.value).join(',') !==
+                    filter.category.map((cat) => cat.value).join(',')
+                ) {
+                    filter.setCategory(categoryParam);
                 }
-            });
+            }
+            if (props.otherFilters) {
+                Object.entries(props.otherFilters).map(([key, value]) => {
+                    if (value.type === 'OPTION') {
+                        const optionParam = searchStore.getMultipleParam(
+                            key, value.options
+                        );
+                        if (
+                            optionParam.map((cat) => cat.value).join(',') !==
+                            filter.getOptionItemValue(key).map((cat) => cat.value).join(',')
+                        ) {
+                            filter.setOptionItemValue(key, optionParam);
+                        }
+                    } else if (value.type !== 'MINMAX') {
+                        const stringValue = searchStore.getParam(key);
+                        if (filter.getSingleItemValue(key) !== stringValue) {
+                            filter.setSingleItemValue(key, searchStore.getParam(key));
+                        }
+                    }
+                });
+            }
         }
     }, [
         searchParams,
-        filter,
         props.categoryOptions,
         props.categoryTag,
         props.otherFilters
     ]);
 
-    const changeSearchParams = () => {
-        searchStore.changeSearchParamsForFilters(
-            filter.searchField,
-            props.categoryTag, filter.category,
-            generateOtherFilters()
-        )
+    const changeSearchField = () => {
+        searchStore.deleteSearchParam('page');
+        searchStore.setSearchParam('query', filter.searchField);
         setSearchParam(searchStore.searchParamURL);
     }
 
@@ -199,7 +215,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                             if (props.emptyError && filter.searchField === '') {
                                 setInputError(true);
                             } else {
-                                changeSearchParams();
+                                changeSearchField();
                             }
                         }
                     }}
@@ -219,7 +235,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                     if (props.emptyError && filter.searchField === '') {
                         setInputError(true)
                     } else {
-                        changeSearchParams();
+                        changeSearchField();
                     }
                 }}>
                     <SearchIcon width='25' height='24' />
