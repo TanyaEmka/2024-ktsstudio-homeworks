@@ -14,6 +14,7 @@ const Saved: React.FC = () => {
                 status={SuccessfulStatus}
                 emptyName="Nothind added to saved"
                 totalCount={localStorage.cards.length}
+                pagination={false}
             >   
                 {localStorage.cards.map((recipe) => {
                     return (

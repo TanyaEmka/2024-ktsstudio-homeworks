@@ -13,13 +13,15 @@ interface ListShowerProps {
     totalCount?: number,
     emptyName?: string,
     children: React.ReactNode,
+    pagination?: boolean,
 }
 
 const ListShower: React.FC<ListShowerProps> = ({
     status,
     totalCount=0,
     emptyName='No results. Try other filtres',
-    children
+    children,
+    pagination=true,
 }) => {
 
     const [ _, setSearchParams ] = useSearchParams();
@@ -52,11 +54,13 @@ const ListShower: React.FC<ListShowerProps> = ({
                 <div className={styles['list-shower']}>
                     {children}
                 </div>
+                { totalCount > 9 && pagination &&
                 <PageController 
                     selectedPage={Number(searchStore.getNumberParam('page'))}
                     totalResults={totalCount}
                     onClick={pageControllerClick}
                 />
+                }
             </>
             :
             <Text 

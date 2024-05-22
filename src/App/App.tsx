@@ -3,10 +3,16 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import 'styles/styles.scss';
 
-import { BrowserRouter, HashRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { 
+  BrowserRouter, 
+  HashRouter, 
+  Navigate, 
+  Route, Routes 
+} from 'react-router-dom';
 import Main from 'components/Main';
 import localStorage from 'store/LocalStorage';
 import searchParamsStore from 'store/SearchParamsStore';
+import urlStore from 'store/UrlStore';
 import userStore from 'store/UserStore';
 import Ingredients from './pages/Ingredients';
 import Login from './pages/Login';
@@ -28,6 +34,7 @@ const App: React.FC = () => {
       localStorage.destroy();
       userStore.destroy();
       searchParamsStore.destroy();
+      urlStore.destroy();
     };
   }, []);
 

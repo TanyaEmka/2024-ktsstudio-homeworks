@@ -22,6 +22,7 @@ class SearchParamsStore implements ILocalStore {
 
             changeSearchParamsForFilters: action.bound,
             changeParamArray: action.bound,
+            clear: action.bound,
 
             searchParams: computed,
             searchParamsString: computed,
@@ -162,6 +163,13 @@ class SearchParamsStore implements ILocalStore {
     
     get searchParams() {
         return this._searchParams;
+    }
+
+    clear() {
+        Object.keys(this._searchParams).map((key) => {
+            this.deleteSearchParam(key);
+        })
+        this._searchParams = { ...this._searchParams };
     }
 
     destroy(): void {

@@ -10,9 +10,9 @@ import ArrowLeftIcon from "components/icons/ArrowLeftIcon";
 import EqIcon from "components/icons/EqIcon";
 import IngIcon from "components/icons/IngIcon";
 
-
 import { useLocalStore } from "hooks/useLocalStore";
 import RecipeStore from "store/RecipeStore";
+import urlStore from "store/UrlStore";
 import { RecipeType } from "types/apiTypes";
 import PreviewBlock from "./components/PreviewBlock";
 import RecipeNeed from "./components/RecipeNeed";
@@ -59,11 +59,10 @@ const Recipe: React.FC = () => {
         >
             <div className={styles["recipe__header"]}>
                 <ArrowLeftIcon
-                    style={{
-                        flexShrink: 0,
-                    }}
                     color='accent'
-                    onClick={() => { navigate('/recipes') }} 
+                    onClick={() => { 
+                        navigate(urlStore.prevUrl);
+                    }} 
                 />
                 <Text weight='bold' view='title'>
                     {recipeObj.title}
@@ -71,7 +70,12 @@ const Recipe: React.FC = () => {
             </div>
             {status.statusName === 'ERROR' ?
             <ErrorBox
-                errorSlot={<Button onClick={() => navigate('/recipes')}>Go to main page</Button>}
+                errorSlot={
+                    <Button onClick={() => { 
+                        navigate(urlStore.prevUrl);
+                    }}>
+                        Go back
+                    </Button>}
             >
                 {status.statusMessage}
             </ErrorBox>
@@ -135,6 +139,11 @@ const Recipe: React.FC = () => {
                         Directions
                     </Text>
                     <div className={styles["recipe__box__directions__steps"]}>
+                        {recipeObj.analyzedInstructions[0].steps.length === 0 &&
+                        <Text view='p-16' color='secondary'>
+                            Steps not listed
+                        </Text>
+                        }
                         {recipeObj.analyzedInstructions[0].steps.map((elem) => {
                             return (
                                 <div key={elem.number}>
