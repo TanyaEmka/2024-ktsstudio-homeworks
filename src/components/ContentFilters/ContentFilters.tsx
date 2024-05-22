@@ -95,6 +95,27 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
         return [];
     } 
 
+    const getNotEmptyOtherFilters = useCallback(() => {
+        let result: string[] = [];
+        if (props.otherFilters) {
+            Object.entries(props.otherFilters).map(([key, value]) => {
+                if (value.type === 'OPTION') {
+                    const optionValue = filter.getOptionItemValue(key);
+                    if (optionValue.length !== 0) {
+                        result.push([key, optionValue.map((opt) => opt.value).join(', ')].join(': '));
+                    }
+                } else if (value.type !== 'MINMAX') {
+                    const stringValue = filter.getSingleItemValue(key);
+                    if (stringValue !== '') {
+                        result.push([key, stringValue].join(': '));
+                    }
+                }   
+            });
+        }
+
+        return result;
+    }, [props.otherFilters, filter]);
+
     useEffect(() => {
         document.addEventListener('mousedown', handleOutsideOtherFiltersClick);
         return () => {
@@ -263,6 +284,19 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                     getTitle={getTitleCategory}
                 />
                 }
+            </div>
+            <div className={styles["content-filters__tags"]}>
+                {getNotEmptyOtherFilters().map((tag) => {
+                    return (
+                        <Text
+                            key={tag}
+                            className={styles["content-filters__tags__tag"]}
+                            tag='div' view='p-14'
+                        >
+                            {tag}
+                        </Text>
+                    )
+                })}
             </div>
             {props.otherFilters && filter.visibility && !filter.isEmpty &&
             <div 

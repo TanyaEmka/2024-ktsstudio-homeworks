@@ -132,15 +132,24 @@ export default class FilterStore implements ILocalStore {
     }
 
     getSingleItemValue(name: string): string {
-        return this._itemSingleList[this._itemIndexList[name].point] || '';
-    }
+        if (this._itemIndexList[name]) {
+            return this._itemSingleList[this._itemIndexList[name].point] || '';
+        }
+        return '';
+    }   
 
     getMinMaxItemValue(name: string): [string, string] {
-        return this._itemMinMaxList[this._itemIndexList[name].point] || ['', ''];
+        if (this._itemIndexList[name]) {
+            return this._itemMinMaxList[this._itemIndexList[name].point] || ['', ''];
+        }
+        return ['', ''];
     }
 
     getOptionItemValue(name: string): Option[] {
-        return this._itemOptionList[this._itemIndexList[name].point] || [];
+        if (this._itemIndexList[name]) {
+            return this._itemOptionList[this._itemIndexList[name].point] || [];
+        }
+        return [];
     }
 
     isSingle(name: string): boolean {

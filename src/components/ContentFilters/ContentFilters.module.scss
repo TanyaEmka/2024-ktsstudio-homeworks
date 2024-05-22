@@ -24,6 +24,20 @@ $content-filters-category-width-small: 180px;
         }
     }
 
+    &__tags {
+        display: flex;
+        justify-content: start;
+        gap: 6px;
+        flex-wrap: wrap;
+
+        &__tag {
+            padding: 6px;
+            color: var.$light;
+            background-color: var.$brand-hover;
+            border-radius: 6px;
+        }
+    }
+
     &__category {
         display: flex;
         justify-content: space-between;
