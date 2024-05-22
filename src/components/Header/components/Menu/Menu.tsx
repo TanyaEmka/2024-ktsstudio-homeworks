@@ -11,6 +11,8 @@ import userStore from "store/UserStore";
 import styles from './Menu.module.scss';
 import custom from 'styles/customStyles.module.scss';
 
+import { observer } from "mobx-react-lite";
+
 const Menu: React.FC = () => {
 
     const navigate = useNavigate();
@@ -18,7 +20,6 @@ const Menu: React.FC = () => {
     const [ selectedUrl, setUrl ] = useState(0);
     const [ visible, setVisible ] = useState(false);
     const ref = useRef<HTMLDivElement | null>(null);
-    const { userStatus } = userStore;
 
     const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
         if (
@@ -43,7 +44,7 @@ const Menu: React.FC = () => {
     }, [location.pathname]);
 
     const goToPath = (index: number, url: string, authRequired: boolean = false) => {
-        if (!authRequired || userStatus === 'auth') {
+        if (!authRequired || userStore.userStatus === 'auth') {
             setUrl(index);
             navigate(url);
         } else {
@@ -118,4 +119,4 @@ const Menu: React.FC = () => {
     )
 }
 
-export default Menu;
+export default observer(Menu);

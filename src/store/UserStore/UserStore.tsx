@@ -104,7 +104,7 @@ class UserStore implements ILocalStore {
             this.deleteCookie('_' + key);
         });
         this._userStatus = 'none';
-        this._user = initUser;
+        this._user = { ...initUser };
         this.setStatus(NotStartedStatus);
     }
 

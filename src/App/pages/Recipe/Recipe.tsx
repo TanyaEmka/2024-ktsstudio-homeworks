@@ -97,6 +97,7 @@ const Recipe: React.FC = () => {
                         </PreviewBlock>
                     </div>
                 </div>
+                {recipeObj.summary !== '' &&
                 <div className={styles["recipe__box__description"]}>
                     <Text view='p-16'>
                         <span
@@ -106,11 +107,13 @@ const Recipe: React.FC = () => {
                         ></span>
                     </Text>
                 </div>
+                }
                 <div className={styles["recipe__box__needs"]}>
                     <RecipeNeed
                         name='Ingredients'
                         elements={getIngredients(recipeObj)}
                         icon={<IngIcon />}
+                        emptyMessage="Ingredients not listed"
                     />
                     <div className={styles["recipe__box__needs__line"]}>
                         <div className={styles["circle"]}></div>
@@ -120,6 +123,7 @@ const Recipe: React.FC = () => {
                         name='Equipment'
                         elements={getEquipment(recipeObj)}
                         icon={<EqIcon />}
+                        emptyMessage="Equipment not listed"
                     />
                 </div>
                 <div className={styles['recipe__box__directions']}>

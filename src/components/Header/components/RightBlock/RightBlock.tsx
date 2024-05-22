@@ -9,19 +9,18 @@ import styles from './RightBlock.module.scss';
 const RightBlock: React.FC = () => {
 
     const navigate = useNavigate();
-    const { userStatus } = userStore;
 
     const goToSaved = useCallback(() => { 
         navigate('/saved');
     }, [navigate]);
 
     const goToProfile = useCallback(() => { 
-        if (userStatus === 'auth') {
+        if (userStore.userStatus === 'auth') {
             navigate('/user');
         } else {
             navigate('/login');
         }
-    }, [navigate, userStatus]);
+    }, [navigate, userStore.userStatus]);
 
     return (
         <div className={styles["right-block"]}>

@@ -7,6 +7,7 @@ const CloseIcon: React.FC<IconProps> = (props) => {
     return (
         <Icon 
             {...props}
+            style={{ cursor: 'pointer' }}
             viewBox='0 0 64 64'
         >
             <path 
