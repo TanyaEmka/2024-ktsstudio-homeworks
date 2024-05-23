@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "components/Header";
 import urlStore from "store/UrlStore";
-import searchStore from "store/SearchParamsStore";
 import styles from './Main.module.scss';
 
 import { observer } from "mobx-react-lite";
@@ -17,7 +16,7 @@ export const Main: React.FC = () => {
     }, [ location ]);
 
     useEffect(() => {
-        searchStore.clear();
+        window.scrollTo(0, 0);
     }, [ location.pathname ]);
 
     return (

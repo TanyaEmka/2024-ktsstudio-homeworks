@@ -120,6 +120,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
     useEffect(() => {
         document.addEventListener('mousedown', handleOutsideOtherFiltersClick);
         return () => {
+            searchStore.clear();
             document.removeEventListener('mousedown', handleOutsideOtherFiltersClick);
         }
     }, []);
@@ -178,8 +179,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
     ]);
 
     const changeSearchField = () => {
-        searchStore.deleteSearchParam('page');
-        searchStore.setSearchParam('query', filter.searchField);
+        searchStore.setSearchParam('query', filter.searchField, 'page');
         setSearchParam(searchStore.searchParamURL);
     }
 
@@ -192,9 +192,8 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
 
     const onChangeCategory = (value: Option[]) => { 
         filter.setCategory(value);
-        searchStore.deleteSearchParam('page');
         if (props.categoryTag) {
-            searchStore.setMultiParam(props.categoryTag, value.map((val) => val.value));
+            searchStore.setMultiParam(props.categoryTag, value.map((val) => val.value), 'page');
         }
         setSearchParam(searchStore.searchParamURL);
     }
@@ -219,8 +218,7 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
 
     const applyMoreFilters = () => {
         filter.setVisibility(false);
-        searchStore.deleteSearchParam('page');
-        searchStore.changeParamArray(...generateOtherFilters());
+        searchStore.changeParamArray(generateOtherFilters(), 'page');
         setSearchParam(searchStore.searchParamURL);
     }
 

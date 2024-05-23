@@ -3,6 +3,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "components/Button";
+import Loader from "components/Loader";
 import ErrorBox from "components/ErrorBox";
 import MultiDropdown, { Option } from "components/MultiDropdown";
 import Text from "components/Text";
@@ -65,7 +66,7 @@ const MealPlanning: React.FC = () => {
                     </Button>
                 </div>
                 {status.statusName === 'LOADING' ?
-                <Text>...Loading</Text> 
+                <Loader />
                 :
                 status.statusName === 'ERROR' ?
                 <ErrorBox>{status.statusMessage}</ErrorBox> 

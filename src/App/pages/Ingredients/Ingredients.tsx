@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useCallback, useState } from "react";
 import Card from "components/Card";
 import ContentFilters from "components/ContentFilters";
 import { OtherType } from "components/ContentFilters/ContentFilters";
@@ -10,22 +10,38 @@ import { intoleranceTypesOptions , ingredientFilters } from "config/api";
 import { useLocalStore } from "hooks/useLocalStore";
 import IngredientListStore from "store/IngredientListStore";
 import searchStore from "store/SearchParamsStore";
+import { useNavigate } from "react-router-dom";
 
 
 const Ingredients: React.FC = () => {
 
     const ingredientStore = useLocalStore(() => new IngredientListStore());
+    const [ url, setUrl ] = useState<string | undefined>();
+    const navigate = useNavigate();
+
+    const getUrl = useCallback(() => {
+        const newUrl = ingredientStore.getUrl(
+            searchStore.getOffset(),
+            searchStore.getParam('query'),
+            searchStore.getParamPair('intolerances'),
+        )
+        setUrl(newUrl);
+    }, [ingredientStore, searchStore.searchParams]);
+
+    const loadList = useCallback(() => {
+        const query = searchStore.getParam('query');
+        if (url && query !== '') {
+            ingredientStore.loadingList(url);
+        }
+    }, [ingredientStore, url]);
 
     useEffect(() => {
-        const queryStr = searchStore.getParam('query');
-        if (queryStr !== '') {
-            ingredientStore.loadingList(ingredientStore.getUrl(
-                searchStore.getOffset(),
-                searchStore.getParam('query'),
-                searchStore.getParamPair('intolerances'),
-            ));
-        }
-    }, [searchStore.searchParams, ingredientStore]);
+        getUrl();
+    }, [searchStore.searchParams]);
+
+    useEffect(() => {
+        loadList();
+    }, [url]);
 
     return (
         <PageTemplate headerName="Ingredients">
@@ -48,6 +64,9 @@ const Ingredients: React.FC = () => {
                             image={ingredientStore.getImageUrl(ingredient.image)}
                             title={ingredient.name}
                             subtitle={''}
+                            onClick={() => {
+                                navigate('/ingredient/' + ingredient.id);
+                            }}
                         />
                     )
                 })}

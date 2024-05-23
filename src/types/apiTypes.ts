@@ -170,6 +170,52 @@ export type MealPlanTemplatesType = {
     templates: MealPlanTemplateType[],
 }
 
+export type IngredientType = {
+    id: number,
+    original: string,
+    originalName: string,
+    name: string,
+    amount: number,
+    unit: string,
+    unitShort: string,
+    unitLong: string,
+    possibleUnits: string[],
+    estimatedCost: {
+        value: number,
+        unit: string,
+    },
+    consistency: string,
+    shoppingListUnits: string[],
+    aisle: string,
+    image: string,
+    nutrition: {
+        nutrients: Array<{ 
+            name: string, 
+            amount: number, 
+            unit: string,
+            percentOfDailyNeeds: number,
+        }>,
+        properties: Array<{
+            name: string,
+            amount: number,
+            unit: string,
+        }>,
+        flavonoids: Array<{
+            name: string,
+            amount: number,
+            unit: string,
+        }>,
+        caloricBreakdown: {
+            [key: string]: number,
+        },
+        weightPerServing: {
+            amount: number,
+            unit: string,
+        }
+    },
+    categoryPath: string[],
+}
+
 export type Status = {
     statusName: 'LOADING' | 'ERROR' | 'SUCCESS' | 'NOT_STARTED',
     statusMessage: string,

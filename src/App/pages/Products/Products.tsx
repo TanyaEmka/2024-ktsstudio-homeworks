@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useCallback, useState } from "react";
 import Card from "components/Card";
 import ContentFilters from "components/ContentFilters";
 import ListShower from "components/ListShower";
@@ -12,16 +12,31 @@ import searchStore from "store/SearchParamsStore";
 const Products: React.FC = () => {
 
     const productStore = useLocalStore(() => new ProductListStore());
+    const [ url, setUrl ] = useState<string | undefined>();
+
+    const getUrl = useCallback(() => {
+        const newUrl = productStore.getUrl(
+            searchStore.getOffset(), 
+            searchStore.getParam('query'),
+        )
+        setUrl(newUrl);
+    }, [productStore, searchStore.searchParams]);
+
+    const loadList = useCallback(() => {
+        const query = searchStore.getParam('query');
+        if (url && query !== '') {
+            productStore
+                .loadingList(url, 'products', 'totalProducts');
+        }
+    }, [productStore, url]);
 
     useEffect(() => {
-        const queryStr = searchStore.getParam('query');
-        if (queryStr !== '') {
-            productStore.loadingList(productStore.getUrl(
-                searchStore.getOffset(), 
-                searchStore.getParam('query'),
-            ), 'products', 'totalProducts');
-        }
-    }, [searchStore.searchParams, productStore]);
+        getUrl();
+    }, [searchStore.searchParams]);
+
+    useEffect(() => {
+        loadList();
+    }, [url]);
 
     return (
         <PageTemplate headerName="Products">

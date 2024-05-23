@@ -1,0 +1,127 @@
+@use 'styles/variables.scss' as var;
+
+.ingredient {
+
+    padding-bottom: 50px;
+
+    &__header {
+        margin-top: 49px;
+        display: flex;
+        align-content: center;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 37px;
+    }
+
+    &__box {
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
+
+        &__nutrinition {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            background-color: var.$light;
+            
+            &__hed {
+                background-color: var.$brand;
+                padding: 6px;
+                text-align: start;
+                padding-left: 12px;
+                color: var.$light;
+            }
+    
+            &__elements {
+                display: flex;
+                flex-direction: column;
+                width: 100%;  
+                background-color: var.$light;
+
+                border-top: 1px dashed var.$brand;
+                border-left: 1px dashed var.$brand;
+                
+                > div {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    padding: 6px;
+                    border-bottom: 1px dashed var.$brand;
+                    border-right: 1px dashed var.$brand;
+                }
+            }
+        }
+    
+        &__preview {
+
+            &__form {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(80px, 100px));
+                justify-content: start;
+                margin-bottom: 20px;
+                gap: 6px;
+            }
+
+            &__tags {
+                display: flex;
+                justify-content: start;
+                gap: 6px;
+                flex-wrap: wrap;
+        
+                &__tag {
+                    padding: 6px;
+                    color: var.$light;
+                    background-color: var.$brand-hover;
+                    border-radius: 6px;
+                }
+            }
+
+            > div {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            @media screen and (max-width: 460px) {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+
+                img {
+                    width: fit-content;
+                    height: 400px;
+                }
+            }
+            
+            @media screen and (min-width: 461px) and (max-width: 750px) {
+                display: flex;
+                flex-direction: column;
+                gap: 40px;
+
+                img {
+                    width: fit-content;
+                    height: 400px;
+                }
+            }
+            
+            @media screen and (min-width: 751px) {
+                display: grid;
+                grid-template-columns: max-content 1fr;
+                align-items: center;
+                align-content: center;
+                justify-content: space-between;
+                gap: 36px;
+
+                img {
+                    height: 448px;
+                    width: 100%;
+                }
+            }
+    
+            img {
+                border-radius: var.$border-radius;
+                background-color: var.$gray;
+                object-fit: cover;
+            }
+        }
+    }
+}

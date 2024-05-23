@@ -20,7 +20,6 @@ class SearchParamsStore implements ILocalStore {
             setMultiParam: action.bound,
             deleteSearchParam: action.bound,
 
-            changeSearchParamsForFilters: action.bound,
             changeParamArray: action.bound,
             clear: action.bound,
 
@@ -38,18 +37,7 @@ class SearchParamsStore implements ILocalStore {
                 [key]: decodeURIComponent(value)
             })
         });
-    }
-
-    setSearchParam(
-        key: string, 
-        value: string | null, 
-    ) {
-        if (value) {
-            Object.assign(this._searchParams, {
-                [key]: value,
-            });
-            this._searchParams = { ...this._searchParams };
-        }
+        console.log('changes');
     }
 
     deleteSearchParam(key: string) {
@@ -58,9 +46,27 @@ class SearchParamsStore implements ILocalStore {
         }
     }
 
+    setSearchParam(
+        key: string, 
+        value: string | null, 
+        delKey?: string,
+    ) {
+        if (value) {
+            Object.assign(this._searchParams, {
+                [key]: value,
+            });
+            if (delKey) {
+                this.deleteSearchParam(delKey);
+            }
+            console.log('changes');
+            this._searchParams = { ...this._searchParams };
+        }
+    }
+
     setMultiParam(
         key: string, 
         values: string[], 
+        delKey?: string,
         prefix: string = ',',
     ) {
         const valueStr = values.join(prefix);
@@ -68,12 +74,23 @@ class SearchParamsStore implements ILocalStore {
             Object.assign(this._searchParams, {
                 [key]: valueStr,
             });
+            if (delKey) {
+                this.deleteSearchParam(delKey);
+            }
+            console.log('changes');
+            this._searchParams = { ...this._searchParams };
+        } else {
+            if (delKey) {
+                this.deleteSearchParam(delKey);
+            }
+            this.deleteSearchParam(key);
             this._searchParams = { ...this._searchParams };
         }
     }
 
     changeParamArray (
-        ...tags: [string, string][]
+        tags: [string, string][],
+        delKey?: string, 
     ) {
         tags.forEach(([key, value]) => {
             if (key !== '') {
@@ -83,34 +100,10 @@ class SearchParamsStore implements ILocalStore {
                 this.setSearchParam(key, value);
             }
         });
-        this._searchParams = { ...this._searchParams };
-    }
-
-    changeSearchParamsForFilters (
-        search: string,
-        categoryTag?: string,
-        category?: Option[],
-        otherTags?: [string, string][]
-    ) {
-        this.deleteSearchParam('query');
-        this.deleteSearchParam('page');
-        if (search !== '') {
-            this.setSearchParam('query', search);
+        if (delKey) {
+            this.deleteSearchParam(delKey);
         }
-        if (categoryTag && category) {
-            this.deleteSearchParam(categoryTag);
-            this.setMultiParam(categoryTag, category.map((cat) => cat.value), ',');
-        }
-        if (otherTags) {
-            otherTags.forEach(([key, value]) => {
-                if (key !== '') {
-                    this.deleteSearchParam(key);
-                }
-                if (key !== '' && value !== '') {
-                    this.setSearchParam(key, value);
-                }
-            })
-        }
+        console.log('changes');
         this._searchParams = { ...this._searchParams };
     }
 
@@ -168,7 +161,8 @@ class SearchParamsStore implements ILocalStore {
     clear() {
         Object.keys(this._searchParams).map((key) => {
             this.deleteSearchParam(key);
-        })
+        });
+        console.log('changes');
         this._searchParams = { ...this._searchParams };
     }
 

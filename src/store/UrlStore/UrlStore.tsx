@@ -5,8 +5,8 @@ type PrivateFields = '_prevUrl' | '_currentUrl';
 
 class UrlStore implements ILocalStore {
 
-    private _prevUrl: string = '/';
-    private _currentUrl: string = '/';
+    private _prevUrl: string = 'none';
+    private _currentUrl: string = 'none';
 
     constructor() {
         makeObservable<UrlStore, PrivateFields>(this, {
@@ -14,12 +14,25 @@ class UrlStore implements ILocalStore {
             _currentUrl: observable,
 
             prevUrl: computed,
+            realPrevUrl: computed,
+            currentUrl: computed,
             setCurrentUrl: action.bound
         });
     }
 
     get prevUrl() {
-        return this._prevUrl || '/';
+        if (this._prevUrl === 'none') {
+            return '/';
+        }
+        return this._prevUrl;
+    }
+
+    get realPrevUrl() {
+        return this._prevUrl;
+    }
+
+    get currentUrl() {
+        return this._currentUrl || '/';
     }
 
     setCurrentUrl(newUrl: string) {

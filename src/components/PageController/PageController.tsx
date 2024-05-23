@@ -54,6 +54,7 @@ const PageController: React.FC<PageControllerProps> = ({
                             <Text
                                 key={number} tag='div' view='p-18'
                                 className={styles['page-controller__numbers__points']}
+                                onCLick={goNext}
                             >
                                 ...
                             </Text>

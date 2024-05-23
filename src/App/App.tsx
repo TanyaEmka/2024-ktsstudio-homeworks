@@ -23,6 +23,7 @@ import Recipe from './pages/Recipe';
 import Recipes from './pages/Recipes';
 import Saved from './pages/Saved';
 import User from './pages/User';
+import Ingredient from './pages/Ingredient';
 
 const App: React.FC = () => {
 
@@ -46,6 +47,7 @@ const App: React.FC = () => {
           <Route path='/' element={<Recipes />} />
           <Route path='/recipe/:id' element={<Recipe />} />
           <Route path='/ingredients' element={<Ingredients />} />
+          <Route path='/ingredient/:id' element={<Ingredient />} />
           <Route path='/products' element={<Products />} />
           <Route path='/menuItems' element={<MenuItems />} />
           <Route path='/saved' element={<Saved />} />

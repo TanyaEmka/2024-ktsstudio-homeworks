@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useCallback, useState } from "react";
 
 import ContentFilters from "components/ContentFilters";
 import { OtherType } from "components/ContentFilters/ContentFilters";
@@ -21,17 +21,33 @@ import classNames from "classnames";
 const Content: React.FC = () => {
 
     const recipesStore = useLocalStore(() => new RecipeListStore());
+    const [ url, setUrl ] = useState<string | undefined>();
 
-    useEffect(() => {
-        recipesStore.loadingList(recipesStore.getUrl(
+    const getUrl = useCallback(() => {
+        const newUrl = recipesStore.getUrl(
             searchStore.getOffset(),
             searchStore.getParamPair('query'),
             searchStore.getParamPair('type'),
             ...Object.keys(recipesFilters).map((key) => {
                 return searchStore.getParamPair(key);
             })
-        ));
-    }, [searchStore.searchParams, recipesStore]);
+        );
+        setUrl(newUrl);
+    }, [recipesStore, searchStore.searchParams]);
+
+    const loadList = useCallback(() => {
+        if (url) {
+            recipesStore.loadingList(url);
+        }
+    }, [recipesStore, url]);
+
+    useEffect(() => {
+        getUrl();
+    }, [searchStore.searchParams]);
+
+    useEffect(() => {
+        loadList();
+    }, [url]);
 
     return (
         <div 

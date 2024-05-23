@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useParams , useNavigate } from "react-router-dom";
 
 import Button from "components/Button";
@@ -23,6 +23,7 @@ import classNames from "classnames";
 const Recipe: React.FC = () => {
 
     const { id } = useParams();
+    const [ numberId, setId ] = useState<number | undefined>();
     const { 
         recipe: recipeObj, 
         status, 
@@ -30,9 +31,19 @@ const Recipe: React.FC = () => {
     } = useLocalStore(() => new RecipeStore());
     const navigate = useNavigate();
 
+    const getNumberId = useCallback(() => {
+        setId(Number(id));
+    }, [id]);
+
     useEffect(() => {
-        loadingRecipe(Number(id));
-    }, [id, loadingRecipe]);
+        getNumberId();
+    }, [id]);
+
+    useEffect(() => {
+        if (numberId) {
+            loadingRecipe(numberId);
+        }
+    }, [numberId]);
 
     const getEquipment = (recipeObj: RecipeType) => {
         const uniqEq = new Set<string>();

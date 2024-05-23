@@ -17,7 +17,7 @@ const CloseIcon: React.FC<IconProps> = (props) => {
             <circle 
                 cx="32" cy="32" r="19" 
                 className={styles['icon_stroke_color_' + (props.color || 'inherit')]}
-                stroke-width="2"
+                strokeWidth="2"
             />
         </Icon>
     )
