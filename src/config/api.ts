@@ -108,6 +108,7 @@ export const sortTypesOptions = sortList
 export const sortdirectTypesOptions = sortDirectionList
     .map((type, index) => ({ key: index.toString(), value: type }));
 
+    
 export const publicTemplates = [
     {
         key: '37',
