@@ -88,7 +88,8 @@
 
                 img {
                     width: fit-content;
-                    height: 400px;
+                    max-width: 100%;
+                    max-height: 400px;
                 }
             }
             
@@ -99,7 +100,8 @@
 
                 img {
                     width: fit-content;
-                    height: 400px;
+                    max-width: 100%;
+                    max-height: 400px;
                 }
             }
             
@@ -112,8 +114,9 @@
                 gap: 36px;
 
                 img {
-                    height: 448px;
+                    max-height: 400px;
                     width: 100%;
+                    max-width: 400px;
                 }
             }
     
