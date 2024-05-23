@@ -13,6 +13,7 @@ export type InputProps = Omit<
   onChange: (value: string) => void;
   /** Слот для иконки справа */
   afterSlot?: React.ReactNode;
+  valueError?: boolean
 };
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -20,6 +21,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     value,
     onChange,
     afterSlot,
+    valueError=false,
     ...props
   }) => {
 
@@ -33,6 +35,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           [props.className || '']: true,
           [styles['inputblock']]: true,
           [styles['inputblock_disabled']]: props.disabled,
+          [styles['inputblock_error']]: valueError,
         })}
       >
         <input 

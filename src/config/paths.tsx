@@ -2,22 +2,27 @@ const paths = [
     {
         name: 'Recipes',
         url: '/recipes',
+        authRequired: false,
     },
     {
-        name: 'Ingradients',
-        url: '/ingradients',
+        name: 'Ingredients',
+        url: '/ingredients',
+        authRequired: false,
     },
     {
         name: 'Products',
         url: '/products',
+        authRequired: false,
     },
     {
         name: 'Menu Items',
-        url: '/items',
+        url: '/menuItems',
+        authRequired: false,
     },
     {
         name: 'Meal planning',
         url: '/planning',
+        authRequired: true,
     },
 ];
 

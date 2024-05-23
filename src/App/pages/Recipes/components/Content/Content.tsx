@@ -1,91 +1,82 @@
 import { observer } from "mobx-react-lite";
 import * as React from "react";
-import { useEffect } from "react";
-import { useNavigate , useSearchParams } from "react-router-dom";
+import { useEffect, useCallback, useState } from "react";
 
-import Button from "components/Button";
-import Card from "components/Card";
-import ErrorBox from "components/ErrorBox";
-import Text from "components/Text";
-import TimeIcon from "components/icons/TimeIcon";
+import ContentFilters from "components/ContentFilters";
+import { OtherType } from "components/ContentFilters/ContentFilters";
+import ListShower from "components/ListShower";
 
+import RecipeCard from "components/RecipeCard";
+import { mealTypesOptions, recipesFilters } from "config/api";
 import { useLocalStore } from "hooks/useLocalStore";
 import RecipeListStore from "store/RecipeListStore";
 
-import { getParamsString, getOffset, getSearchParam } from "utils/searchParamsHandlers";
-import ContentFilters from "../ContentFilters";
-import PageController from "../PageController";
+import searchStore from "store/SearchParamsStore";
 import ContentHeader from "./ContentHeader";
 
 import styles from './Content.module.scss';
-
+import custom from 'styles/customStyles.module.scss';
+import classNames from "classnames";
 
 const Content: React.FC = () => {
 
-    const [searchParams, setSearchParams] = useSearchParams();
     const recipesStore = useLocalStore(() => new RecipeListStore());
-    const navigate = useNavigate();
+    const [ url, setUrl ] = useState<string | undefined>();
+
+    const getUrl = useCallback(() => {
+        const newUrl = recipesStore.getUrl(
+            searchStore.getOffset(),
+            searchStore.getParamPair('query'),
+            searchStore.getParamPair('type'),
+            ...Object.keys(recipesFilters).map((key) => {
+                return searchStore.getParamPair(key);
+            })
+        );
+        setUrl(newUrl);
+    }, [recipesStore, searchStore.searchParams]);
+
+    const loadList = useCallback(() => {
+        if (url) {
+            recipesStore.loadingList(url);
+        }
+    }, [recipesStore, url]);
 
     useEffect(() => {
-        recipesStore.loadingRecipeList(
-            getOffset(searchParams),
-            getSearchParam(searchParams, 'query'),
-            getParamsString(searchParams, 'type'),
-        )
-    }, [searchParams, recipesStore]);
+        getUrl();
+        console.log(searchStore.searchParamsString, url);
+    }, [searchStore.searchParams]);
 
-    const pageControllerClick = (page: number) => {
-        searchParams.set('page', page.toString());
-        setSearchParams(searchParams);
-    }
-
-    const navigateToRecipePage = (id: number) => {
-        navigate('/recipe/' + id);
-    }
+    useEffect(() => {
+        loadList();
+    }, [url]);
 
     return (
-        <div className={styles["content"]}>
+        <div 
+            className={classNames({
+                [styles["content"]]: true,
+                [custom["margin_hor"]]: true,
+            })}
+        >
             <ContentHeader />
-            <ContentFilters />
-            {recipesStore.status.statusName === 'ERROR' ? 
-            <ErrorBox>
-                {recipesStore.status.statusMessage}
-            </ErrorBox>
-            :
-            recipesStore.status.statusName === 'LOADING' ?
-            <Text>Loading...</Text>
-            :
-            <>
-                <div className={styles["content__cards"]}>
-                    {recipesStore.results.map((recipe) => {
-                        return (
-                            <Card 
-                                onClick={() => { navigateToRecipePage(recipe.id) }}
-                                key={recipe.id}
-                                image={recipe.image}
-                                captionSlot={
-                                    <span className={styles["content__cards__card__time"]}>
-                                        <TimeIcon />
-                                        <span>{recipe.readyInMinutes} minutes</span>
-                                    </span>
-                                }
-                                title={recipe.title}
-                                subtitle={recipe.describe}
-                                contentSlot={recipe.kcal}
-                                actionSlot={<Button>Save</Button>}
-                            />
-                        )
-                    })}
-                </div>
-                {recipesStore.results.length > 0 &&
-                <PageController 
-                    selectedPage={Number(getSearchParam(searchParams, 'page', '1'))}
-                    totalResults={recipesStore.totalResults}
-                    onClick={pageControllerClick}
-                />
-                }
-            </>
-            }
+            <ContentFilters 
+                categoryTag="type"
+                categoryOptions={mealTypesOptions}
+                categoryPlaceholder="Categories"
+                otherFilters={recipesFilters as OtherType}
+            />
+            <ListShower 
+                status={recipesStore.status}
+                totalCount={recipesStore.total}
+            >
+                {recipesStore.results.map((recipe) => {
+                    return ( 
+                        <RecipeCard 
+                            key={recipe.id} 
+                            recipe={recipe} 
+                        /> 
+                    )
+                })}
+            </ListShower>
         </div>
     )
 }

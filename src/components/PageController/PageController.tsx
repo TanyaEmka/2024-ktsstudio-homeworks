@@ -25,6 +25,8 @@ const PageController: React.FC<PageControllerProps> = ({
         total 
     } = useLocalStore(() => new PageControllerStore(totalResults));
 
+    console.log(selectedPage, total);
+
     const goBack = () => {
         if (selectedPage > 1) {
             onClick(selectedPage - 1);
@@ -46,6 +48,7 @@ const PageController: React.FC<PageControllerProps> = ({
             <ArrowLeftIcon 
                 color={selectedPage > 1 ? 'primary' : 'secondary'}
                 onClick={goBack}
+                style={{ cursor: 'pointer' }}
             />
             <div className={styles["page-controller__numbers"]}>
                 {getPointsArray(selectedPage).map((number) => {
@@ -77,6 +80,7 @@ const PageController: React.FC<PageControllerProps> = ({
             <ArrowRightIcon
                 color={selectedPage < total ? 'primary' : 'secondary'} 
                 onClick={goNext}
+                style={{ cursor: "pointer" }}
             />
         </div>
     )

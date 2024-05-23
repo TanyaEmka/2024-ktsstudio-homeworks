@@ -1,0 +1,21 @@
+.mealplanning-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: 25px;
+    margin-top: 50px;
+
+    button {
+        width: fit-content;
+    }
+
+    &__form {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 25px;
+    }
+}

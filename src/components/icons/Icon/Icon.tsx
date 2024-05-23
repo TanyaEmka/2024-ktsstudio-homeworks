@@ -23,10 +23,14 @@ const Icon: React.FC<React.PropsWithChildren<IconProps>> = ({
             height={iconHeight}
             viewBox='0 0 24 24'
             className={classNames({
-                className,
+                [className || '']: true,
                 color,
             })}
             {...props}
+            style={{
+                flexShrink: 0,
+                ...props.style
+            }}
         >
         </svg>
     )

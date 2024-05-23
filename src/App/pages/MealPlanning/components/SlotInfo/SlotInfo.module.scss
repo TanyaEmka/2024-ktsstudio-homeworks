@@ -1,0 +1,40 @@
+@use 'styles/variables.scss' as var;
+
+.slot-info {
+    background-color: var.$light;
+    padding: 6px;
+
+    &__item {
+        margin: 6px;
+        padding: 6px;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: var.$border-radius;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+
+        img {
+            width: 100px;
+            border-radius: var.$border-radius;
+        }
+
+        &__ingr {
+            margin: 6px;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+
+            img {
+                width: 90px;
+                border-radius: var.$border-radius;
+            }
+        }    
+    }
+}

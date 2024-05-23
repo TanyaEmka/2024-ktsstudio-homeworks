@@ -1,4 +1,4 @@
-import { RecipeType, Status } from "types/apiTypes";
+import { RecipeType, IngredientType, Status } from "types/apiTypes";
 
 export const RecipeInit: RecipeType = {
     id: 0,
@@ -13,6 +13,39 @@ export const RecipeInit: RecipeType = {
     extendedIngredients: [],
     analyzedInstructions: [{ steps: [] }]
 }
+
+export const IngredientInit: IngredientType = {
+    id: 0,
+    original: "",
+    originalName: "",
+    name: "",
+    amount: 0,
+    unit: "",
+    unitShort: "",
+    unitLong: "",
+    possibleUnits: [],
+    estimatedCost: {
+        value: 0,
+        unit: "",
+    },
+    consistency: "",
+    shoppingListUnits: [],
+    aisle: "",
+    image: "",
+    nutrition: {
+        nutrients: [],
+        properties: [],
+        flavonoids: [],
+        caloricBreakdown: {
+        },
+        weightPerServing: {
+            amount: 0,
+            unit: "",
+        }
+    },
+    categoryPath: [],
+};
+
 
 export const NotStartedStatus: Status = {
     statusName: 'NOT_STARTED',

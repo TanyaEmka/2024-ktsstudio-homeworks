@@ -8,7 +8,6 @@ $p20: 20px;
 $p18: 18px;
 $p16: 16px;
 $p14: 14px;
-$title: 44px;
 $button: 18px;
 
 $normal: 400;
@@ -39,9 +38,25 @@ $bold: 700;
 
     &_view {
         &_title {
-            font-size: $title;
-            line-height: calc(#{$title} + 4px);
             font-weight: $bold;
+
+            @media screen and (max-width: 460px) {
+                $title: 26px;
+                font-size: $title;
+                line-height: calc(#{$title} + 4px);
+            }
+            
+            @media screen and (min-width: 461px) and (max-width: 820px) {
+                $title: 36px;
+                font-size: $title;
+                line-height: calc(#{$title} + 4px);
+            }
+            
+            @media screen and (min-width: 821px) {
+                $title: 44px;
+                font-size: $title;
+                line-height: calc(#{$title} + 4px);
+            }
         }
 
         &_button {

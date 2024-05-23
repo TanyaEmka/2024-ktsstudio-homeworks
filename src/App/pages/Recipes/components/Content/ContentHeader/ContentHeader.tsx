@@ -4,11 +4,18 @@ import { memo } from 'react';
 import Text from 'components/Text';
 
 import customStyles from 'styles/customStyles.module.scss';
+import classNames from 'classnames';
 
 const ContentHeader: React.FC = () => {
 
     return (
-        <Text className={customStyles['text-align-center']} view='p-20' tag='div'>
+        <Text 
+            tag='div' 
+            className={classNames({
+                [customStyles['text-align-center']]: true,
+                [customStyles['text-responsive']]: true,
+            })}
+        >
             Find the perfect food and{' '} 
             <u>drink ideas</u>{' '}
             for every occasion, from{' '}

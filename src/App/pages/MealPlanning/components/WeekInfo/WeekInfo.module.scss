@@ -1,0 +1,38 @@
+@use 'styles/variables.scss' as var;
+
+$border: 1px dashed var.$brand;
+
+.week-info {
+    width: 80%;
+    background-color: var.$light;
+    position: relative;
+    margin: 0 auto;
+    margin-bottom: 50px;
+
+    &__header {
+        width: 100%;
+        background-color: var.$brand;
+        padding: 8px;
+        text-align: center;
+        color: var.$light;
+    }
+
+    &__days {
+        width: 100%;
+        display: grid;
+        grid-template-rows: repeat(4, min-content) 100px;
+        grid-auto-flow: column;
+        grid-auto-rows: max-content;
+        align-items: stretch;
+        overflow-x: scroll;
+        overflow-y: hidden;
+
+        border-left: $border;
+        border-top: $border;
+
+        > div {
+            border-right: $border;
+            border-bottom: $border;
+        }
+    }
+}

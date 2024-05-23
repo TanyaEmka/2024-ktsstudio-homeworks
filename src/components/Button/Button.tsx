@@ -24,7 +24,7 @@ const Button: React.FC<ButtonProps> = ({
     <button
       {...props}
       className={classNames({
-        className,
+        [className]: true,
         [styles.button]: true,
         [styles['button_loading']]: loading,
         [styles['button_unloading']]: !loading,

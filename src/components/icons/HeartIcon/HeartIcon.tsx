@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Icon, { IconProps } from '../Icon';
+import styles from 'styles/customStyles.module.scss';
 
 
 const HeartIcon: React.FC<IconProps> = (props) => {
@@ -8,6 +9,7 @@ const HeartIcon: React.FC<IconProps> = (props) => {
         <Icon 
             {...props}
             width='19' height='19' viewBox="0 0 19 19"
+            className={styles['icon_fill_color_' + (props.color || 'inherit')]}
         >
             <path 
                 fillRule="evenodd" 

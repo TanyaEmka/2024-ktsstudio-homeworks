@@ -1,7 +1,20 @@
 .preview {
     width: 100%;
+    overflow: hidden;
+    position: relative;
 
     img {
-        width: 100%;
+        @media screen and (max-width: 460px) {
+            width: 100%;
+            transform: scale(2);
+            object-fit: cover;
+            position: relative;
+            bottom: 70px;
+            left: -15px;
+        }
+        
+        @media screen and (min-width: 461px) {
+            width: 100%;
+        }
     }
 }

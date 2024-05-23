@@ -6,13 +6,13 @@ const ArrowLeftIcon: React.FC<IconProps> = (props) => {
 
     return (
         <Icon 
-            style={{
-                cursor: 'pointer'
-            }}
             {...props}
             viewBox='0 0 32 32'
             width='32'
             height='32'
+            style={{
+                cursor: 'pointer'
+            }}
         >
             <path 
                 className={styles['icon_stroke_color_' + (props.color || 'inherit')]}

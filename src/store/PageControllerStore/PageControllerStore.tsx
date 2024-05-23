@@ -1,5 +1,6 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { ILocalStore } from "hooks/useLocalStore";
+import { pageElementCount } from "config/api";
 
 type PrivateFields = '_total' | '_pages';
 
@@ -16,7 +17,7 @@ export default class PageControllerStore implements ILocalStore {
             total: computed,
         });
 
-        this._total = Math.floor(totalResults / this._pages + (totalResults % this._pages !== 0 ? 1 : 0));;
+        this._total = Math.floor(totalResults / pageElementCount + (totalResults % pageElementCount !== 0 ? 1 : 0));;
     }
 
     getPointsArray(selectedPage: number) {
@@ -24,6 +25,7 @@ export default class PageControllerStore implements ILocalStore {
             return Array.from({length: this._total}, (_, index) => index + 1);
         } else {
             const endItem = Math.min(this._pages + selectedPage - (selectedPage % 3 !== 0 ? selectedPage % 3 : 3), this._total);
+            console.log(endItem, selectedPage, selectedPage % 3);
             let firstItem = selectedPage;
             if (selectedPage % 3 === 1) {
                 firstItem = selectedPage;

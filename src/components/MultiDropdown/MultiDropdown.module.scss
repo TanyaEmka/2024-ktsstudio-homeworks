@@ -14,6 +14,12 @@ $option-border: var.$border-radius;
     padding: 0;
     position: relative;
 
+    &__slots {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
     &__options {
         background-color: $options-bg;
         box-shadow: $options-shadow;
@@ -40,6 +46,10 @@ $option-border: var.$border-radius;
         &__option {
             padding: $option-padding;
             cursor: pointer;
+
+            > span {
+                cursor: pointer !important;
+            }
 
             &:hover {
                 color: $option-color-hover;

@@ -1,21 +1,31 @@
 import * as React from "react";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import HeartIcon from "components/icons/HeartIcon";
 import UserIcon from "components/icons/UserIcon";
+import userStore from "store/UserStore";
 import styles from './RightBlock.module.scss';
 
 const RightBlock: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const goToLikes = () => { navigate('likes') }
-    const goToProfile = () => { navigate('profile') }
+    const goToSaved = useCallback(() => { 
+        navigate('/saved');
+    }, [navigate]);
+
+    const goToProfile = useCallback(() => { 
+        if (userStore.userStatus === 'auth') {
+            navigate('/user');
+        } else {
+            navigate('/login');
+        }
+    }, [navigate, userStore.userStatus]);
 
     return (
         <div className={styles["right-block"]}>
-            <HeartIcon onClick={goToLikes}/>
-            <UserIcon onClick={goToProfile}/>
+            <HeartIcon style={{ cursor: 'pointer' }} onClick={goToSaved}/>
+            <UserIcon style={{ cursor: 'pointer' }} onClick={goToProfile}/>
         </div>
     )
 }

@@ -19,6 +19,7 @@ export type TextProps = {
     /** Максимальное кол-во строк */
     maxLines?: number;
     onCLick?: () => void;
+    id?: string,
 };
 
 const Text: React.FC<TextProps> = ({ ...props }) => {
@@ -27,8 +28,10 @@ const Text: React.FC<TextProps> = ({ ...props }) => {
 
     return (
         <Tag
+            id={props.id}
             style={{
                 maxLines: props.maxLines || 'none',
+                cursor: props.onCLick ? 'pointer' : 'auto',
             }}
             className={classNames({
                 [props.className || '']: true,

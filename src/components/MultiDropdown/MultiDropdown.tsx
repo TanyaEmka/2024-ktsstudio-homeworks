@@ -27,6 +27,8 @@ export type MultiDropdownProps = {
   disabled?: boolean;
   /** Возвращает строку которая будет выводится в инпуте. В случае если опции не выбраны, строка должна отображаться как placeholder. */
   getTitle: (value: Option[]) => string;
+  selectMode?: 'ONE' | 'MULTI';
+  clearSlot?: React.ReactNode;
 };
 
 const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
@@ -35,6 +37,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
   const [title, setTitle] = useState((props.value && props.value.length) ? props.getTitle(props.value) : '');
   const [optionList, setOptionList] = useState(props.options);
   const ref = useRef<HTMLDivElement | null>(null);
+  const selectMode = props.selectMode ? props.selectMode : 'MULTI';
 
   const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
     if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -57,11 +60,15 @@ const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
 
   const getOptionList = useCallback((clickValue: Option) => {
     if (!props.value.map((el) => el.key).includes(clickValue.key)) {
-      props.onChange([...props.value, clickValue]);
+      if (selectMode === 'MULTI') {
+        props.onChange([...props.value, clickValue]);
+      } else {
+        props.onChange([clickValue]);
+      }
     } else {
       props.onChange(props.value.filter(el => el.key !== clickValue.key));
     }
-  }, [props]);
+  }, [props, selectMode]);
 
   const getFilterList = useCallback((title: string) => {
     if (title !== '') {
@@ -91,11 +98,17 @@ const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
           setTitle(currValue);
           getFilterList(currValue);
         }}
-        afterSlot={<ArrowDownIcon color='secondary' onClick={() => {
-          if (!props.disabled) {
-            setOpened(!opened);
-          } 
-        }} />}
+        afterSlot={
+          <div className={styles['multidropdown__slots']}>
+            {props.clearSlot}
+            <ArrowDownIcon color='secondary' onClick={() => {
+              if (!props.disabled) {
+                setOpened(!opened);
+              } 
+              }} 
+            />
+          </div>
+        }
       />
       {(opened && !props.disabled) &&
         <div className={styles['multidropdown__options']}>

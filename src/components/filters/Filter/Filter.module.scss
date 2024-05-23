@@ -1,0 +1,15 @@
+.filter {
+    display: flex;
+    width: 100%;
+    gap: 6px;
+    align-items: center;
+    align-content: center;
+    position: relative;
+    margin: 0 auto;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    > div {
+        width: fit-content;
+    }
+}

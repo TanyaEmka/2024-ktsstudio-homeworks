@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useParams , useNavigate } from "react-router-dom";
 
 import Button from "components/Button";
@@ -10,17 +10,20 @@ import ArrowLeftIcon from "components/icons/ArrowLeftIcon";
 import EqIcon from "components/icons/EqIcon";
 import IngIcon from "components/icons/IngIcon";
 
-
 import { useLocalStore } from "hooks/useLocalStore";
 import RecipeStore from "store/RecipeStore";
+import urlStore from "store/UrlStore";
 import { RecipeType } from "types/apiTypes";
 import PreviewBlock from "./components/PreviewBlock";
 import RecipeNeed from "./components/RecipeNeed";
 import styles from './Recipe.module.scss';
+import custom from 'styles/customStyles.module.scss';
+import classNames from "classnames";
 
 const Recipe: React.FC = () => {
 
     const { id } = useParams();
+    const [ numberId, setId ] = useState<number | undefined>();
     const { 
         recipe: recipeObj, 
         status, 
@@ -28,9 +31,19 @@ const Recipe: React.FC = () => {
     } = useLocalStore(() => new RecipeStore());
     const navigate = useNavigate();
 
+    const getNumberId = useCallback(() => {
+        setId(Number(id));
+    }, [id]);
+
     useEffect(() => {
-        loadingRecipe(Number(id));
-    }, [id, loadingRecipe]);
+        getNumberId();
+    }, [id]);
+
+    useEffect(() => {
+        if (numberId) {
+            loadingRecipe(numberId);
+        }
+    }, [numberId]);
 
     const getEquipment = (recipeObj: RecipeType) => {
         const uniqEq = new Set<string>();
@@ -49,11 +62,19 @@ const Recipe: React.FC = () => {
     }
 
     return (
-        <div className={styles["recipe"]}>
+        <div 
+            className={classNames({
+                [styles["recipe"]]: true,
+                [custom["margin_hor"]]: true,
+            })}
+        >
             <div className={styles["recipe__header"]}>
                 <ArrowLeftIcon
                     color='accent'
-                    onClick={() => { navigate('/recipes') }} 
+                    style={{ flexShrink: 0 }}
+                    onClick={() => { 
+                        navigate(urlStore.prevUrl);
+                    }} 
                 />
                 <Text weight='bold' view='title'>
                     {recipeObj.title}
@@ -61,7 +82,12 @@ const Recipe: React.FC = () => {
             </div>
             {status.statusName === 'ERROR' ?
             <ErrorBox
-                errorSlot={<Button onClick={() => navigate('/recipes')}>Go to main page</Button>}
+                errorSlot={
+                    <Button onClick={() => { 
+                        navigate(urlStore.prevUrl);
+                    }}>
+                        Go back
+                    </Button>}
             >
                 {status.statusMessage}
             </ErrorBox>
@@ -87,6 +113,7 @@ const Recipe: React.FC = () => {
                         </PreviewBlock>
                     </div>
                 </div>
+                {recipeObj.summary !== '' &&
                 <div className={styles["recipe__box__description"]}>
                     <Text view='p-16'>
                         <span
@@ -96,11 +123,13 @@ const Recipe: React.FC = () => {
                         ></span>
                     </Text>
                 </div>
+                }
                 <div className={styles["recipe__box__needs"]}>
                     <RecipeNeed
                         name='Ingredients'
                         elements={getIngredients(recipeObj)}
                         icon={<IngIcon />}
+                        emptyMessage="Ingredients not listed"
                     />
                     <div className={styles["recipe__box__needs__line"]}>
                         <div className={styles["circle"]}></div>
@@ -110,6 +139,7 @@ const Recipe: React.FC = () => {
                         name='Equipment'
                         elements={getEquipment(recipeObj)}
                         icon={<EqIcon />}
+                        emptyMessage="Equipment not listed"
                     />
                 </div>
                 <div className={styles['recipe__box__directions']}>
@@ -121,6 +151,11 @@ const Recipe: React.FC = () => {
                         Directions
                     </Text>
                     <div className={styles["recipe__box__directions__steps"]}>
+                        {recipeObj.analyzedInstructions[0].steps.length === 0 &&
+                        <Text view='p-16' color='secondary'>
+                            Steps not listed
+                        </Text>
+                        }
                         {recipeObj.analyzedInstructions[0].steps.map((elem) => {
                             return (
                                 <div key={elem.number}>
