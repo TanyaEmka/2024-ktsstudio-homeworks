@@ -24,8 +24,8 @@ const RightBlock: React.FC = () => {
 
     return (
         <div className={styles["right-block"]}>
-            <HeartIcon onClick={goToSaved}/>
-            <UserIcon onClick={goToProfile}/>
+            <HeartIcon style={{ cursor: 'pointer' }} onClick={goToSaved}/>
+            <UserIcon style={{ cursor: 'pointer' }} onClick={goToProfile}/>
         </div>
     )
 }

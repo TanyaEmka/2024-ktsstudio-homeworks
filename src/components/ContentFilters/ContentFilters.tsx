@@ -247,11 +247,12 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                     afterSlot={
                         <CloseIcon
                             color='secondary'
-                            width={30}
-                            height={30}
+                            width={30} height={30}
                             onClick={() => { 
-                                filter.setSearch('');
-                                changeSearchField();
+                                if (filter.searchField !== '') {
+                                    filter.setSearch('');
+                                    changeSearchField();   
+                                }
                             }}
                         />
                     }
@@ -291,11 +292,13 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                             color='secondary'
                             width={30} height={30}
                             onClick={() => { 
-                                filter.setCategory([]);
-                                if (props.categoryTag) {
-                                    searchStore.setMultiParam(props.categoryTag, [], 'page');
-                                }
-                                setSearchParam(searchStore.searchParamURL);
+                                if (filter.category.length > 0) {
+                                    filter.setCategory([]);
+                                    if (props.categoryTag) {
+                                        searchStore.setMultiParam(props.categoryTag, [], 'page');
+                                    }
+                                    setSearchParam(searchStore.searchParamURL);
+                                } 
                             }}
                         />
                     }

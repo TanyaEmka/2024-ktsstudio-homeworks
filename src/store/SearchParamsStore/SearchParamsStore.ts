@@ -1,6 +1,7 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { Option } from "components/MultiDropdown";
 import { ILocalStore } from "hooks/useLocalStore";
+import { pageElementCount } from "config/api";
 
 type SearchParamObjType = {
     [key: string]: string | null,
@@ -37,7 +38,6 @@ class SearchParamsStore implements ILocalStore {
                 [key]: decodeURIComponent(value)
             })
         });
-        console.log('changes');
     }
 
     deleteSearchParam(key: string, delName?: string) {
@@ -126,7 +126,7 @@ class SearchParamsStore implements ILocalStore {
     }
 
     getOffset() {
-        return ((Number(this._searchParams['page'] || '1') - 1) * 9).toString();
+        return ((Number(this._searchParams['page'] || '1') - 1) * pageElementCount).toString();
     }
     
     getMultipleParam(

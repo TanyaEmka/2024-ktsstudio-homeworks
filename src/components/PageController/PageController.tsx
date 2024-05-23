@@ -48,6 +48,7 @@ const PageController: React.FC<PageControllerProps> = ({
             <ArrowLeftIcon 
                 color={selectedPage > 1 ? 'primary' : 'secondary'}
                 onClick={goBack}
+                style={{ cursor: 'pointer' }}
             />
             <div className={styles["page-controller__numbers"]}>
                 {getPointsArray(selectedPage).map((number) => {
@@ -56,7 +57,6 @@ const PageController: React.FC<PageControllerProps> = ({
                             <Text
                                 key={number} tag='div' view='p-18'
                                 className={styles['page-controller__numbers__points']}
-                                onCLick={goNext}
                             >
                                 ...
                             </Text>
@@ -80,6 +80,7 @@ const PageController: React.FC<PageControllerProps> = ({
             <ArrowRightIcon
                 color={selectedPage < total ? 'primary' : 'secondary'} 
                 onClick={goNext}
+                style={{ cursor: "pointer" }}
             />
         </div>
     )

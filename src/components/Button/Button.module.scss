@@ -14,6 +14,8 @@ button {
 
 .button {
     background-color: var.$brand;
+    transition: background-color 0.3s ease-in-out;
+
     color: var.$light;
     font-size: $button-font-size;
     height: $button-height;
@@ -25,14 +27,17 @@ button {
     &_unloading {
         &:hover:enabled {
             background-color: var.$brand-hover;
+            transition: background-color 0.3s ease-in-out;
         }
     
         &:disabled {
-            background-color: $buttom-color-disabled;        
+            background-color: $buttom-color-disabled; 
+            transition: background-color 0.3s ease-in-out;       
         }
     
         &:active:enabled {
             background-color: var.$brand-active;
+            transition: background-color 0.3s ease-in-out;
         }
     }
 

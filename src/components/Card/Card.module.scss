@@ -46,7 +46,9 @@ $card-border: var.$border-radius;
 
     &:hover {
         box-shadow: $card-shadow;
+        transition: box-shadow 0.3s ease-in-out;
     }
+    transition: box-shadow 0.3s ease-in-out;
 
     &__img {
         background-color: $card-image-bg;

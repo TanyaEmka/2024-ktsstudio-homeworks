@@ -29,6 +29,7 @@ const Icon: React.FC<React.PropsWithChildren<IconProps>> = ({
             {...props}
             style={{
                 flexShrink: 0,
+                ...props.style
             }}
         >
         </svg>
