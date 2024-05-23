@@ -61,7 +61,7 @@ const SlotInfo: React.FC<SlotInfoProps> = (props) => {
                             return (
                                 <div className={styles["slot-info__item__ingr"]} key={index}>
                                     <img src={ing.image} alt={'ingredient'} />
-                                    <Text>{ing.amount}{' '}{ing.name}{' '}{ing.unit}</Text>
+                                    <Text>{ing.amount || '1'}{'x '}{ing.name}{' '}{ing.unit}</Text>
                                 </div>
                             )
                         })}

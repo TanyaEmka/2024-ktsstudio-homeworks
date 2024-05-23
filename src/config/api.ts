@@ -119,10 +119,6 @@ export const publicTemplates = [
         value: "Keto Meal Plan"
     },
     {
-        key: '120',
-        value: "Not-So-Strict Paleo Meal Plan"
-    },
-    {
         key: '451',
         value: "Week 1 Meal Plan"
     },
