@@ -71,6 +71,7 @@ const Recipe: React.FC = () => {
             <div className={styles["recipe__header"]}>
                 <ArrowLeftIcon
                     color='accent'
+                    style={{ flexShrink: 0 }}
                     onClick={() => { 
                         navigate(urlStore.prevUrl);
                     }} 

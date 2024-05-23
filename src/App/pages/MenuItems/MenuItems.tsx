@@ -8,6 +8,8 @@ import PageTemplate from "components/PageTemplate";
 import { useLocalStore } from "hooks/useLocalStore";
 import MenuItemListStore from "store/MenuItemListStore";
 import searchStore from "store/SearchParamsStore";
+import { NotStartedStatus } from "config/initValues";
+import { MenuItemUnit } from "types/apiTypes";
 
 const MenuItems: React.FC = () => {
 
@@ -27,6 +29,9 @@ const MenuItems: React.FC = () => {
         if (url && query !== '') {
             menuItemsStore
                 .loadingList(url, 'menuItems', 'totalMenuItems');
+        } else if (query === '') {
+            menuItemsStore.setResultRequest([], 0);
+            menuItemsStore.setStatus(NotStartedStatus);
         }
     }, [menuItemsStore, url]);
 
@@ -37,6 +42,22 @@ const MenuItems: React.FC = () => {
     useEffect(() => {
         loadList();
     }, [url]);
+
+    const getSubTitle = (menuItem: MenuItemUnit) => {
+        let prevStrArr = [];
+        if (menuItem.servings.number !== null) {
+            prevStrArr.push(menuItem.servings.number);
+        }
+        if (menuItem.servings.size !== null) {
+            prevStrArr.push(menuItem.servings.size);
+        }
+        const prevStr = prevStrArr.join('x');
+        if (menuItem.servings.unit !== null) {
+            return [prevStr, menuItem.servings.unit].join(' ');
+        } else {
+            return prevStr;
+        }
+    }
 
     return (
         <PageTemplate headerName="Menu Items">
@@ -54,7 +75,7 @@ const MenuItems: React.FC = () => {
                             key={menuItem.id}
                             image={menuItem.image}
                             title={[menuItem.title, menuItem.restaurantChain].join(' - ')}
-                            subtitle={`${menuItem.servings.number}x${menuItem.servings.size} ${menuItem.servings.unit}`}
+                            subtitle={getSubTitle(menuItem)}
                         />
                     )
                 })}

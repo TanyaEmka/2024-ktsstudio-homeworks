@@ -179,7 +179,11 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
     ]);
 
     const changeSearchField = () => {
-        searchStore.setSearchParam('query', filter.searchField, 'page');
+        if (filter.searchField === '') {
+            searchStore.deleteSearchParam('query', 'page');
+        } else {
+            searchStore.setSearchParam('query', filter.searchField, 'page');
+        }
         setSearchParam(searchStore.searchParamURL);
     }
 
@@ -245,13 +249,16 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                             color='secondary'
                             width={30}
                             height={30}
-                            onClick={() => { filter.setSearch('') }}
+                            onClick={() => { 
+                                filter.setSearch('');
+                                changeSearchField();
+                            }}
                         />
                     }
                 />
                 <Button onClick={() => {
                     if (props.emptyError && filter.searchField === '') {
-                        setInputError(true)
+                        setInputError(true);
                     } else {
                         changeSearchField();
                     }
@@ -279,6 +286,19 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                     value={filter.category}
                     onChange={onChangeCategory}
                     getTitle={getTitleCategory}
+                    clearSlot={
+                        <CloseIcon
+                            color='secondary'
+                            width={30} height={30}
+                            onClick={() => { 
+                                filter.setCategory([]);
+                                if (props.categoryTag) {
+                                    searchStore.setMultiParam(props.categoryTag, [], 'page');
+                                }
+                                setSearchParam(searchStore.searchParamURL);
+                            }}
+                        />
+                    }
                 />
                 }
             </div>
@@ -294,6 +314,16 @@ const ContentFilters: React.FC<ContentFiltersProps> = (props) => {
                         </Text>
                     )
                 })}
+                {getNotEmptyOtherFilters().length > 0 &&
+                <CloseIcon
+                    color='accent'
+                    width={30} height={30}
+                    onClick={() => { 
+                        filter.clearOtherFilters();
+                        applyMoreFilters();
+                    }}
+                />
+                }
             </div>
             {props.otherFilters && filter.visibility && !filter.isEmpty &&
             <div 

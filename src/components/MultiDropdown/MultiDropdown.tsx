@@ -27,7 +27,8 @@ export type MultiDropdownProps = {
   disabled?: boolean;
   /** Возвращает строку которая будет выводится в инпуте. В случае если опции не выбраны, строка должна отображаться как placeholder. */
   getTitle: (value: Option[]) => string;
-  selectMode?: 'ONE' | 'MULTI'
+  selectMode?: 'ONE' | 'MULTI';
+  clearSlot?: React.ReactNode;
 };
 
 const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
@@ -97,11 +98,17 @@ const MultiDropdown: React.FC<MultiDropdownProps> = (props) => {
           setTitle(currValue);
           getFilterList(currValue);
         }}
-        afterSlot={<ArrowDownIcon color='secondary' onClick={() => {
-          if (!props.disabled) {
-            setOpened(!opened);
-          } 
-        }} />}
+        afterSlot={
+          <div className={styles['multidropdown__slots']}>
+            {props.clearSlot}
+            <ArrowDownIcon color='secondary' onClick={() => {
+              if (!props.disabled) {
+                setOpened(!opened);
+              } 
+              }} 
+            />
+          </div>
+        }
       />
       {(opened && !props.disabled) &&
         <div className={styles['multidropdown__options']}>

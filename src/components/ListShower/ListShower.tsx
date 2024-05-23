@@ -30,6 +30,14 @@ const ListShower: React.FC<ListShowerProps> = ({
         searchStore.setSearchParam('page', page.toString());
         setSearchParams(searchStore.searchParamURL);
     }
+
+    const getSelectedPage = () => {
+        let selected = Number(searchStore.getNumberParam('page'));
+        if (selected <= 0) {
+            selected = 1;
+        }
+        return selected;
+    }
     
     return (
         <>
@@ -56,7 +64,7 @@ const ListShower: React.FC<ListShowerProps> = ({
                 </div>
                 { totalCount > 9 && pagination &&
                 <PageController 
-                    selectedPage={Number(searchStore.getNumberParam('page'))}
+                    selectedPage={getSelectedPage()}
                     totalResults={totalCount}
                     onClick={pageControllerClick}
                 />

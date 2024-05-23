@@ -24,17 +24,17 @@ $card-border: var.$border-radius;
     background-color: $card-bg;
     border-radius: $card-border;
 
-    @media screen and (max-width: 460px) {
-        width: $card-width-small;
+    @media screen and (max-width: 520px) {
+        width: 100%;
         grid-template-rows: $card-width-small 1fr;
     }
 
-    @media screen and (min-width: 461px) and (max-width: 767px) {
+    @media screen and (min-width: 521px) and (max-width: 700px) {
         width: $card-width-middle;
         grid-template-rows: $card-width-middle 1fr;
     }
     
-    @media screen and (min-width: 768px) and (max-width: 912px) {
+    @media screen and (min-width: 701px) and (max-width: 912px) {
         width: $card-width-small;
         grid-template-rows: $card-width-small 1fr;
     }
@@ -53,11 +53,11 @@ $card-border: var.$border-radius;
         object-fit: cover;
         width: 100%;
 
-        @media screen and (max-width: 460px) {
-            height: $card-width-small;
+        @media screen and (max-width: 520px) {
+            height: 100%;
         }
 
-        @media screen and (min-width: 461px) and (max-width: 767px) {
+        @media screen and (min-width: 521px) and (max-width: 767px) {
             height: $card-width-middle;
         }
         

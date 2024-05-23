@@ -25,6 +25,8 @@ const PageController: React.FC<PageControllerProps> = ({
         total 
     } = useLocalStore(() => new PageControllerStore(totalResults));
 
+    console.log(selectedPage, total);
+
     const goBack = () => {
         if (selectedPage > 1) {
             onClick(selectedPage - 1);

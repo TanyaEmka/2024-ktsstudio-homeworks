@@ -8,6 +8,7 @@ import PageTemplate from "components/PageTemplate";
 import { useLocalStore } from "hooks/useLocalStore";
 import ProductListStore from "store/ProductListStore";
 import searchStore from "store/SearchParamsStore";
+import { NotStartedStatus } from "config/initValues";
 
 const Products: React.FC = () => {
 
@@ -27,6 +28,9 @@ const Products: React.FC = () => {
         if (url && query !== '') {
             productStore
                 .loadingList(url, 'products', 'totalProducts');
+        } else if (query === '') {
+            productStore.setResultRequest([], 0);
+            productStore.setStatus(NotStartedStatus);
         }
     }, [productStore, url]);
 

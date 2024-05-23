@@ -26,10 +26,10 @@ const Icon: React.FC<React.PropsWithChildren<IconProps>> = ({
                 [className || '']: true,
                 color,
             })}
+            {...props}
             style={{
                 flexShrink: 0,
             }}
-            {...props}
         >
         </svg>
     )

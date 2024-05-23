@@ -43,6 +43,7 @@ const Content: React.FC = () => {
 
     useEffect(() => {
         getUrl();
+        console.log(searchStore.searchParamsString, url);
     }, [searchStore.searchParams]);
 
     useEffect(() => {

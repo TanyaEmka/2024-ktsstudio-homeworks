@@ -6,15 +6,16 @@
     row-gap: 64px;
     justify-content: center;
 
-    @media screen and (max-width: 460px) {
-        grid-template-columns: repeat(auto-fit, card.$card-width-small);
+    @media screen and (max-width: 520px) {
+        display: flex;
+        flex-direction: column;
     }
 
-    @media screen and (min-width: 461px) and (max-width: 767px) {
+    @media screen and (min-width: 521px) and (max-width: 700px) {
         grid-template-columns: repeat(auto-fit, card.$card-width-middle);
     }
     
-    @media screen and (min-width: 768px) and (max-width: 912px) {
+    @media screen and (min-width: 701px) and (max-width: 912px) {
         grid-template-columns: repeat(auto-fit, card.$card-width-small);
     }
     

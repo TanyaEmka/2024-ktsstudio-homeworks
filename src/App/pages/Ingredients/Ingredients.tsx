@@ -11,6 +11,7 @@ import { useLocalStore } from "hooks/useLocalStore";
 import IngredientListStore from "store/IngredientListStore";
 import searchStore from "store/SearchParamsStore";
 import { useNavigate } from "react-router-dom";
+import { NotStartedStatus } from "config/initValues";
 
 
 const Ingredients: React.FC = () => {
@@ -32,6 +33,9 @@ const Ingredients: React.FC = () => {
         const query = searchStore.getParam('query');
         if (url && query !== '') {
             ingredientStore.loadingList(url);
+        } else if (query === '') {
+            ingredientStore.setResultRequest([], 0);
+            ingredientStore.setStatus(NotStartedStatus);
         }
     }, [ingredientStore, url]);
 

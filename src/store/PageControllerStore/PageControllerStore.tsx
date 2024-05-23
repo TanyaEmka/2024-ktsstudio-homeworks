@@ -24,6 +24,7 @@ export default class PageControllerStore implements ILocalStore {
             return Array.from({length: this._total}, (_, index) => index + 1);
         } else {
             const endItem = Math.min(this._pages + selectedPage - (selectedPage % 3 !== 0 ? selectedPage % 3 : 3), this._total);
+            console.log(endItem, selectedPage, selectedPage % 3);
             let firstItem = selectedPage;
             if (selectedPage % 3 === 1) {
                 firstItem = selectedPage;
