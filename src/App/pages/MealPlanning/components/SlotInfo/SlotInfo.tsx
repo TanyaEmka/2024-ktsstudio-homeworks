@@ -4,12 +4,15 @@ import Text from "components/Text";
 import { imagePrefix } from "config/api";
 import { MealPlanCommonItemType } from "types/apiTypes";
 import styles from "./SlotInfo.module.scss";
+import { useNavigate } from "react-router-dom";
 
 interface SlotInfoProps {
     slots: MealPlanCommonItemType[]
 }
 
 const SlotInfo: React.FC<SlotInfoProps> = (props) => {
+
+    const navigate = useNavigate();
 
     const elements = props.slots.sort((a, b) => {
         return (a.position < b.position) ? -1 : 0;
@@ -35,7 +38,18 @@ const SlotInfo: React.FC<SlotInfoProps> = (props) => {
             }
             return (
                 <>
-                    <img src={imgUrl} alt={item.value.title} />
+                    <img 
+                        src={imgUrl} 
+                        alt={'item image'} 
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                            if (item.type === 'RECIPE') {
+                                if (item.value.id) {
+                                    navigate('/recipe/' + item.value.id);
+                                }
+                            }
+                        }}
+                    />
                     <Text>{item.value.title}</Text>
                 </>
             )
@@ -46,7 +60,7 @@ const SlotInfo: React.FC<SlotInfoProps> = (props) => {
                         {item.value.ingredients.map((ing, index) => {
                             return (
                                 <div className={styles["slot-info__item__ingr"]} key={index}>
-                                    <img src={ing.image} alt={ing.name} />
+                                    <img src={ing.image} alt={'ingredient'} />
                                     <Text>{ing.amount}{' '}{ing.name}{' '}{ing.unit}</Text>
                                 </div>
                             )
