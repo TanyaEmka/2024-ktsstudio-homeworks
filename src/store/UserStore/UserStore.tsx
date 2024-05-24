@@ -105,6 +105,10 @@ class UserStore implements ILocalStore {
         });
         this._userStatus = 'none';
         this._user = { ...initUser };
+        this._user.username = '';
+        this._user.spoonacularPassword = '';
+        this._user.hash = '';
+        this._user = { ...this._user };
         this.setStatus(NotStartedStatus);
     }
 
